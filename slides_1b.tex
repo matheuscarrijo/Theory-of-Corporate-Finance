@@ -1,0 +1,928 @@
+\documentclass[blue]{beamer}
+\mode<presentation> {
+  \setbeamertemplate{background canvas}[vertical shading][bottom=red!10,top=blue!10]
+  \usetheme{Boadilla}
+  \usefonttheme[onlysmall]{serif}
+}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+\setbeamercovered{dynamic}
+\def\R{\mathbb{R}}
+\def\Q{\mathbb{Q}}
+\def\N{\mathbb{N}}
+\def\E{\mathbb{E}}
+\newcommand{\ps}[2]{ \langle #1 , #2 \rangle }
+\def\1{\mathbf{1}}
+\newcommand{\nor}[1]{\left\| #1 \right\|}
+\def\leq{\leqslant}
+\def\geq{\geqslant}
+\def\et{\quad \textrm{and} \quad}
+\def\ou{\quad \textrm{or} \quad}
+\def\boite{\hskip 0.5mm {\Box} \hskip 0.5mm}
+\DeclareMathOperator\PPE{PPE}
+\DeclareMathOperator\vNM{vNM}
+\DeclareMathOperator\argmax{argmax}
+\DeclareMathOperator\Prob{Prob}
+\DeclareMathOperator\supp{supp}
+\DeclareMathOperator\Eq{Eq}
+\DeclareMathOperator\inte{int}
+\DeclareMathOperator\co{co}
+\DeclareMathOperator\cl{cl}
+\DeclareMathOperator\Dirac{Dirac}
+\DeclareMathOperator\F{F}
+\DeclareMathOperator\As{As}
+\DeclareMathOperator\Ir{Ir}
+\DeclareMathOperator\MRS{MRS}
+\DeclareMathOperator\Range{Im}
+\DeclareMathOperator\DIV{DIV}
+%------------------------------ theorem styles
+\theoremstyle{definition}
+\newtheorem*{assumption}{Assumption}
+\newtheorem*{conjecture}{Conjecture}
+\theoremstyle{example}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{theoremns}{Theorem}
+\newtheorem*{remark}{Remark}
+%-----------------------------------------
+\title[Corporate Finance]{Theory of Corporate Finance}
+\author[Victor Filipe]{V. Filipe Martins-da-Rocha}
+\institute[FGV EESP]{Escola de Economia de S\~ao Paulo}
+\date[April-June, 2026]{Part 1.b. Stock Market Equilibrium: Capital Structure of the Firm}
+\subject{Economic Theory}
+\begin{document}
+\frame{\titlepage}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Outline}
+The financial structure of the firm:
+\begin{itemize}
+\item Irrelevance results: the Modigliani--Miller theorems
+\item Conditions for the validity of irrelevance
+\item Taxation and the gain from leverage
+\item Limited liability and bankruptcy
+\item Irrelevance of the payout policy
+\end{itemize}
+\end{frame}
+
+%====================================================================
+\section{The Question}
+%====================================================================
+
+\begin{frame}\frametitle{Setting the question}
+\begin{itemize}
+\item We fix a production plan $y$ and focus on the relevance of the financial plan $\beta$
+\item Assume the manager maximizes the firm's value
+\begin{equation*}
+V = E + D + \textcolor{blue}{y_0}
+\end{equation*}
+where the debt is $D := q \cdot \beta$
+\item Both $E$ and $q$ are determined at equilibrium and may depend on $\beta$
+\item For simplicity, take $y_0 = 0$
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The central question}
+\begin{center}
+\Large \alert{Is there an optimal financial plan $\beta^\star$?}
+\end{center}
+\bigskip
+
+The Modigliani--Miller answer:
+\begin{center}
+\Large \alert{No --- the financial policy of the firm is irrelevant.}
+\end{center}
+\bigskip
+
+This part develops the irrelevance result and the conditions under which it fails
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{A simple debt structure}
+\begin{itemize}
+\item Suppose there is a riskless asset $a_0$ promising one unit
+\begin{equation*}
+\kappa_s(a_0) = 1, \quad \text{for all $s \in S$}
+\end{equation*}
+\item Denote by $r_0$ the risk-free interest rate
+\begin{equation*}
+q(a_0) = \frac{1}{1+r_0}
+\end{equation*}
+\item Assume the firm only issues the riskless bond
+\begin{equation*}
+\beta = Z \1_{a_0}, \quad Z \geq 0
+\end{equation*}
+\end{itemize}
+\bigskip
+
+The firm commits to deliver $Z$ units at $t=1$, regardless of the state
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Levered vs.\ unlevered firm}
+The value of the firm is equity plus debt:
+\begin{equation*}
+V = E + D, \quad D = \frac{Z}{1+r_0}
+\end{equation*}
+\bigskip
+
+\begin{itemize}
+\item the firm is \emph{levered} if $D \neq 0$
+\item the firm is \emph{unlevered} if $D = 0$
+\item the \emph{debt-equity ratio} is $D/E$
+\end{itemize}
+\bigskip
+
+A specific choice of $\beta$ leads to a specific debt-equity ratio
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The conventional view (pre-1958)}
+Assume the firm starts without debt
+\begin{itemize}
+\item the dividend $\delta_1 = (y_s)_{s \in S}$ is risky
+\item issuing risk-free debt may attract investors and increase value
+\end{itemize}
+\bigskip
+
+\textbf{Two scenarios:}
+\begin{itemize}
+\item without debt: investors can buy only $(y_s)_{s \in S}$
+\item with debt: investors can buy $(y_s - Z)_{s \in S}$ \emph{or} the riskless cash flow $Z \1_S$
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The conventional view: optimal debt level}
+\begin{itemize}
+\item A low level of debt reduces states in which the firm cannot meet its obligations
+\item A high level of debt makes bankruptcy non-negligible and erodes the leverage benefit
+\item The conventional view: there should be an interior \emph{optimal} level of debt
+\end{itemize}
+\bigskip
+
+The Modigliani--Miller theorem will overturn this conclusion
+\end{frame}
+
+%====================================================================
+\section{Modigliani--Miller}
+%====================================================================
+
+\begin{frame}\frametitle{Weak irrelevance: setup}
+Consider an equilibrium with multiple firms:
+\begin{equation*}
+\bigl\{ (y(j), \beta(j))_{j \in J}, (q, E), (c^i, \theta^i, \alpha^i)_{i \in I} \bigr\}
+\end{equation*}
+\bigskip
+
+Suppose two firms $j_1$ and $j_2$ are
+\begin{itemize}
+\item identical in production: $y(j_1) = y(j_2)$
+\item different in financial policy: $\beta(j_1) \neq \beta(j_2)$
+\end{itemize}
+\bigskip
+
+\textbf{Question:} Are their values equal?
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Weak irrelevance: theorem}
+\begin{theoremns}[Modigliani--Miller, weak form]
+Under \textup{(C.1)--(C.4)}, suppose there exists an investor $i$ with
+\begin{equation*}
+\alpha^i(j_1) > 0 \et \alpha^i(j_2) > 0.
+\end{equation*}
+Then
+\begin{equation*}
+V(j_1) = V(j_2).
+\end{equation*}
+\end{theoremns}
+\bigskip
+
+The two firms have identical value, regardless of their financial structures
+\bigskip
+
+The hypothesis ``common shareholder'' is essential: it ensures the same MRS prices both firms
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Weak irrelevance: proof}
+\begin{small}
+The common shareholder $i$ has $\MRS^i_s$ that price both firms' securities and equity:
+\begin{equation*}
+q(a) = \sum_{s \in S} \MRS^i_s \kappa_s(a), \quad
+E(j) = \sum_{s \in S} \MRS^i_s \delta_s(j) \quad \text{for $j \in \{j_1, j_2\}$}
+\end{equation*}
+\bigskip
+
+Using $\delta_s(j) = y_s(j) - \kappa_s \cdot \beta(j)$ and $D(j) = q \cdot \beta(j)$:
+\begin{eqnarray*}
+V(j) & = & E(j) + D(j) + y_0(j) \\
+& = & \sum_{s \in S} \MRS^i_s [y_s(j) - \kappa_s \cdot \beta(j)] + \sum_{s \in S} \MRS^i_s \kappa_s \cdot \beta(j) + y_0(j) \\
+& = & y_0(j) + \sum_{s \in S} \MRS^i_s y_s(j)
+\end{eqnarray*}
+\bigskip
+
+Since $y(j_1) = y(j_2)$, the two values coincide. $\boite$
+\end{small}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{What if no investor holds both firms?}
+\begin{itemize}
+\item Without a common shareholder, different firms may be priced by different MRSs
+\item Without a common deflator, the proof fails
+\end{itemize}
+\bigskip
+
+\textbf{Sufficient remedy:} \emph{completeness of security markets}
+\bigskip
+
+If $\Range \kappa = \R^S$, the no-arbitrage equation
+\begin{equation*}
+q = \sum_{s \in S} \lambda_s \kappa_s
+\end{equation*}
+pins $\lambda$ down uniquely
+\bigskip
+
+All personalized deflators coincide and the conclusion $V(j_1) = V(j_2)$ extends to every pair of firms with $y(j_1) = y(j_2)$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Strong irrelevance: idea}
+The weak version compares two firms in a \emph{single} equilibrium
+\bigskip
+
+Stiglitz (1969, 1974) strengthens the result by comparing \emph{two equilibria}
+\bigskip
+
+\textbf{Claim:} For any alternative assignment of financial plans, there exists \emph{another equilibrium} in which firms' values are unchanged
+\bigskip
+
+Capital structure is irrelevant not only at the cross-section of a given equilibrium, but also for the equilibrium map itself
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Strong irrelevance: theorem}
+\begin{theoremns}[Stiglitz strong irrelevance]
+Let
+\begin{equation*}
+\bigl\{ (y(j), \beta(j))_{j \in J}, (q, E), (c^i, \theta^i, \alpha^i)_{i \in I} \bigr\}
+\end{equation*}
+be a stock-market equilibrium.
+For any alternative family $(\widehat{\beta}(j))_{j \in J}$, there exist new prices $\widehat{E}$ and new portfolios $(\widehat{\theta}^i)_{i\in I}$ such that the list
+\begin{equation*}
+\bigl\{ (y(j), \widehat{\beta}(j))_{j \in J}, (q, \widehat{E}), (c^i, \widehat{\theta}^i, \alpha^i)_{i \in I} \bigr\}
+\end{equation*}
+is also a stock-market equilibrium, with $\widehat{V}(j) = V(j)$ for every $j \in J$.
+\end{theoremns}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Strong irrelevance: explicit transformation}
+The new prices and portfolios are
+\begin{equation*}
+\widehat{E}(j) = E(j) + q \cdot [\beta(j) - \widehat{\beta}(j)]
+\end{equation*}
+\begin{equation*}
+\widehat{\theta}^i = \theta^i + \sum_{j \in J} \alpha^i(j) [\widehat{\beta}(j) - \beta(j)]
+\end{equation*}
+\bigskip
+
+\textbf{Interpretation:} Each investor adjusts his bond portfolio to undo the change in the firms' financial structures, so that consumption and welfare remain identical
+\end{frame}
+
+%====================================================================
+\section{Validity of Irrelevance}
+%====================================================================
+
+\begin{frame}\frametitle{Conditions for irrelevance: I}
+\begin{itemize}
+\item \textbf{Frictionless capital markets:}
+    \begin{itemize}
+    \item no transaction costs
+    \item no institutional restrictions on security trades
+    \end{itemize}
+\item \textbf{No taxes}
+\item \textbf{Symmetric access:} investors and firms have access to the same security markets
+\item \textbf{Unlimited liability} of shareholders
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Conditions for irrelevance: II}
+\begin{itemize}
+\item \textbf{No signaling:} investors do not infer information about the likelihood of states from the firm's financial policy
+\bigskip
+\item \textbf{Linear effect:} the change in equity return induced by a change in capital structure is a linear combination of the returns of traded assets
+\end{itemize}
+\bigskip
+
+When derivative securities (e.g., options) are present, this last condition typically fails
+\bigskip
+
+\emph{Reference:} Gottardi (1995)
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The role of derivative securities}
+Suppose options or other derivatives are traded
+\bigskip
+
+When the firm's capital structure changes:
+\begin{itemize}
+\item the dividend of the stock changes
+\item the dividend of the derivatives written on the stock \emph{also} changes
+\end{itemize}
+\bigskip
+
+In general, the firm's value will not be independent of its capital structure
+\bigskip
+
+\emph{The Modigliani--Miller framework breaks down}
+\end{frame}
+
+%====================================================================
+\section{Taxation}
+%====================================================================
+
+\begin{frame}\frametitle{Three tax rates}
+We introduce taxes paid at $t=1$
+\bigskip
+
+\begin{block}{Tax rates}
+\begin{itemize}
+\item $\tau_c$: corporate tax rate on corporate income $\delta_1 = y_1 - \kappa_1 \cdot \beta$
+\item $\tau_s$: personal tax rate on equity income
+\item $\tau_b$: personal tax rate on bond income
+\end{itemize}
+\end{block}
+\bigskip
+
+\textbf{Assumptions:}
+\begin{itemize}
+\item all taxpayers face the same rates
+\item rates are constant, independent of the level of income
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Auxiliary assumptions}
+Since taxes apply to income, we assume:
+\bigskip
+
+\begin{itemize}
+\item every security is a non-negative claim
+\begin{equation*}
+\kappa_s(a) \geq 0, \quad \text{for all $a \in A$ and $s \in S$}
+\end{equation*}
+\bigskip
+\item every firm $j$ is solvent in every state, i.e., $(y, \beta) \in \mathcal{D}$ where
+\begin{equation*}
+\mathcal{D} := \bigl\{ (y, \beta) \in Y \times \R^A \colon y_s \geq \kappa_s \cdot \beta \text{ for all $s \in S$} \bigr\}
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Investor's budget set with taxes}
+\begin{block}{At $t=0$}
+\begin{equation*}
+c_0 + q \cdot \theta + E \cdot \alpha \leq \omega^i_0 + (E + \delta_0) \cdot \xi^i
+\end{equation*}
+\end{block}
+
+\begin{block}{At $t=1$ in state $s$}
+\begin{equation*}
+c_s \leq \omega^i_s + (1-\tau_b) \kappa_s \cdot \theta + (1-\tau_s)(1-\tau_c) \delta_s \cdot \alpha
+\end{equation*}
+\end{block}
+\bigskip
+
+The set of admissible actions is denoted $B^i(q, E, \tau)$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Stock-market equilibrium with taxes}
+A list
+\begin{equation*}
+\bigl\{ (y(j), \beta(j))_{j \in J}, (q, E), (c^i, \theta^i, \alpha^i)_{i \in I} \bigr\}
+\end{equation*}
+such that:
+\begin{itemize}
+\item[(a)] each investor optimizes:
+\begin{equation*}
+(c^i, \theta^i, \alpha^i) \in \argmax \{ U^i(c) \colon c \in B^i(q, E, \tau) \}
+\end{equation*}
+\item[(b)] securities and stock markets clear
+\item[(c)] commodity markets clear (with public consumption $c^p$ from tax revenue)
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Asset pricing under taxes}
+The first-order conditions of investor $i$ deliver:
+\begin{equation*}
+q(a) = (1-\tau_b) \sum_{s \in S} \MRS^i_s \kappa_s(a), \quad \text{for all $a \in A$}
+\end{equation*}
+\begin{equation*}
+E(j) = (1-\tau_c)(1-\tau_s) \sum_{s \in S} \MRS^i_s \delta_s(j)
+\end{equation*}
+\bigskip
+
+The wedge between $\tau_b$ on the bond side and $(1-\tau_c)(1-\tau_s)$ on the equity side is the source of the leverage gain
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Gains from leverage: setup}
+Suppose two firms $j_u$ and $j_\ell$ have:
+\begin{itemize}
+\item identical production plans, $y(j_u) = y(j_\ell) = y$
+\item $j_u$ unlevered: $\beta(j_u) = 0$
+\item $j_\ell$ levered and solvent: $\beta(j_\ell) \neq 0$ and
+\begin{equation*}
+y_s \geq \kappa_s \cdot \beta(j_\ell), \quad \text{for all $s \in S$}
+\end{equation*}
+\end{itemize}
+\bigskip
+
+Assume there exists an investor $i$ holding both firms
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Gains from leverage: theorem}
+\begin{proposition}[Gains from leverage]
+Under the previous setup,
+\begin{equation*}
+V(j_\ell) = V(j_u) + \biggl[1 - \frac{(1-\tau_c)(1-\tau_s)}{1-\tau_b}\biggr] D(j_\ell)
+\end{equation*}
+\end{proposition}
+\bigskip
+
+The wedge
+\begin{equation*}
+1 - \frac{(1-\tau_c)(1-\tau_s)}{1-\tau_b}
+\end{equation*}
+is the \emph{net tax advantage of debt}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Pure corporate tax}
+If personal tax rates coincide ($\tau_s = \tau_b$):
+\begin{equation*}
+V(j_\ell) = V(j_u) + \tau_c D(j_\ell)
+\end{equation*}
+\bigskip
+
+\begin{itemize}
+\item Every marginal dollar of debt raises firm value by $\tau_c$
+\item Firms have an unbounded incentive to lever up to the bankruptcy boundary
+\item This prediction does not fit observed capital structures
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Personal taxes: two regimes}
+If $(1-\tau_c)(1-\tau_s) < 1 - \tau_b$:
+\begin{itemize}
+\item the wedge is positive
+\item firms still have an incentive to lever up to the bankruptcy boundary
+\end{itemize}
+\bigskip
+
+If $(1-\tau_c)(1-\tau_s) > 1 - \tau_b$:
+\begin{itemize}
+\item the wedge is negative
+\item firms have an incentive to finance entirely through equity
+\end{itemize}
+\bigskip
+
+Neither prediction fits empirical evidence
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Miller's market-based resolution}
+Miller (1977): in equilibrium, the \emph{aggregate} supply of debt adjusts so that, at the margin, investors are indifferent between debt and equity
+\bigskip
+
+The cross-section of optimal capital structures is determined by:
+\begin{itemize}
+\item firm-specific bankruptcy costs
+\item investor-specific tax brackets
+\item endogenous market clearing
+\end{itemize}
+\bigskip
+
+\textbf{Empirical evidence:} Mackie-Mason (1990); Desai, Foley, Hines (2004)
+\end{frame}
+
+%====================================================================
+\section{Limited Liability and Bankruptcy}
+%====================================================================
+
+\begin{frame}\frametitle{The bankruptcy event}
+Suppose only the riskless bond is available: $A = \{a_0\}$
+\bigskip
+
+For a firm with production-finance plan $(y, Z)$, in some state $s$:
+\begin{equation*}
+\delta_s < 0 \quad \text{equivalently} \quad y_s < Z
+\end{equation*}
+\bigskip
+
+The firm cannot honor its debt obligations
+\bigskip
+
+\textbf{Limited liability:} new shareholders at $t=1$ are not called upon to make payments when $\delta_s < 0$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Bankruptcy rule}
+If $\delta_s < 0$ the firm is \emph{bankrupt}:
+\begin{itemize}
+\item all the firm's production $y_s$ is paid to bondholders
+\item shareholders receive nothing
+\end{itemize}
+\bigskip
+
+\textbf{Effective payoffs:}
+\begin{itemize}
+\item bond yields $b_s = \min\{y_s, Z\}$
+\item one share yields $\widehat{\delta}_s = \max\{\delta_s, 0\} = \max\{y_s - Z, 0\}$
+\end{itemize}
+\bigskip
+
+The bond and the equity are now \emph{non-linear} functions of the production
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{When does financial policy matter?}
+\textbf{Irrelevance still holds:}
+\begin{itemize}
+\item Every investor can purchase or sell the bonds issued by firms
+\item In particular, every investor can purchase or sell every $\min\{y_s, Z\}$
+\end{itemize}
+\bigskip
+
+\textbf{Possible relevance:}
+\begin{enumerate}
+\item Investors can purchase only a ``pooled bond'' aggregating firms' bonds
+\item Investors can only purchase bonds issued by firms (not sell them)
+\end{enumerate}
+\bigskip
+
+In both cases, capital structure may matter for equilibrium prices
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Empirical literature on bankruptcy}
+\begin{thebibliography}{8}
+\begin{small}
+\beamertemplatearticlebibitems
+    \bibitem{SmithWarner1979}
+    Smith, C. and Warner, J.
+    \newblock On financial contracting: an analysis of bond covenants.
+    \newblock {\em Journal of Financial Economics} 7, 1979.
+    \bibitem{Weiss1990}
+    Weiss, L. A.
+    \newblock Bankruptcy resolution: Direct costs and violation of priority of claims.
+    \newblock {\em Journal of Financial Economics} 27, 1990.
+    \bibitem{OplerTitman1994}
+    Opler, T. C. and Titman, S.
+    \newblock Financial distress and corporate performance.
+    \newblock {\em Journal of Finance} 49, 1994.
+    \bibitem{Purnanandam2008}
+    Purnanandam, A.
+    \newblock Financial distress and corporate risk management: theory and evidence.
+    \newblock {\em Journal of Financial Economics} 87, 2008.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Beyond the MM benchmark}
+The capital structure may be relevant for reasons beyond asset returns:
+\bigskip
+
+\begin{itemize}
+\item \textbf{Signaling device:} Ross (1977), Leland--Pyle (1977)
+\item \textbf{Reducing agency costs:} Jensen--Meckling (1976)
+\item \textbf{Allocating control rights:} Aghion--Bolton (1992), Harris--Raviv (1989)
+\end{itemize}
+\bigskip
+
+These themes are developed in the principal--agent and adverse-selection chapters of the course
+\end{frame}
+
+%====================================================================
+\section{Irrelevance of the Payout Policy}
+%====================================================================
+
+\begin{frame}\frametitle{A multi-period deterministic model}
+\begin{itemize}
+\item Multiple periods: $t \in \{0, 1, \ldots, T\}$
+\item No uncertainty at any period
+\item Bonds are \emph{long-lived} and pay dividends at every period
+\item There is only one firm
+\end{itemize}
+\bigskip
+
+We isolate the question of dividend policy from production and financing
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The firm's choices}
+The firm chooses an investment-production plan $(x, y) \in Z$ where
+\begin{equation*}
+x = (x_0, x_1, \ldots, x_{T-1}) \in \R_+^T, \quad
+y = (y_1, \ldots, y_T) \in \R_+^T
+\end{equation*}
+\bigskip
+
+\begin{itemize}
+\item $x_t$: input invested at period $t$
+\item $y_{t+1}$: output produced at period $t+1$
+\item Technology: $Z$ is the production set
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Financial and payout policies}
+\begin{block}{Financial plan}
+\begin{equation*}
+\beta = (\beta_0, \beta_1, \ldots, \beta_{T-1}), \quad \beta_t \in \R^A
+\end{equation*}
+\end{block}
+
+\begin{block}{Dividend policy (payout)}
+$n = (n_0, n_1, \ldots, n_{T-1})$ where $n_t$ is the number of shares
+\begin{itemize}
+\item at the end of period $t$ (after paying dividends $n_{t-1} \delta_t$)
+\item at the beginning of period $t+1$ (before paying $n_t \delta_{t+1}$)
+\end{itemize}
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Share repurchases and issuances}
+Let $p_t$ denote the \emph{ex-dividend} stock price at period $t$ (after announcing payout)
+\bigskip
+
+\begin{itemize}
+\item If $n_t > n_{t-1}$: firm \emph{issues} $n_t - n_{t-1}$ shares and obtains $p_t [n_t - n_{t-1}]$
+\item If $n_t < n_{t-1}$: firm \emph{repurchases} $n_{t-1} - n_t$ shares and spends $p_t [n_{t-1} - n_t]$
+\end{itemize}
+\bigskip
+
+The total payout to shareholders at $t$ combines dividends and repurchases
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The cash-flow identity}
+For a fixed plan $(x, y, \beta, n)$, the period-$(t+1)$ dividend per share satisfies
+\begin{small}
+\begin{equation*}
+n_t \delta_{t+1} = y_{t+1} - x_{t+1} - \kappa_{t+1} \beta_t + p_{t+1} [n_{t+1} - n_t] + q_{t+1} [\beta_{t+1} - \beta_t]
+\end{equation*}
+\end{small}
+\bigskip
+
+The dividend received by old shareholders is the \emph{free cash flow} adjusted for the proceeds from new equity issuance and new debt issuance
+\bigskip
+
+For notational convenience: $y_0 = 0$, $x_T = 0$, $n_{-1} = 1$, $\beta_{-1} = 0$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Investor's budget set}
+Investor $i$ takes prices $(q, p)$ and the firm's plan as given, and chooses:
+\begin{itemize}
+\item consumption plan $c = (c_t)_t \in \R_+^{T+1}$
+\item security portfolio $\theta \in \R^{A \times T}$
+\item shareholding $\alpha \in \R_+^T$
+\end{itemize}
+\bigskip
+
+The set of admissible actions is denoted $B^i(q, p)$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Budget constraints}
+\begin{block}{At $t = 0$}
+\begin{equation*}
+c_0 + q_0 \cdot \theta_0 + p_0 \alpha_0 \leq \omega^i_0 + (p_0 + \delta_0) \xi^i
+\end{equation*}
+\end{block}
+
+\begin{block}{At $1 \leq t \leq T-1$}
+\begin{equation*}
+c_t + q_t \cdot \theta_t + p_t \alpha_t \leq \omega^i_t + (\kappa_t + q_t) \cdot \theta_{t-1} + (\delta_t + p_t) \alpha_{t-1}
+\end{equation*}
+\end{block}
+
+\begin{block}{At $t = T$}
+\begin{equation*}
+c_T \leq \omega^i_T + \kappa_T \cdot \theta_{T-1} + \delta_T \alpha_{T-1}
+\end{equation*}
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Stock-market equilibrium}
+\begin{block}{Definition}
+Given $(x, y, \beta, n)$, an equilibrium is $\{(q, p), (c^i, \theta^i, \alpha^i)_{i \in I}\}$ such that:
+\end{block}
+\begin{itemize}
+\item[(a)] each investor optimizes:
+\begin{equation*}
+(c^i, \theta^i, \alpha^i) \in \argmax \{U^i(c) \colon (c, \theta, \alpha) \in B^i(q, p)\}
+\end{equation*}
+\item[(b)] markets clear: for $0 \leq t < T$,
+\begin{equation*}
+\beta_t(a) = \sum_{i \in I} \theta^i_t(a) \text{ for all $a \in A$}, \quad
+\sum_{i \in I} \alpha^i_t = n_t
+\end{equation*}
+\item[(c)] commodity markets clear:
+\begin{equation*}
+\sum_{i \in I} c^i = (y - x) + \sum_{i \in I} \omega^i
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The firm's value over time}
+Define
+\begin{equation*}
+V_t = \underbrace{p_t n_t}_{\displaystyle E_t} + \underbrace{q_t \cdot \beta_t}_{\displaystyle D_t} + (y_t - x_t)
+\end{equation*}
+\bigskip
+
+This is equity plus debt plus the date-$t$ free cash flow
+\bigskip
+
+\textbf{Question:} Does $V_t$ depend on the payout policy $n$?
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{No-arbitrage and state prices}
+By no-arbitrage, there exists $\lambda = (\lambda_0, \ldots, \lambda_T) \in \R_{++}^{T+1}$ such that, for $t \in \{0, \ldots, T-1\}$:
+\begin{equation*}
+\lambda_t q_t = \lambda_{t+1} (\kappa_{t+1} + q_{t+1})
+\end{equation*}
+\begin{equation*}
+\lambda_t p_t = \lambda_{t+1} (p_{t+1} + \delta_{t+1})
+\end{equation*}
+\bigskip
+
+These are the no-arbitrage conditions for bonds and stocks, respectively
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Irrelevance of the payout policy}
+\begin{theoremns}
+The values of the firm satisfy
+\begin{equation*}
+\lambda_0 V_0 = \sum_{t=0}^T \lambda_t (y_t - x_t)
+\end{equation*}
+\begin{equation*}
+\lambda_t V_t = \sum_{\tau = t}^T \lambda_\tau (y_\tau - x_\tau)
+\end{equation*}
+The values of the firm depend only on the production plan $(x, y)$, and are independent of the payout policy $n$ and the financial plan $\beta$.
+\end{theoremns}
+\end{frame}
+
+%====================================================================
+\section{Beyond the MM Benchmark}
+%====================================================================
+
+\begin{frame}\frametitle{Why might capital structure matter?}
+\textbf{Costs of agency}
+\bigskip
+
+Conflicts of interest among parties:
+\begin{itemize}
+\item debtholders, new shareholders, old shareholders, managers
+\item negotiations are costly
+\item concessions required to reach a second-best outcome
+\end{itemize}
+\bigskip
+
+The optimal structure balances these conflicts
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Why might capital structure matter?}
+\textbf{Costs of asymmetric information}
+\bigskip
+
+Insiders may possess private information about:
+\begin{itemize}
+\item investment opportunities of the firm
+\item expected cash flows
+\end{itemize}
+\bigskip
+
+\textbf{Consequences:}
+\begin{itemize}
+\item asymmetry leads to inefficiencies in financing decisions
+\item managers may use capital structure as a credible signal
+\end{itemize}
+\bigskip
+
+These themes are developed in the lemons-problem and dissipative-signals chapters
+\end{frame}
+
+%====================================================================
+\section{Bibliography}
+%====================================================================
+
+\begin{frame}\frametitle{Modigliani--Miller and Stiglitz}
+\begin{thebibliography}{8}
+\begin{small}
+\beamertemplatearticlebibitems
+    \bibitem{ModiglianiMiller1958}
+    Modigliani, F. and Miller, M.
+    \newblock The cost of capital, corporation finance, and the theory of investment.
+    \newblock {\em American Economic Review} 48, 1958.
+    \bibitem{Stiglitz1969}
+    Stiglitz, J.
+    \newblock A re-examination of the Modigliani--Miller theorem.
+    \newblock {\em American Economic Review} 59, 1969.
+    \bibitem{Stiglitz1974}
+    Stiglitz, J.
+    \newblock On the irrelevance of corporate financial policy.
+    \newblock {\em American Economic Review} 64, 1974.
+    \bibitem{Gottardi1995}
+    Gottardi, P.
+    \newblock An analysis of the conditions for the validity of Modigliani--Miller theorem with incomplete markets.
+    \newblock {\em Economic Theory} 5, 1995.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Security design and information}
+\begin{thebibliography}{8}
+\begin{small}
+\beamertemplatearticlebibitems
+    \bibitem{DeMarzo1988}
+    DeMarzo, P. M.
+    \newblock An extension of the Modigliani--Miller theorem to stochastic economies with incomplete markets and interdependent securities.
+    \newblock {\em Journal of Economic Theory} 45, 1988.
+    \bibitem{DeMarzoDuffie1991}
+    DeMarzo, P. M. and Duffie, D.
+    \newblock Corporate financial hedging with proprietary information.
+    \newblock {\em Journal of Economic Theory} 53, 1991.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Taxation: theory and evidence}
+\begin{thebibliography}{8}
+\begin{small}
+\beamertemplatearticlebibitems
+    \bibitem{Miller1977}
+    Miller, M. H.
+    \newblock Debt and taxes.
+    \newblock {\em Journal of Finance} 32, 1977.
+    \bibitem{MackieMason1990}
+    Mackie-Mason, J. K.
+    \newblock Do taxes affect corporate financing decisions?
+    \newblock {\em Journal of Finance} 45, 1990.
+    \bibitem{DesaiFoleyHines2004}
+    Desai, M. A., Foley, C. F. and Hines Jr., J. R.
+    \newblock A multinational perspective on capital structure choice and internal capital markets.
+    \newblock {\em Journal of Finance} 59, 2004.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Beyond MM: capital structure and frictions}
+\begin{thebibliography}{8}
+\begin{small}
+\beamertemplatearticlebibitems
+    \bibitem{JensenMeckling1976}
+    Jensen, M. C. and Meckling, W. H.
+    \newblock Theory of the firm: managerial behavior, agency costs and ownership structure.
+    \newblock {\em Journal of Financial Economics} 3, 1976.
+    \bibitem{Ross1977}
+    Ross, S. A.
+    \newblock The determination of financial structure: the incentive-signalling approach.
+    \newblock {\em Bell Journal of Economics} 8, 1977.
+    \bibitem{LelandPyle1977}
+    Leland, H. E. and Pyle, D. H.
+    \newblock Informational asymmetries, financial structure, and financial intermediation.
+    \newblock {\em Journal of Finance} 32, 1977.
+    \bibitem{AghionBolton1992}
+    Aghion, P. and Bolton, P.
+    \newblock An incomplete contracts approach to financial contracting.
+    \newblock {\em Review of Economic Studies} 59, 1992.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+\end{document}

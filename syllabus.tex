@@ -1,0 +1,236 @@
+\documentclass[blue]{beamer}
+
+\mode<presentation> {
+  \setbeamertemplate{background canvas}[vertical shading][bottom=red!10,top=blue!10]
+
+  \usetheme{Boadilla}
+  \usefonttheme[onlysmall]{serif}
+}
+
+
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{colortbl}
+\usepackage[portuguese]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{enumerate}
+
+
+\setbeamercovered{dynamic}
+
+
+\def\R{\mathbb{R}}
+\def\Q{\mathbb{Q}}
+\def\N{\mathbb{N}}
+\newcommand{\ps}[2]{ \langle #1 , #2 \rangle }
+\def\1{\mathbf{1}}
+\newcommand{\nor}[1]{\left\| #1 \right\|}
+\def\leq{\leqslant}
+\def\geq{\geqslant}
+\def\et{\quad \textrm{e} \quad}
+\def\ou{\quad \textrm{ou} \quad}
+
+
+\DeclareMathOperator\argmax{argmax}
+\DeclareMathOperator\Prob{Prob}
+\DeclareMathOperator\supp{supp}
+\DeclareMathOperator\inte{int}
+\DeclareMathOperator\co{co}
+\DeclareMathOperator\cl{cl}
+\DeclareMathOperator\Dirac{Dirac}
+
+%------------------------------ theoren styles
+
+\theoremstyle{definition}
+\newtheorem*{assumption}{Assumption}
+\newtheorem*{conjecture}{Conjecture}
+
+\theoremstyle{example}
+\newtheorem*{proposition}{Proposition}
+
+
+%-----------------------------------------
+
+\title[Corporate Finance]{Theory of Corporate Finance}
+\author[Victor Filipe]{V. Filipe Martins-da-Rocha}
+\institute[FGV EESP]{Escola de Economia de S\~ao Paulo}
+\date[April--June, 2026]{Syllabus}
+\subject{Economic Theory}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+
+
+%------------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Course Objective}
+
+\begin{itemize}
+\item Introducing master and doctoral students to (part of the) theoretical research in corporate finance
+\item Emphasis: general equilibrium and contract theory with incomplete information
+\item Fundamentals of corporate finance theory
+    \begin{itemize}
+    \item firm's choice of its capital structure and dividend policy under alternative assumptions
+    \item moral hazard and agency problems, adverse selection and signalling
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Pre-requisites}
+
+\begin{itemize}
+\item Basic notions of general equilibrium and asset pricing
+\item Non-cooperative game theory with and without incomplete information
+\end{itemize}
+
+\end{frame}
+
+%--------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Indicative reading}
+
+The text book for the course is
+\begin{itemize}
+\item \alert{Tirole, J.: 2006, ``The Theory of Corporate Finance, Princeton University Press'', Princeton and Oxford}
+\end{itemize}
+
+Some additional material can be found in
+\begin{itemize}
+\item Hart, O. D.: 1995, ``Firms Contracts and Finance Structure'', Oxford University Press
+\item Smith, C. W.: 1990, ``The Modern Theory of Corporate Finance'', McGraw Hill-Irwin
+\end{itemize}
+
+\end{frame}
+
+%--------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Other material}
+
+Another Ph.D. level text book is
+\begin{itemize}
+\item de Matos, J. A.: 2002, ``Theoretical Foundations of Corporate Finance'', Princeton University Press
+\end{itemize}
+
+There are many good MBA text books
+
+\begin{itemize}
+\item Copeland, T., Weston, J. and Shastri: 2005, ``Financial Theory and Corporate Policy'', Pearson Addison-Wesley
+\item Grinblatt, M. and Titman, S.: 1998, ``Financial Markets and Corporate Strategy'', Irwin-McGraw-Hill
+\end{itemize}
+
+The standard text book on corporate finance at the MBA level is
+\begin{itemize}
+\item Brealey, R. A., Myers, S. C. and F., A.: 2008, ``Principles of Corporate Finance'', McGraw Hill-Irwin
+\end{itemize}
+
+\end{frame}
+
+
+%------------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Course Outline}
+
+\begin{center}
+Part A. Competitive general equilibrium with stock markets
+\end{center}
+
+    \begin{enumerate}[1.]
+    \item The objective of the firm
+    \item The capital structure of the firm
+    \item About competitive price expectations
+    \item Moral hazard and competitive markets
+    \end{enumerate}
+
+\end{frame}
+
+
+%------------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Course Outline}
+
+\begin{center}
+Part B. Principal-Agent models
+\end{center}
+
+
+    \begin{enumerate}[1.]
+    \item Outside financing: Private benefit and moral hazard
+%        \begin{enumerate}
+%        \item The role of net worth: a simple model of credit rationing lecture
+%        \item Debt overhang lecture
+%        \item Borrowing capacity: the equity multiplier lecture
+%        \item Nonverifiable income lecture
+%        \end{enumerate}
+    \item Liquidity and risk management
+%        \begin{enumerate}
+%        \item The maturity of liabilities lecture
+%        \item The liquidity-scale trade-off lecture
+%        \end{enumerate}
+    \item Corporate financing under asymmetric information
+%        \begin{enumerate}
+%        \item Implications of the lemons problem and of market breakdown lecture
+%        \item Dissipative signals lecture
+%        \end{enumerate}
+    \item Mergers and acquisitions
+    \item Lending relationships and investor activism
+    \item Control rights and corporate governance
+    \end{enumerate}
+
+\end{frame}
+
+%--------------------------------------------------------------------------------------
+\begin{frame}\frametitle{Grading}
+
+Student performance will be evaluated through in-class presentations
+\begin{itemize}
+  \item presentation of a paper
+  \item presentation of a research idea
+\end{itemize}
+
+\end{frame}
+
+%--------------------------------------------------------------------------------------
+\begin{frame}\frametitle{Personal research interest}
+
+  \centering
+  \includegraphics[width=\textwidth]{figures/magill-quinzii-rochet-ECMA-15.PNG}
+
+\end{frame}
+
+%--------------------------------------------------------------------------------------
+\begin{frame}\frametitle{Personal research interest}
+
+  \centering
+  \includegraphics[width=\textwidth]{figures/braido-mdr-IER-18.PNG}
+
+\end{frame}
+
+
+%%--------------------------------------------------------------------------------------
+%
+%\begin{frame}\frametitle{Professor}
+%
+%\begin{description}
+%
+%\item[Nome:] Victor Filipe Martins-da-Rocha
+%
+%\item[E-mail:] \texttt{victor.rocha@fgv.br}
+%
+%\item[Sala:] 1117
+%
+%\item[Tel:] (21) 2559 5871
+%
+%\item[Web:] \texttt{http://epge.fgv.br/we/VictorRocha}
+%
+%\end{description}
+%
+%\end{frame}
+
+\end{document}

@@ -1,0 +1,842 @@
+\documentclass[blue]{beamer}
+\mode<presentation> {
+  \setbeamertemplate{background canvas}[vertical shading][bottom=red!10,top=blue!10]
+  \usetheme{Boadilla}
+  \usefonttheme[onlysmall]{serif}
+}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\setbeamercovered{dynamic}
+\def\R{\mathbb{R}}
+\def\Q{\mathbb{Q}}
+\def\N{\mathbb{N}}
+\def\E{\mathbb{E}}
+\newcommand{\ps}[2]{ \langle #1 , #2 \rangle }
+\def\1{\mathbf{1}}
+\newcommand{\nor}[1]{\left\| #1 \right\|}
+\def\leq{\leqslant}
+\def\geq{\geqslant}
+\def\et{\quad \textrm{and} \quad}
+\def\ou{\quad \textrm{or} \quad}
+\def\boite{\hskip 0.5mm {\Box} \hskip 0.5mm}
+\DeclareMathOperator\PPE{PPE}
+\DeclareMathOperator\vNM{vNM}
+\DeclareMathOperator\argmax{argmax}
+\DeclareMathOperator\Prob{Prob}
+\DeclareMathOperator\supp{supp}
+\DeclareMathOperator\Eq{Eq}
+\DeclareMathOperator\inte{int}
+\DeclareMathOperator\co{co}
+\DeclareMathOperator\cl{cl}
+\DeclareMathOperator\Dirac{Dirac}
+\DeclareMathOperator\F{F}
+\DeclareMathOperator\As{As}
+\DeclareMathOperator\Ir{Ir}
+\DeclareMathOperator\MRS{MRS}
+\DeclareMathOperator\Range{Im}
+\DeclareMathOperator\DIV{DIV}
+%------------------------------ theorem styles
+\theoremstyle{definition}
+\newtheorem*{assumption}{Assumption}
+\newtheorem*{conjecture}{Conjecture}
+\theoremstyle{example}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{theoremns}{Theorem}
+\newtheorem*{remark}{Remark}
+%-----------------------------------------
+\title[Corporate Finance]{Theory of Corporate Finance}
+\author[Victor Filipe]{V. Filipe Martins-da-Rocha}
+\institute[FGV EESP]{Escola de Economia de S\~ao Paulo}
+\date[April--June, 2026]{Part 1.a. Stock Market Equilibrium: Objective of the Firm}
+\subject{Economic Theory}
+\begin{document}
+\frame{\titlepage}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Outline}
+\begin{itemize}
+\item A two-period economy: investors and a firm
+\item Stock-market equilibrium
+\item Asset pricing at equilibrium
+    \begin{itemize}
+    \item Fundamental asset-pricing theorem
+    \item Personalized state prices
+    \end{itemize}
+\item The objective of the firm
+    \begin{itemize}
+    \item Separation of ownership and control
+    \item Competitive price perceptions
+    \end{itemize}
+\item Unanimity and value maximization
+    \begin{itemize}
+    \item Unanimity under complete markets
+    \item Spanning condition
+    \item Strong unanimity
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+%====================================================================
+\section{The Model}
+%====================================================================
+
+\begin{frame}\frametitle{A simple intertemporal model}
+\begin{block}{Time}
+Two dates: $t \in \{0, 1\}$
+\end{block}
+\begin{block}{Uncertainty at $t=1$}
+A finite set $S$ of states of nature
+\end{block}
+\begin{block}{Commodity}
+A single divisible commodity, available at every date and state
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Agents}
+\begin{block}{Investors}
+A finite set $I$ of risk-averse, expected-utility investors
+\end{block}
+\begin{block}{Firm}
+One firm, privately owned by the investors
+\end{block}
+\begin{block}{Financial assets}
+A finite set $A$ of state-contingent claims (securities)
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The firm's technology}
+\begin{block}{Production set}
+\begin{equation*}
+Y \subset \R \times \R^{S}
+\end{equation*}
+\end{block}
+\begin{block}{Production plan}
+A vector $y = (y_0, y_1) \in Y$ with $y_1 = (y_s)_{s \in S}$
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{No instantaneous production}
+\begin{assumption}
+The firm invests at $t=0$ and produces at $t=1$:
+\begin{equation*}
+Y \subset \R_{-} \times \R^{S}_{+}
+\end{equation*}
+\end{assumption}
+\bigskip
+
+For $y \in Y$:
+\begin{itemize}
+\item $-y_0 \geq 0$: input at $t=0$ (investment)
+\item $y_s \geq 0$: output at $t=1$ in state $s$
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Shares and ownership}
+The firm is privately owned: investor $i$ holds initial share
+\begin{equation*}
+\xi^i \geq 0,
+\qquad
+\sum_{i \in I} \xi^i = 1
+\end{equation*}
+
+\begin{itemize}
+\item $\xi^i = 0$: investor $i$ is not initially a shareholder
+\item $\xi^i = 1$: investor $i$ is the sole owner
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Stock market}
+At $t=0$, agents may trade ownership through a competitive stock market
+\bigskip
+
+\begin{itemize}
+\item The firm's equity trades at a linear price $E$ (in units of the commodity)
+\item Investors take $E$ as given
+\item Buying a fraction $\alpha \geq 0$ costs $E\alpha$
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Financial assets}
+Each asset $a \in A$ is a state-contingent claim
+\begin{equation*}
+\kappa(a) = (\kappa_s(a))_{s \in S} \in \R^S
+\end{equation*}
+\bigskip
+
+A \emph{portfolio} is $\theta \in \R^A$:
+\begin{itemize}
+\item $\theta(a) \geq 0$: long position
+\item $\theta(a) \leq 0$: short position
+\end{itemize}
+\bigskip
+
+At $t=1$ in state $s$, the holder receives $\sum_a \kappa_s(a)\theta(a)$
+\bigskip
+
+An asset $a$ is \emph{risk-free} if $\kappa_s(a) = 1$ for all $s \in S$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Competitive security markets}
+At $t=0$ each security trades at a linear price $q(a)$
+\bigskip
+
+Buying portfolio $\theta$ costs
+\begin{equation*}
+q \cdot \theta = \sum_{a \in A} q(a)\theta(a)
+\end{equation*}
+\bigskip
+
+If investor spends $w(a) = q(a)\theta(a)$ in asset $a$, the gross return at state $s$ is
+\begin{equation*}
+R_s(a) = \frac{\kappa_s(a)}{q(a)},
+\qquad
+r_s(a) = R_s(a) - 1
+\end{equation*}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Investors: characteristics}
+For each investor $i \in I$:
+\begin{itemize}
+\item initial wealth $\omega^i_0 \geq 0$ at $t=0$
+\item state-contingent endowment $\omega^i_1 \in \R^S_+$
+\item initial share $\xi^i \geq 0$
+\item Bernoulli utility $u^i : \R_+ \to [-\infty, \infty)$
+\item discount factor $\beta^i > 0$
+\item subjective beliefs $\nu^i \in \Prob(S)$
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Investors: preferences}
+At $t=0$, investor $i$ chooses $(c_0, c_1) \in \R_+ \times \R^S_+$
+\bigskip
+
+\begin{block}{Expected utility}
+\begin{equation*}
+U^i(c_0, c_1) = u^i(c_0) + \beta^i \sum_{s \in S} \nu^i_s u^i(c_s)
+\end{equation*}
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The firm's actions}
+At $t=0$, taking security prices $q$ as given, the firm chooses
+\bigskip
+
+\begin{itemize}
+\item a production plan $y = (y_0, y_1) \in Y$
+\item a financial plan $\beta \in \R^A$:
+    \begin{itemize}
+    \item $\beta(a) > 0$: firm \emph{issues} $\beta(a)$ units of asset $a$
+    \item $\beta(a) < 0$: firm \emph{purchases} $|\beta(a)|$ units of asset $a$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The cash-flow stream}
+The plan $(y, \beta)$ generates a cash-flow stream $\delta = (\delta_0, \delta_1)$:
+\bigskip
+
+\begin{block}{At $t=0$}
+\begin{equation*}
+\delta_0 = y_0 + q \cdot \beta
+\end{equation*}
+Owners share $\delta_0$ in proportion to $\xi^i$
+\end{block}
+
+\begin{block}{At $t=1$ in state $s$}
+\begin{equation*}
+\delta_s = y_s - \kappa_s \cdot \beta
+\end{equation*}
+Shareholders at $t=1$ (with $\alpha^i > 0$) share $\delta_s$
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Ownership structures: I}
+\begin{block}{Sole proprietorship}
+\begin{itemize}
+\item No stock market for the firm
+\item One agent $i^\ast$ owns the entire firm: $\xi^{i^\ast} = 1$
+\item The owner manages in his own interest
+\end{itemize}
+\end{block}
+
+\begin{block}{Partnership}
+\begin{itemize}
+\item No stock market for the firm
+\item Several shareholders
+\item Possible disagreement on the firm's objective
+\end{itemize}
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Ownership structures: II}
+\begin{block}{Corporation}
+\begin{itemize}
+\item Active stock market for the firm's equity
+\item \textcolor{red}{Separation of ownership and control}
+\item Decisions delegated to a manager whose mandate is to be defined
+\end{itemize}
+\end{block}
+\bigskip
+
+This is the structure we focus on
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Limited liability}
+Suppose the firm finances itself only through a risk-free bond
+\bigskip
+
+\begin{itemize}
+\item At $t=0$, the firm issues debt by selling $Z$ units of the bond
+\item The firm is then said to be \emph{levered}
+\item Shareholders are protected by \emph{limited liability}: they never have to deliver
+\item In states $s$ where $\delta_s < 0$, a \emph{bankruptcy rule} applies and the entire output $y_s$ is distributed to creditors
+\end{itemize}
+\bigskip
+
+This chapter abstracts from default; bankruptcy is studied in subsequent parts
+\end{frame}
+
+%====================================================================
+\section{Stock-Market Equilibrium}
+%====================================================================
+
+\begin{frame}\frametitle{Investor's budget set: setup}
+Each investor $i$ takes as given (and perfectly anticipates):
+\begin{itemize}
+\item the firm's production--finance plan $(y, \beta)$
+\item the security and equity prices $(q, E)$
+\end{itemize}
+\bigskip
+
+He chooses $(c, \theta, \alpha) \in \R_+ \times \R^S_+ \times \R^A \times \R_+$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Investor's budget set: constraints}
+\begin{block}{At $t=0$}
+\begin{equation*}
+c_0 + q \cdot \theta + E\alpha \leq \omega^i_0 + (E + \delta_0)\xi^i
+\end{equation*}
+\end{block}
+
+\begin{block}{At $t=1$ in state $s$}
+\begin{equation*}
+c_s \leq \omega^i_s + \kappa_s \cdot \theta + \delta_s \alpha
+\end{equation*}
+\end{block}
+\bigskip
+
+The set of admissible actions is denoted $B^i(q, E)$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Stock-market equilibrium}
+\begin{block}{Definition}
+A stock-market equilibrium is a list
+\begin{equation*}
+\bigl\{ (y, \beta), (q, E), (c^i, \theta^i, \alpha^i)_{i \in I} \bigr\}
+\end{equation*}
+of:
+\begin{itemize}
+\item production--finance plan $(y, \beta) \in Y \times \R^A$
+\item prices $(q, E) \in \R^A \times \R$
+\item investor actions $(c^i, \theta^i, \alpha^i)$ for each $i \in I$
+\end{itemize}
+\end{block}
+\bigskip
+
+such that the conditions on the next slide are satisfied
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Stock-market equilibrium: conditions}
+\begin{itemize}
+\item[(a)] each investor optimizes:
+\begin{equation*}
+(c^i, \theta^i, \alpha^i) \in \argmax \bigl\{ U^i(c) \colon (c, \theta, \alpha) \in B^i(q, E) \bigr\}
+\end{equation*}
+
+\item[(b)] securities and stock markets clear:
+\begin{equation*}
+\sum_{i \in I} \alpha^i = 1 \et \beta(a) = \sum_{i \in I} \theta^i(a), \quad \text{for all $a\in A$}
+\end{equation*}
+
+\item[(c)] commodity markets clear:
+\begin{equation*}
+\sum_{i \in I} c^i = \sum_{i \in I} \omega^i + y
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Standard assumptions}
+For each investor $i \in I$:
+\begin{itemize}
+\item[(C.1)] $u^i$ continuously differentiable, strictly increasing, strictly concave
+\item[(C.2)] endowments are strictly positive: $\omega^i_0 > 0$ and $\omega^i_s > 0$, for all $s\in S$
+\item[(C.3)] every state has positive probability: $\nu^i_s > 0$, for all $s\in S$
+\item[(C.4)] individually rational consumption plans are interior:
+\begin{equation*}
+U^i(c) \geq U^i(\omega^i) \Longrightarrow c_0 > 0 \et c_s > 0, \quad \text{for all $s\in S$}
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+%====================================================================
+\section{Asset Pricing}
+%====================================================================
+
+\begin{frame}\frametitle{Marginal rate of substitution}
+For each investor $i$ with interior optimal consumption $c^i$:
+\bigskip
+
+\begin{block}{Marginal rate of substitution}
+\begin{equation*}
+\MRS^i_s(c^i) := \beta^i \nu^i_s \frac{(u^i)'(c^i_s)}{(u^i)'(c^i_0)}
+\end{equation*}
+\end{block}
+\bigskip
+
+Under common beliefs ($\nu^i = \nu$), the quantity
+\begin{equation*}
+\beta^i \frac{(u^i)'(c^i_s)}{(u^i)'(c^i_0)}
+\end{equation*}
+is investor $i$'s \emph{stochastic discount factor} relative to $\nu$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Fundamental asset-pricing theorem}
+\begin{theoremns}
+Under (C.1)--(C.3), at any stock-market equilibrium there exists a vector of \emph{state-price deflators}
+\begin{equation*}
+\lambda = (\lambda_s)_{s \in S} \in \R^{S}_{++}
+\end{equation*}
+such that
+\begin{equation*}
+q(a) = \sum_{s \in S} \lambda_s \kappa_s(a), \quad \text{for all $a \in A$}
+\end{equation*}
+and
+\begin{equation*}
+E = \sum_{s \in S} \lambda_s \delta_s
+\end{equation*}
+\end{theoremns}
+\bigskip
+
+This is a no-arbitrage statement: positive equilibrium prices admit a strictly positive linear pricing functional
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Personalized state prices}
+\begin{proposition}
+Under (C.1)--(C.4), at any stock-market equilibrium and for every investor $i \in I$:
+\begin{equation*}
+q(a) = \sum_{s \in S} \MRS^i_s \kappa_s(a), \quad \text{for all $a \in A$}
+\end{equation*}
+For every shareholder of the firm at $t=1$ ($\alpha^i > 0$):
+\begin{equation*}
+E = \sum_{s \in S} \MRS^i_s \delta_s
+\end{equation*}
+\end{proposition}
+\bigskip
+
+The proof uses the first-order conditions of investor $i$'s problem, which hold with equality under (C.4)
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Uniqueness of $\lambda$}
+The state-price deflator $\lambda$ is generally \emph{not unique}
+\bigskip
+
+\begin{block}{Incomplete markets}
+If $\Range \kappa \subsetneq \R^S$, the no-arbitrage equation admits multiple positive solutions, and different investors may have different $\MRS^i$
+\end{block}
+
+\begin{block}{Complete markets}
+If $\Range \kappa = \R^S$, the equation has a \emph{unique} solution, and the personalized-pricing proposition forces
+\begin{equation*}
+\MRS^i = \lambda \quad \text{for every $i\in I$}
+\end{equation*}
+\end{block}
+\end{frame}
+
+%====================================================================
+\section{The Objective of the Firm}
+%====================================================================
+
+\begin{frame}\frametitle{The objective of the firm}
+\begin{center}
+\Large \alert{When choosing $(y, \beta)$, what should the firm maximize?}
+\end{center}
+\bigskip
+\bigskip
+
+The answer must come from \emph{shareholders' preferences}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{An arbitrary candidate}
+A natural candidate: maximize the firm's value
+\begin{equation*}
+V = E + \delta_0 = E + q \cdot \beta + y_0
+\end{equation*}
+\bigskip
+
+This is the equity price plus the date-0 cash flow
+\bigskip
+
+But why this particular objective rather than, say, a weighted sum of shareholders' utilities?
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Separation of ownership and control}
+\begin{itemize}
+\item The firm belongs to its shareholders $\{i \colon \xi^i > 0\}$
+\item Each shareholder $i$ would prescribe his preferred plan $(y^i, \beta^i)$
+\item Different shareholders may want \emph{different} plans
+\bigskip
+\item If all shareholders agree on a common objective, we have \emph{unanimity}
+\item Under unanimity, we can \textcolor{red}{separate ownership from control}
+\end{itemize}
+\bigskip
+
+\textbf{Question:} Under what conditions does unanimity arise?
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Impact of a perturbation}
+Fix an equilibrium and consider a small change $(\Delta y, \Delta \beta)$
+\bigskip
+
+Investor $i$'s presumed change in utility:
+\begin{equation*}
+\frac{\Delta^i U^i}{(u^i)'(c^i_0)} \approx \xi^i [\Delta^i E + \Delta \delta_0]
++ \alpha^i \Bigl[ \sum_{s \in S} \MRS^i_s \Delta \delta_s - \Delta^i E \Bigr]
+\end{equation*}
+\bigskip
+
+where $\Delta^i E$ is investor $i$'s \emph{presumed} effect on the equity price
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Competitive price perceptions}
+\begin{block}{Definition (Grossman--Hart 1979)}
+Each investor $i$ values any state-contingent income stream $w \in \R^S$ at
+\begin{equation*}
+\sum_{s \in S} \MRS^i_s w_s
+\end{equation*}
+using his own marginal rates of substitution as state-price deflators
+\end{block}
+\bigskip
+
+\textbf{Interpretation:} given $c^i$, investor $i$ is indifferent between buying or selling a small claim paying $w$ at this price
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Market consistency}
+If $w$ is marketed, $w_s = \kappa_s \cdot \theta_w$, then
+\begin{equation*}
+\sum_{s \in S} \MRS^i_s w_s = q \cdot \theta_w
+\end{equation*}
+\bigskip
+
+\textbf{All investors agree} on the value of marketed income streams, even when their MRSs differ
+\bigskip
+
+The disagreement only concerns \emph{non-marketed} state-contingent streams
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Impact under competitive price perceptions}
+Under competitive price perceptions, investor $i$ presumes
+\begin{equation*}
+\Delta^i E = \sum_{s \in S} \MRS^i_s \Delta \delta_s
+\end{equation*}
+\bigskip
+
+Substituting into the impact formula:
+\begin{equation*}
+\Delta^i U^i \approx (u^i)'(c^i_0) \cdot \xi^i \cdot \Bigl[ \Delta \delta_0 + \sum_{s \in S} \MRS^i_s \Delta \delta_s \Bigr]
+\end{equation*}
+\bigskip
+
+\begin{block}{Present-value criterion}
+A shareholder favors any change that maximizes the present value of the firm's dividend stream evaluated at his own MRS
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Disagreement under incomplete markets}
+If $\MRS^{i_1} \neq \MRS^{i_2}$, a perturbation $(\Delta y, \Delta \beta)$ may yield
+\begin{equation*}
+\sum_{s} \MRS^{i_1}_s \Delta \delta_s + \Delta \delta_0 > 0
+\end{equation*}
+\begin{equation*}
+\sum_{s} \MRS^{i_2}_s \Delta \delta_s + \Delta \delta_0 < 0
+\end{equation*}
+\bigskip
+
+Hence $\Delta^{i_1} U^{i_1} > 0$ but $\Delta^{i_2} U^{i_2} < 0$
+\bigskip
+
+\alert{Disagreement!} Shareholders do not converge on a common objective
+\bigskip
+
+This is generic under incomplete markets: investors cannot trade their differences away
+\end{frame}
+
+%====================================================================
+\section{Unanimity}
+%====================================================================
+
+\begin{frame}\frametitle{Unanimity under complete markets}
+\begin{proposition}
+Under (C.1)--(C.4), if $\Range \kappa = \R^S$, there exists a unique state-price deflator $\lambda \in \R^S_{++}$ with
+\begin{equation*}
+\MRS^i = \lambda \quad \text{for every investor } i \in I
+\end{equation*}
+All investors share identical competitive price perceptions and unanimously agree on
+\begin{equation*}
+V = \delta_0 + \sum_{s \in S} \lambda_s \delta_s = y_0 + \sum_{s \in S} \lambda_s y_s
+\end{equation*}
+\end{proposition}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{A by-product: irrelevance of $\beta$}
+The firm's value
+\begin{equation*}
+V = y_0 + \sum_{s \in S} \lambda_s y_s
+\end{equation*}
+depends on the financial plan $\beta$ only through its market value, which is offset by debt obligations
+\bigskip
+
+This is a first version of the \alert{Modigliani--Miller irrelevance theorem}
+\bigskip
+
+The financial structure of the firm is \emph{irrelevant} for its value, conditional on the production plan $y$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Spanning condition}
+Complete markets are sufficient but \emph{not necessary} for unanimity
+\bigskip
+
+\begin{proposition}[Spanning implies unanimity]
+Suppose that for every feasible production change $\Delta y$, there exist $\Delta \theta \in \R^A$ and $\Delta \alpha \in \R$ such that
+\begin{equation*}
+\Delta y_s = \sum_{a \in A} \kappa_s(a) \Delta \theta(a) + y_s \Delta \alpha,
+\quad \text{for all $s \in S$}
+\end{equation*}
+Then every shareholder agrees on the present-value criterion
+\end{proposition}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Spanning: economic content}
+\textbf{Economic content:} any change in the firm's output can be replicated through
+\begin{itemize}
+\item a combination of asset trades $\Delta \theta$
+\item a proportional rescaling $\Delta \alpha$ of existing production
+\end{itemize}
+\bigskip
+
+Shareholders do not lose hedging opportunities: their valuation collapses to the marketed present value
+\bigskip
+
+\emph{References:} Ekern--Wilson (1974), Leland (1974), Magill--Quinzii (2009)
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Strong unanimity: setup}
+\textbf{Goal:} Strengthen the result. Under common MRSs, shareholders not only \emph{agree} on the objective; they would not deviate even with full control
+\bigskip
+
+\begin{block}{No-default plans}
+\begin{equation*}
+\mathcal{D} := \bigl\{ (y, \beta) \in Y \times \R^A \colon y_s \geq \kappa_s \cdot \beta, \ \forall s \in S \bigr\}
+\end{equation*}
+\end{block}
+
+\begin{block}{Counterfactual equity price}
+For $\lambda \in \R^S_{++}$ and $(y', \beta') \in \mathcal{D}$:
+\begin{equation*}
+\widetilde{E}(\lambda, y', \beta') := \sum_{s \in S} \lambda_s [y'_s - \kappa_s \cdot \beta']
+\end{equation*}
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Strong unanimity: theorem}
+\begin{theoremns}[Strong unanimity]
+Under (C.1)--(C.4), at any complete-markets equilibrium with common $\lambda$ and $\MRS^i = \lambda$ for every $i$, suppose the firm has chosen $(y, \beta) \in \mathcal{D}$ to maximize
+\begin{equation*}
+V(y', \beta') := y'_0 + q \cdot \beta' + \sum_{s} \lambda_s [y'_s - \kappa_s \cdot \beta']
+\end{equation*}
+Then for every $i \in I$:
+\begin{equation*}
+(y, \beta) \in \argmax \Bigl\{ U^i(c') \colon (c', \theta', \alpha') \in B^i(q, \lambda, y', \beta'), \ (y', \beta') \in \mathcal{D} \Bigr\}
+\end{equation*}
+\end{theoremns}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Strong unanimity: interpretation}
+The equilibrium plan is utility-maximizing for every investor over the joint choice of:
+\begin{itemize}
+\item consumption $c'$
+\item portfolio $\theta'$
+\item shareholding $\alpha'$
+\item firm plan $(y', \beta')$ -- counterfactually controllable
+\end{itemize}
+\bigskip
+
+No shareholder would prefer to redirect the firm even given full authority over its decisions
+\bigskip
+
+This is the strongest possible justification for delegating control to a value-maximizing manager
+\end{frame}
+
+%====================================================================
+\section{Bibliography}
+%====================================================================
+
+\begin{frame}\frametitle{Classical references}
+\begin{thebibliography}{8}
+\begin{small}
+  \beamertemplatearticlebibitems
+    \bibitem{Fisher1930}
+    Fisher, I.
+    \newblock {\em The Theory of Interest}.
+    \newblock New York: A. M. Kelley, 1930.
+    \bibitem{Dreze1974}
+    Dr\`eze, J. H.
+    \newblock Investment under private ownership: Optimality, equilibrium and stability
+    \newblock In \emph{Allocation Under Uncertainty: Equilibrium and Optimality}, Wiley, 1974.
+    \bibitem{EkernWilson1974}
+    Ekern, S. and Wilson, R.
+    \newblock On the theory of the firm in an economy with incomplete markets.
+    \newblock {\em Bell Journal of Economics and Management Science} 5(1), 1974.
+    \bibitem{Leland1974}
+    Leland, H. E.
+    \newblock Production theory and the stock market.
+    \newblock {\em Bell Journal of Economics and Management Science} 5(1), 1974.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Foundational references}
+\begin{thebibliography}{8}
+\begin{small}
+  \beamertemplatearticlebibitems
+    \bibitem{GrossmanHart1979}
+    Grossman, S. J. and Hart, O. D.
+    \newblock A theory of competitive equilibrium in stock market economies.
+    \newblock {\em Econometrica} 47(2), 1979.
+    \bibitem{GrossmanStiglitz1980}
+    Grossman, S. J. and Stiglitz, J.
+    \newblock Stockholder unanimity in making production and financial decisions.
+    \newblock {\em Quarterly Journal of Economics} 94(3), 1980.
+    \bibitem{Geanakoplos1990}
+    Geanakoplos, J., Magill, M., Quinzii, M. and Dr\`eze, J.
+    \newblock Generic inefficiency of stock market equilibrium when markets are incomplete.
+    \newblock {\em Journal of Mathematical Economics} 19, 1990.
+    \bibitem{KelseyMilne1996}
+    Kelsey, D. and Milne, F.
+    \newblock The existence of equilibrium in incomplete markets and the objective function of the firm.
+    \newblock {\em Journal of Mathematical Economics} 25, 1996.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Modern developments}
+\begin{thebibliography}{8}
+\begin{small}
+  \beamertemplatearticlebibitems
+    \bibitem{TvedeCres2005}
+    Tvede, M. and Cr\'es, H.
+    \newblock Voting in assemblies of shareholders and incomplete markets.
+    \newblock {\em Economic Theory} 26, 2005.
+    \bibitem{MagillQuinzii2008}
+    Magill, M. and Quinzii, M.
+    \newblock Normative properties of stock market equilibrium with moral hazard.
+    \newblock {\em Journal of Mathematical Economics} 44, 2008.
+    \bibitem{MagillQuinzii2009}
+    Magill, M. and Quinzii, M.
+    \newblock The probability approach to general equilibrium with production.
+    \newblock {\em Economic Theory} 39, 2009.
+    \bibitem{CarcelesCoenPirani2009}
+    Carceles-Poveda, E. and Coen-Pirani, D.
+    \newblock Shareholders' unanimity with incomplete markets.
+    \newblock {\em International Economic Review} 50, 2009.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Recent contributions}
+\begin{thebibliography}{8}
+\begin{small}
+  \beamertemplatearticlebibitems
+    \bibitem{MagillQuinzii2010}
+    Magill, M. and Quinzii, M.
+    \newblock A co-moment criterion for the choice of risky investment by firms.
+    \newblock {\em International Economic Review} 51, 2010.
+    \bibitem{BejanBidian2011}
+    Bejan, C. and Bidian, F.
+    \newblock Ownership structure and efficiency in large economies.
+    \newblock {\em Economic Theory} 50, 2012.
+    \bibitem{DierkerDierker2011}
+    Dierker, E. and Dierker, H.
+    \newblock Dr\`eze equilibria and welfare maxima.
+    \newblock {\em Economic Theory} 45, 2009.
+    \bibitem{BritzHeringsPredtetchinski2013}
+    Britz, V., Herings, P.J.J. and Predtetchinski, A.
+    \newblock A bargaining theory of the firm.
+    \newblock {\em Economic Theory} 54, 2013.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Recent contributions (cont.)}
+\begin{thebibliography}{8}
+\begin{small}
+  \beamertemplatearticlebibitems
+    \bibitem{BisinGottardiRuta2014}
+    Bisin, A., Gottardi, P. and Ruta, G.
+    \newblock Equilibrium corporate finance and intermediation.
+    \newblock {\em Working Paper}, 2015.
+    \bibitem{BisinClementiGottardi2025}
+    Bisin, A., Clementi, G. L. and Gottardi, P.
+    \newblock Capital structure and hedging demand with incomplete markets.
+    \newblock {\em Economic Journal}, 2025.
+\end{small}
+\end{thebibliography}
+\bigskip
+
+\textbf{Textbook treatment of incomplete-markets general equilibrium:}
+\bigskip
+
+Magill, M. and Quinzii, M., \emph{Theory of Incomplete Markets}, MIT Press, 1996.
+\end{frame}
+
+\end{document}
