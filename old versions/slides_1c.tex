@@ -1,0 +1,719 @@
+\documentclass[blue]{beamer}
+
+\mode<presentation> {
+  \setbeamertemplate{background canvas}[vertical shading][bottom=red!10,top=blue!10]
+
+  \usetheme{Boadilla}
+  \usefonttheme[onlysmall]{serif}
+}
+
+
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+
+
+\setbeamercovered{dynamic}
+
+\DeclareMathOperator\PV{PV}
+
+\def\R{\mathbb{R}}
+\def\Q{\mathbb{Q}}
+\def\N{\mathbb{N}}
+\def\E{\PV}
+\newcommand{\ps}[2]{ \langle #1 , #2 \rangle }
+\def\1{\mathbf{1}}
+\newcommand{\nor}[1]{\left\| #1 \right\|}
+\def\leq{\leqslant}
+\def\geq{\geqslant}
+\def\et{\quad \textrm{and} \quad}
+\def\ou{\quad \textrm{or} \quad}
+\def\boite{\hskip 0.5mm {\Box} \hskip 0.5mm}
+
+
+\DeclareMathOperator\PPE{PPE}
+\DeclareMathOperator\vNM{vNM}
+\DeclareMathOperator\argmax{argmax}
+\DeclareMathOperator\Prob{Prob}
+\DeclareMathOperator\supp{supp}
+\DeclareMathOperator\Eq{Eq}
+\DeclareMathOperator\inte{int}
+\DeclareMathOperator\co{co}
+\DeclareMathOperator\cl{cl}
+\DeclareMathOperator\Dirac{Dirac}
+\DeclareMathOperator\F{F}
+\DeclareMathOperator\As{As}
+\DeclareMathOperator\Ir{Ir}
+\DeclareMathOperator\MRS{MRS}
+\DeclareMathOperator\Range{Im}
+\DeclareMathOperator\DIV{DIV}
+\DeclareMathOperator\A{D}
+%------------------------------ theoren styles
+
+\theoremstyle{definition}
+\newtheorem*{assumption}{Assumption}
+\newtheorem*{conjecture}{Conjecture}
+
+
+\theoremstyle{example}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{remark}{Remark}
+
+
+%-----------------------------------------
+
+\title[Corporate Finance]{Theory of Corporate Finance}
+\author[Victor Filipe]{V. Filipe Martins-da-Rocha}
+\institute[FGV EESP]{Escola de Economia de S\~ao Paulo}
+\date[April--June, 2026]{Part 1.c. Stock Market Equilibrium: About competitive price perceptions}
+\subject{Economic Theory}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Working paper}
+
+\begin{thebibliography}{8}
+
+
+  \beamertemplatearticlebibitems
+
+    \bibitem{BisinGottardiRutta}
+    Bisin, A., Gottardi. P. and Rutta, G.
+    \newblock Equilibrium Corporate Finance.
+    \newblock {\em NYU Working Paper} 2009
+
+    \bibitem{BisinGottardiRutta}
+    Bisin, A., Gottardi. P. and Rutta, G.
+    \newblock Equilibrium Corporate Finance: Makowski meets Prescott and Townsend
+    \newblock {\em EUI Working Paper} 2011
+
+    \end{thebibliography}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{The model: markets}
+
+\begin{itemize}
+\item One firm $J=\{j\}$ (or a continuum of identical firms)
+\item One riskless financial asset $A=\{a_0\}$
+    \begin{itemize}
+    \item The firm can issue debt (or short-sell the financial asset $a_0$) but cannot invest: $\beta \geq 0$
+    \item Investors cannot issue debt but can invest (or buy the firm's debt): $\theta^i \geq 0$
+    \end{itemize}
+\item Stock market
+    \begin{itemize}
+    \item Investors cannot short-sell the firm's shares: $\alpha^i \geq 0$
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{The model: the firm}
+
+\begin{itemize}
+\item The production technology of the firm is defined as follows:
+\[
+Y^j \equiv \{(y_0,(y_s)_{s\in S}) \in \R \times \R^S \ \colon \ y_0 \leq 0 \et y_s\leq f_s(-y_0) \}
+\]
+where
+\[
+f_s :[0,\infty) \to [0,\infty)
+\]
+The investment $-y_0$ is denoted by $k$ representing units of commodity invested in capital at $t=0$
+\end{itemize}
+
+\end{frame}
+
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{The model: the firm}
+
+\begin{assumption}
+The firm chooses the investment $k$ and the debt level $\beta$ satisfying the solvency requirement
+\[
+\inf_{s\in S} f_s(k) \geq \beta
+\]
+\end{assumption}
+We denote by $\A$ the set of admissible capital budgeting and financial strategy defined by
+\[
+\A \equiv \{(k,\beta) \in \R^2_+ \ \colon \ \inf_{s\in S} f_s(k) \geq \beta \}
+\]
+\end{frame}
+
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Budget restrictions for agents}
+Each investor~$i$ takes as given
+\begin{itemize}
+\item the firm's capital budgeting and financial strategy $(k,\beta)$
+\item the security price $q$ and the stock (equity) price $E$
+\end{itemize}
+and chooses
+\begin{itemize}
+\item a consumption plan $c=(c_0,c_1) \in \R_+ \times \R_+^S$
+\item an investment $\theta^i\geq 0$ and a share $\alpha^i \geq 0$ satisfying
+\begin{itemize}
+\item the budget restriction at $t=0$
+\[
+c^i_0 + q \theta^i + E \alpha^i \leq \omega^i_0 + [E+q\beta - k] \xi^i
+\]
+\item the budget restriction at $t=1$ for each state $s$
+\[
+c^i_s \leq \omega^i_s + \theta^i + [f_s(k) - \beta] \alpha^i
+\]
+\end{itemize}
+\item We denote by $B^i(q,E,k,\beta)$ the set of all actions $(c,\theta,\alpha)$ satisfying the budget restrictions
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Competitive equilibrium given the firm's decisions}
+
+Fix a firm's decision $(k,\beta) \in \A$, a family
+\[
+\{(k,\beta),(q,E),(c^i,\theta^i,\alpha^i)_{i\in I}\}
+\]
+is a competitive equilibrium if
+\begin{itemize}
+\item every agent~$i$'s action $(c^i,\theta^i,\alpha^i)$ is optimal, i.e.,
+\[
+(c^i,\theta^i,\alpha^i) \in \argmax \{U^i(c) \ \colon \ (c,\theta,\alpha) \in B^i(q,E,\beta,k) \}
+\]
+\item financial markets clear, i.e.,
+\[
+\sum_{i\in I} \theta^i = \beta \et \sum_{i\in I} \alpha^i = 1
+\]
+\item consumption markets clear, i.e.,
+\[
+k + \sum_{i\in I} c^i_0 = \omega_0 \et \sum_{i\in I} c^i_1 = \omega_1 + f(k)
+\]
+\end{itemize}
+
+\end{frame}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Notations}
+
+Fix a consumption plan  $c^i=(c^i_0,c^i_1)$ satisfying
+\[
+c^i_0 >0 \et c^i_s >0, \ \forall s\in S
+\]
+Given a random variable $w=(w_s)_{s\in S} \in \R^S$, we let
+\[
+\E^i[w] = \sum_{s\in S} \MRS^i_{s,0}(c^i) w_s
+\]
+where
+\[
+\MRS^i_{s,0}(c^i) \equiv \beta^i \nu^i_s \frac{\partial u^i(c^i_s)}{\partial u^i(c^i_0)}
+\]
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Competitive equilibrium: necessary conditions}
+
+\begin{proposition}
+Assume there exists a competitive equilibrium
+\[
+\{(k,\beta),(q,E),(c^i,\theta^i,\alpha^i)_{i\in I}\} \quad \textrm{with} \quad \beta >0
+\]
+Then
+\[
+q = \max_{i\in I} \sum_{s\in S} \MRS^i_{s,0}(c^i) = \max_{i\in I} \E^i \left[ \1_S \right]
+\]
+and
+\[
+E = \max_{i\in I} \sum_{s\in S} \MRS^i_{s,0}(c^i) \{f_s(k)-\beta\} = \max_{i\in I} \E^i  \left[  f_1(k)- \beta \1_S \right]
+\]
+\end{proposition}
+
+\end{frame}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Investors' price perception: definition}
+
+Fix a competitive stock market equilibrium
+\[
+\{(k,\beta),(q,E),(c^i,\theta^i,\alpha^i)_{i\in I}\}
+\]
+
+If the firm production and financing choice were different, say $(k',\beta')$ then its cash flow would be $(f_s(k') - \beta')_{s\in S}$ and consequently, the stock price should be different
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Investors' price perception: Makowski criteriom}
+
+We assume that each investor
+    \begin{itemize}
+    \item is aware that the stock price is a function of $(k',\beta')$
+    \item believes (conjectures) that the value of the equity price map $$(k',\beta') \mapsto \widetilde{E}(k',\beta')$$ is the highest marginal valuation across all investors of the firm's cash flow
+associated to $(k',\beta')$, i.e.,
+        \[
+        \widetilde{E}(k',\beta') = \max_{i \in I} \E^i \left[ f_1(k')-\beta' \1_S \right]
+        \]
+    \end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Makowski}
+
+\begin{thebibliography}{8}
+
+
+  \beamertemplatearticlebibitems
+
+    \bibitem{Makowski80}
+    Makowski, L.
+    \newblock A characterization of perfectly competitive economies with production
+    \newblock {\em Journal of Economic Theory} 22, 1980
+
+    \bibitem{Makowski83a}
+    Makowski, L.
+    \newblock Competition and unanimity revisited
+    \newblock {\em American Economic Review} 73, 1983
+
+    \bibitem{Makowski83b}
+    Makowski, L.
+    \newblock Competitive stock markets
+    \newblock {\em Review of Economic Studies} 50, 1983
+
+
+    \end{thebibliography}
+
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Investors' price perception: remarks}
+
+\begin{itemize}
+\item At equilibrium investors' price perception is consistent with the equilibrium stock price, i.e.,
+\[
+E = \widetilde{E}(k,\beta)
+\]
+\item The equity price map $\widetilde{E}$ takes into account the fact that the firm's choice $(k,\beta)$ modifies its cash flow, but it is assumed that investors' marginal rates of substitution $\MRS^i(c^i)$ used to determine the market valuation are independent of such choice of $(k,\beta)$
+\end{itemize}
+
+\begin{block}{Justification}
+Continuum of identical firms: one firm's decision has a negligible impact on market prices since agents cannot short-sell stocks
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Investors' price perception: remarks}
+
+\begin{itemize}
+\item Agent~$i_0$ valuates a firm's cash flow thinking of the benefits he may obtain selling the firm in the market
+\item Therefore, agent~$i_0$ uses the MRS of those investors willing to pay the most
+\end{itemize}
+
+\begin{block}{Problem}
+Every agent should know (or be able to compute) the MRS of each investor
+\end{block}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Strong unanimity: result}
+
+For a firm's decision $(k',\beta')$, we denote by $B^i(q,E',k',\beta')$ the budget set associated to the security price $q$ and the equity price $E' = \widetilde{E}(k',\beta')$
+
+\begin{theorem}[Strong unanimity]
+Fix a competitive stock market equilibrium
+\[
+\{(k,\beta),(q,E),(c^i,\theta^i,\alpha^i)_{i\in I}\}
+\]
+where the firm has chosen $(k,\beta)$ to maximize its value defined by
+\[
+\forall (k',\beta') \in \A,\quad V(k',\beta') \equiv \widetilde{E}(k',\beta') + q \beta' - k'
+\]
+For each investor~$i$, we have
+\[
+U^i(c) = \max \{ U^i(c') \ \colon \ (c',\theta',\alpha') \in B^i(q,E',k',\beta') \et (k',\beta') \in \A \}
+\]
+\end{theorem}
+
+In particular,
+\[
+(k,\beta) \in \argmax \{ U^i(c') \ \colon \ (c',\theta',\alpha') \in B^i(q,E',k',\beta') \et (k',\beta') \in \A \}
+\]
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Strong unanimity: comments}
+
+\begin{itemize}
+\item \alert{Unanimity}: Every agent agrees that the manager should maximize the function $(k,\beta) \mapsto \widetilde{E}(k,\beta) + q\beta -k$
+\item \alert{Strong}: When agent~$i$ considers possible deviations $(k',\beta')$ of the manager, he also considers possible deviations of his own choices $(c',\theta',\alpha')$
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Constrained Pareto efficiency: admissible allocations}
+
+\begin{definition}
+An allocation $(c^i)_{i\in I}$ of consumption plans is said \alert{admissible} if
+\begin{itemize}
+\item it is feasible: there exists an investment level $k\geq 0$ such that
+\[
+k + \sum_{i\in I} c^i_0 \leq \omega_0 \et \sum_{i\in I} c^i_1 \leq f(k) +  \sum_{i\in I} \omega^i_1
+\]
+\item it is attainable with the existing asset structure: there exists $\beta\geq 0$ such that for each investor~$i$, there exists a financial action $(\theta^i,\alpha^i)$ satisfying
+    \[
+    c^i_s = \omega^i_s + [f_s(k) - \beta] \alpha^i + \theta^i
+    \]
+\end{itemize}
+\end{definition}
+
+%\begin{block}{Correct definition?}
+%Should we also impose that asset markets clear?
+%\[
+%\sum_{i\in I} \alpha^i = 1 \et \sum_{i\in I} \theta^i = \beta
+%\]
+%\end{block}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Constrained Pareto efficiency}
+
+\begin{remark}
+Observe that every competitive equilibrium allocation is admissible
+\end{remark}
+
+\begin{definition}
+An admissible allocation $(c^i)_{i\in I}$ is constrained Pareto efficient if we cannot find another admissible allocation $(\widetilde{c}^i)_{i\in I}$ which is a Pareto improvement, i.e.,
+\[
+\forall i\in I, \quad U^i(\widetilde{c}^i) \geq U^i(c^i)
+\]
+with at least one strict inequality
+\end{definition}
+
+\begin{theorem}
+Every competitive equilibrium allocation is constrained Pareto efficient
+\end{theorem}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Modigliani--Miller}
+
+Consider a competitive equilibrium $\{(k,\beta),(q,E),(c^i,\alpha^i,\theta^i)_{i\in I}\}$ with $\beta >0$
+\begin{itemize}
+\item Denote by $I^e$ the set of all agents~$i$ such that
+\[
+E = \PV^i[f_1(k) - \beta \1_S]
+\]
+An agent~$i\in I^e$ is called an ``\emph{equity holder}'' since either he is holding equity or he is indifferent between holding equity or not (on the verge of holding equity)
+\item Denote by $I^b$ the set of all agents~$i$ such that
+\[
+q = \PV^i[\1_S]
+\]
+An agent~$i\in I^b$ is called a ``\emph{bond holder}'' since either he is holding bonds or he is indifferent between holding bonds or not (on the verge of holding bonds)
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Modigliani--Miller}
+
+\begin{proposition}
+Assume that the firm has chosen $(k,\beta)$ to maximize its value defined by
+\[
+\forall (k',\beta') \in \A,\quad V(k',\beta') \equiv \widetilde{E}(k',\beta') + q \beta' - k'
+\]
+If at equilibrium the no default conditions do not bind, i.e.,
+\[
+\forall s\in S, \quad f_s(k) > \beta \alert{>0}
+\]
+then every ``\emph{equity holder}'' is also a ``\emph{bond holder}'' in the sense that for every~$i$
+\[
+E = \PV^i[f_1(k) - \beta \1_S] \Longrightarrow q = \PV^i[\1_S]
+\]
+\end{proposition}
+
+\end{frame}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Modigliani--Miller}
+
+\begin{proposition}
+Assume that the firm has chosen $(k,\beta)$ to maximize its value defined by
+\[
+\forall (k',\beta') \in \A,\quad V(k',\beta') \equiv \widetilde{E}(k',\beta') + q \beta' - k'
+\]
+If at equilibrium the no default conditions do not bind \alert{and every agent is either equity or bond holding} then the Modigliani--Miller irrelevance result holds in the sense that $\beta^\prime \mapsto V(k,\beta^\prime)$ is independent of $\beta^\prime$ consistent with no default
+\end{proposition}
+
+\begin{itemize}
+\item What happens if there is an agent who is neither an equity holder nor a bondholder?
+\item What happens if at equilibrium we have $\inf_{s\in S} f_s(k) = \beta$?
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales}
+
+\begin{itemize}
+\item Consider now the case where consumers can sell short the firm's equity
+\item A short sale is a loan contract with a promise to repay an amount equal to the future value of equity (here it coincides with dividend)
+\item We introduce financial intermediaries who can issue claims corresponding to both short and long positions on the firm's equity
+\item Intermediaries bear no cost to issue claims, but face the possibility of default on the short positions they issue
+\item To simplify the analysis, we consider a reduced form version of the model:
+    \begin{itemize}
+    \item the default rate on short positions is exogenously given and equal to $\delta>0$ in every state, for all consumers
+    \item the analysis should be extended to the general case where default rates are endogenously chosen by consumers
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales}
+
+\begin{itemize}
+\item Intermediating $m$ units of the derivative the intermediary is repaid only a fraction $(1-\delta)$ of the amount due on each short position issued
+\item To insure his own solvency, the intermediary is required to hold an appropriate amount of equity, as a form of collateral, to cover the shortfalls in the revenue
+\item The amount $\gamma(m)$ of equity of the firm that the intermediary must hold should satisfy
+\[
+m \leq m(1-\delta) + \gamma(m)
+\]
+\item This collateral cost can be covered by different (competitive) prices for long and short positions
+    \begin{itemize}
+    \item $q^+$ is the price at which long positions (on the derivative) are traded
+    \item $q^-$ is the price at which short positions (on the derivative) are traded
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales: the intermediary problem}
+
+The intermediary chooses
+\begin{itemize}
+\item the amount $m \geq 0$ of long and short positions
+\item the amount $\gamma$ of equity held as a hedge
+\end{itemize}
+so as to maximize his total revenue at $t=0$
+\[
+\max \{ (q^+ - q^-)m - q\gamma \ \colon\ m\geq 0 \et m \leq m(1-\delta) + \gamma \}
+\]
+The intermediary chooses
+\[
+\gamma(m) = m\delta
+\]
+and $m>0$ arbitrary only if $q=(q^+ - q^-)/2$
+
+\begin{remark}
+The intermediary technology displays constant returns to scale leading to zero profits
+\end{remark}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales: consumer's budget restriction}
+
+Let
+\begin{itemize}
+\item $\phi^i_{+} \geq 0$ denote consumer~$i$'s holdings of long positions in the derivative
+\item $\phi^i_{-} \geq 0$ denote consumer~$i$'s holdings of long positions in the derivative
+\end{itemize}
+The consumer budget constraints are then
+\[
+c^i_0 + q \theta^i + q^{+} \phi^i_{+} + E \alpha^i  \leq \omega^i_0 + [E+q\beta - k] \xi^i + q_{-} \phi^i_{-}
+\]
+and for each~$s$ at $t=1$
+\[
+c^i_s + [f_s(k) - \beta] \phi^i_{-}(1-\delta) \leq \omega^i_s + [f_s(k) - \beta](\alpha^i + \phi^i_{+}) + \theta^i
+\]
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales: market clearing}
+
+\begin{itemize}
+\item The equity market clearing is now
+\[
+\gamma + \sum_{i\in I} \theta^i = 1
+\]
+\item The derivative market clearing is
+\[
+\sum_{i\in I} \phi^i_{+} = \sum_{i\in I} \phi^i_{-} = m
+\]
+where $\gamma = \delta m$
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales: price conjectures}
+
+\begin{itemize}
+\item Intermediaries, in addition to consumers, may demand equity in the market
+\item The price conjecture $\tilde{E}(k,\beta)$ should properly be adjusted
+\end{itemize}
+
+We pose
+\[
+\tilde{E}(k,\beta) = \max \left\{\tilde{E}^c(k,\beta),\underbrace{\frac{1}{\beta}[\tilde{q}^+(k,\beta) - \tilde{q}^{-}(k,\beta)]}_{\textrm{value of intermediation}} \right\}
+\]
+where
+\[
+\tilde{E}^c(k,\beta) = \max_{i\in I} \PV^i[f_1(k) - \beta \1_S] = \max_{i\in I} \sum_{s\in S} \MRS^i_s (f_s(k) - \beta)
+\]
+and
+\begin{eqnarray*}
+\tilde{q}^{+}(k,\beta) & = & \max_{i\in I} \PV^i[f_1(k) - \beta \1_S] \\
+\tilde{q}^{-}(k,\beta)  & = &  (1-\delta) \min_{i\in I} \PV^i[f_1(k) - \beta \1_S]
+\end{eqnarray*}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales: equilibrium}
+
+Two situations may occur at equilibrium with intermediation ($m>0$)
+\[
+q > q^+ \ou q= q^+
+\]
+
+\begin{block}{$q > q^+$}
+\begin{itemize}
+\item Equity sells at a premium over the long positions on the derivative
+\item This is because of its additional value as input in the intermediation technology
+\item All amount of equity is purchased by the intermediary
+\item This is in turn implies that $q=(q^+ - q^{-})/\delta$
+\item The additional cost of equity is compensated by the presence of a sufficiently high spread $q^+ - q^{-}$
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales: equilibrium}
+
+Two situations may occur at equilibrium with intermediation ($m>0$)
+\[
+q > q^+ \ou q= q^+
+\]
+
+\begin{block}{$q = q^+$}
+\begin{itemize}
+\item Equity and the long positions on the derivative are traded at the same price
+\item Consumers are indifferent between buying long positions in equity and the derivative
+\item Some of outstanding amount of equity is held by consumers
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Intermediated short sales: unanimity and efficiency}
+
+\begin{proposition}
+At a competitive equilibrium of an economy with intermediated short-sales, equity holders unanimously support the production and financial decisions of the firms.
+Moreover, the equilibrium allocation is constrained Pareto optimal
+\end{proposition}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Bisin, Gottardi and Rutta}
+
+\begin{itemize}
+\item Risky debt
+\item Asymmetric information
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Literature}
+
+{\small
+
+\begin{thebibliography}{8}
+
+  \beamertemplatearticlebibitems
+
+    \bibitem{AcharyaBisin09}
+    Acharya, V.V. and A. Bisin
+    \newblock Managerial hedging, equity ownership, and firm value
+    \newblock {\em RAND Journal of Economics} 40, 2009
+
+    \bibitem{AllenGale91}
+    Allen, F. and D. Gale
+    \newblock Arbitrage, short sales, and financial innovation
+    \newblock {\em Econometrica} 59, 1991
+
+    \bibitem{BisinGottardiRampini08}
+    Bisin, A., P. Gottardi, and A. Rampini
+    \newblock Managerial hedging and portfolio monitoring
+    \newblock {\em Journal of the European Economic Association} 6, 2008
+
+    \bibitem{BisinGuaitoli04}
+    Bisin, A. and D. Guaitoli
+    \newblock Moral Hazard and Non-exclusive Contracts
+    \newblock {\em RAND Journal of Economics} 35, 2004
+
+    \bibitem{Carceles-PovedaCoenPirani09}
+    Carceles-Poveda, E. and D. Coen-Pirani
+    \newblock Shareholders' unanimity with incomplete markets
+    \newblock {\em International Economic Review} 50, 2009
+
+    \end{thebibliography}
+
+}
+\end{frame}
+
+\end{document}
