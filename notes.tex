@@ -1049,14 +1049,14 @@ By Proposition~\ref{prop:personalized}, his marginal rates of substitution $(\MR
   E(j) = \sum_{s \in S} \MRS^i_s \delta_s(j) \quad \text{for } j \in \{ j_1, j_2 \}.
 \end{equation*}
 Using $\delta_s(j) = y_s(j) - \kappa_s \cdot \beta(j)$ and $D(j) = q \cdot \beta(j) = \sum_s \MRS^i_s (\kappa_s \cdot \beta(j))$,
-\begin{equation*}
+\begin{eqnarray*}
   V(j)
-  = E(j) + D(j) + y_0(j)
-  = \sum_{s \in S} \MRS^i_s \bigl[y_s(j) - \kappa_s \cdot \beta(j)\bigr]
+   & = & E(j) + D(j) + y_0(j) \\
+   & = & \sum_{s \in S} \MRS^i_s \bigl[y_s(j) - \kappa_s \cdot \beta(j)\bigr] 
   + \sum_{s \in S} \MRS^i_s \kappa_s \cdot \beta(j)
-  + y_0(j)
-  = y_0(j) + \sum_{s \in S} \MRS^i_s y_s(j).
-\end{equation*}
+  + y_0(j) \\
+   & = & y_0(j) + \sum_{s \in S} \MRS^i_s y_s(j).
+\end{eqnarray*}
 Since $y(j_1) = y(j_2)$, both firms share the same value.
 \end{proof}
 
@@ -1162,12 +1162,12 @@ Commodity market clearing is also preserved because consumption plans and aggreg
 
 \emph{Step 3: Equal firm values.}
 From \eqref{eq:stiglitz-prices},
-\begin{equation*}
-  \widehat{V}(j) = \widehat{E}(j) + q \cdot \widehat{\beta}(j) + y_0(j)
-  = E(j) + q \cdot \bigl[ \beta(j) - \widehat{\beta}(j) \bigr] + q \cdot \widehat{\beta}(j) + y_0(j)
-  = E(j) + q \cdot \beta(j) + y_0(j)
-  = V(j),
-\end{equation*}
+\begin{eqnarray*}
+  \widehat{V}(j) & = & \widehat{E}(j) + q \cdot \widehat{\beta}(j) + y_0(j) \\
+  & = & E(j) + q \cdot \bigl[ \beta(j) - \widehat{\beta}(j) \bigr] + q \cdot \widehat{\beta}(j) + y_0(j) \\
+  & = & E(j) + q \cdot \beta(j) + y_0(j) \\
+  & = & V(j),
+\end{eqnarray*}
 completing the proof.
 \end{proof}
 

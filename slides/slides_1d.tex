@@ -1,23 +1,14 @@
 \documentclass[blue]{beamer}
-
 \mode<presentation> {
   \setbeamertemplate{background canvas}[vertical shading][bottom=red!10,top=blue!10]
-
   \usetheme{Boadilla}
   \usefonttheme[onlysmall]{serif}
 }
-
-
 \usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
 \usepackage{amsmath,amssymb,bm}
 \usepackage{colortbl}
 \usepackage[english]{babel}
-\usepackage[latin1]{inputenc}
-
-
 \setbeamercovered{dynamic}
-
-
 \def\R{\mathbb{R}}
 \def\Q{\mathbb{Q}}
 \def\N{\mathbb{N}}
@@ -30,8 +21,6 @@
 \def\et{\quad \textrm{and} \quad}
 \def\ou{\quad \textrm{or} \quad}
 \def\boite{\hskip 0.5mm {\Box} \hskip 0.5mm}
-
-
 \DeclareMathOperator\PPE{PPE}
 \DeclareMathOperator\vNM{vNM}
 \DeclareMathOperator\argmax{argmax}
@@ -48,1155 +37,1126 @@
 \DeclareMathOperator\MRS{MRS}
 \DeclareMathOperator\Range{Im}
 \DeclareMathOperator\DIV{DIV}
-
-%------------------------------ theoren styles
-
+%------------------------------ theorem styles
 \theoremstyle{definition}
 \newtheorem*{assumption}{Assumption}
 \newtheorem*{conjecture}{Conjecture}
-
-
 \theoremstyle{example}
 \newtheorem*{proposition}{Proposition}
+\newtheorem*{theoremns}{Theorem}
 \newtheorem*{remark}{Remark}
-
-
+\newtheorem*{definitionns}{Definition}
+\newtheorem*{lemmans}{Lemma}
 %-----------------------------------------
-
 \title[Corporate Finance]{Theory of Corporate Finance}
 \author[Victor Filipe]{V. Filipe Martins-da-Rocha}
 \institute[FGV EESP]{Escola de Economia de S\~ao Paulo}
 \date[April--June, 2026]{Part 1.d. Stock Market Equilibrium: Moral hazard}
 \subject{Economic Theory}
-
-
 \begin{document}
-
 \frame{\titlepage}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{Main reference}
-
-\begin{thebibliography}{8}
-\beamertemplatearticlebibitems
-    \bibitem{MagillQuinzii}
-    Magill. M. and Quinzii, M.
-    \newblock Capital market equilibrium with moral hazard
-    \newblock {\em Journal of Mathematical Economics} 38, 2002
-\end{thebibliography}
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Other references}
-
-\begin{thebibliography}{8}
-\beamertemplatearticlebibitems
-    \bibitem{KihlstromMatthews}
-    Kihlstrom, R.E. and Matthews, S.A.
-    \newblock Managerial incentives in an entrepreneurial stock market model
-    \newblock {\em Journal of Financial Intermediation} 1, 1990
-
-    \bibitem{Kocherlakota}
-    Kocherlakota, N.R.
-    \newblock The effects of moral hazard on asset prices when financial markets are complete
-    \newblock {\em Journal of Monetary Economics} 41, 1998
-
-\end{thebibliography}
-
-\end{frame}
-
-
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Comments and extensions on Magill and Quinzii~(2002)}
-
-\begin{thebibliography}{8}
-  \beamertemplatearticlebibitems
-    \bibitem{CalcagnoWagner06}
-    Calcagno, R. and W. Wagner
-    \newblock Dispersed initial ownership and the efficiency of the stock market under moral hazard
-    \newblock {\em Journal of Mathematical Economics} 42, 2006
-
-    \bibitem{QuigginChambers06}
-    Quiggin, J. and R. Chambers
-    \newblock Capital market equilibrium with moral hazard and flexible technology
-    \newblock {\em Journal of Mathematical Economics} 42, 2006
-\end{thebibliography}
-
-\end{frame}
-
-%------------------------------------------------------------------------------------------------
-
-\begin{frame}\frametitle{Question at stake}
-
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Outline}
 \begin{itemize}
-\item Stock markets allocate (constrained) efficiently resources when there are no frictions
+\item The framework: entrepreneurs, investors, securities
+\item Optimal effort and inference
+\item Stock-market equilibrium with price perceptions
+\item Rational competitive price perceptions (RCPP)
+\item Partial spanning: definition and examples
+\item Constrained Pareto efficiency
+\item Strong partial spanning and the welfare theorem
+\item Limitations
+\end{itemize}
+\end{frame}
+
+%====================================================================
+\section{The Question}
+%====================================================================
+
+\begin{frame}\frametitle{The question at stake}
+\begin{itemize}
+\item Stock markets allocate resources (constrained) efficiently when there are no frictions
 \item Is this still true in the presence of moral hazard?
-\item Consider an entrepreneur which effort affects the firm's output
-\item Assume effort is not contractible (e.g., non-observable)
-\item First-best may not be achieved (Jensen and Meckling, 1976):
-    \begin{itemize}
-    \item Optimal risk-sharing may require the entrepreneur to sell part of his firm
-    \item This may reduce his incentives to exert effort
-    \end{itemize}
-\item A more appropriate question is about second-best: consider an efficiency criterium where the social planner cannot observe individual efforts
+\bigskip
+\item Consider an entrepreneur whose effort affects the firm's output
+\item Effort is not contractible (e.g., not observable)
 \end{itemize}
+\bigskip
 
+\textbf{The Jensen--Meckling tension (1976):}
+\begin{itemize}
+\item Optimal risk-sharing may require the entrepreneur to sell part of his firm
+\item This may reduce his incentives to exert effort
+\end{itemize}
+\bigskip
+
+First-best is generally not achievable; the right question is about \emph{constrained} efficiency
 \end{frame}
 
-%------------------------------------------------
+%====================================================================
+\section{The Framework}
+%====================================================================
 
-\begin{frame}\frametitle{The model}
+\begin{frame}\frametitle{Time, agents, and goods}
+\begin{itemize}
+\item Two-period economy with production, single commodity per period
+\item Uncertainty at $t=1$: a finite set $S$ of states of nature
+\end{itemize}
+\bigskip
+
+The set of agents is partitioned:
+\begin{equation*}
+I = I_1 \cup I_2
+\end{equation*}
+\bigskip
 
 \begin{itemize}
-\item Two-period economy with production
-\item One good per period
-\item A finite set $I= I_1 \cup I_2$ of agent with two types
-    \begin{itemize}
-    \item A finite set $I_1$ of entrepreneurs
-    \item A finite set $I_2$ of investors
-    \end{itemize}
-\item Every agent~$i\in I$ has an initial wealth $\omega^i_0$ at $t=0$ but nothing at $t=1$
+\item $I_1$: finite set of \emph{entrepreneurs}
+\item $I_2$: finite set of \emph{investors}
 \end{itemize}
+\bigskip
 
+Each agent has initial wealth $\omega^i_0 \geq 0$ at $t=0$ and zero endowment at $t=1$
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{Entrepreneurs}
-
-Fix an entrepreneur $i\in I_1$
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The production technology}
+For each entrepreneur $i \in I_1$:
 \begin{itemize}
-\item He has the opportunity to create productive venture
-\item An amount $k\geq 0$ of capital can be invested at $t=0$
-\item The associated output at $t=1$ is $f^i_s(k,e)$ depending on
-    \begin{itemize}
-    \item the effort $e \in E^i$ made by the entrepreneur, where $E^i$ is an abstract space
-    \item the realized exogenous shock (state of nature) $s$ in a finite set $S$
-    \end{itemize}
-\item We denote by $f^i(k,e)$ the family $(f^i_s(k,e))_{s\in S}$
-\item Investors cannot undertake productive ventures
-    \begin{itemize}
-    \item By convention, for each $i\in I_2$ we pose $E^i=\{0\}$ and $f^i=0$
-    \end{itemize}
+\item invest capital $k^i \geq 0$ at $t=0$
+\item exert effort $e^i$ in an abstract set $E^i$
+\item produce in state $s$:
+\begin{equation*}
+f^i_s(k^i, e^i) \geq 0
+\end{equation*}
 \end{itemize}
+\bigskip
 
+We write $f^i(k^i, e^i) = (f^i_s(k^i, e^i))_{s \in S}$
+\bigskip
+
+For investors $i \in I_2$: $E^i = \{0\}$ and $f^i \equiv 0$
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The financing question}
+Entrepreneurs need funds to finance investment
+\bigskip
 
-\begin{frame}\frametitle{Question at issue}
+Since production is uncertain, risk-sharing between entrepreneurs and investors is desirable
+\bigskip
 
-\begin{itemize}
-\item Entrepreneurs need funds to finance their productive ventures
-\item Since the productive activity is uncertain, some of risk sharing between entrepreneurs and investors is desired
-\item Investors must invest on stocks of firms to transfer wealth
-\item Therefore, entrepreneurs must be provided with appropriate incentives to invest effort in their firms
-    \begin{itemize}
-    \item Investors buy shares of an entrepreneur's firm
-    \item If the entrepreneur has no stock of his own firm, his wealth will not depend on his effort and he will not decide to invest on efforts
-    \item The new shareholders of this firm will receive a low dividend
-    \end{itemize}
-\end{itemize}
+Investors transfer wealth by buying stocks of firms
+\bigskip
+
+\textbf{Tension:} If the entrepreneur sells too much equity, his wealth no longer depends on his effort, and he won't exert effort
+\bigskip
+
+\textbf{The new shareholders} of this firm will then receive a low dividend
+\bigskip
 
 \begin{block}{Question}
-Under what conditions can markets be expected to satisfactory solve the society's problem of financing, risk-sharing and incentives?
+Under what conditions can markets satisfactorily solve the joint problem of financing, risk-sharing, and incentives?
 \end{block}
-
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Available financial markets}
+\textbf{What financial markets exist in a modern economy?}
+\bigskip
 
-\begin{frame}\frametitle{Which financial markets?}
+\begin{assumption}[Effort is not contractible]
+There is no explicit market on which entrepreneurial effort is bought or sold
+\end{assumption}
+\bigskip
 
+\textbf{Why?}
+\begin{itemize}
+\item Effort is a complex input, not readily observable or measurable
+\item Contracts contingent on effort are difficult to enforce
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Available financial markets (cont.)}
+\begin{assumption}[No state-contingent contracts]
+There are no markets for contracts contingent on the realization of the primitive states of nature
+\end{assumption}
+\bigskip
+
+\textbf{Why?}
+\begin{itemize}
+\item Some standard insurable risks exist (fire in a warehouse), but we focus on \emph{business risks} (technological shocks)
+\item It is hard to describe ex-ante and verify ex-post the precise nature of these primitive shocks
+\item Transaction costs of itemizing contingencies make trading state-contingent contracts unfeasible
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The financial contracts}
+The contracts available for financing firms and sharing risks:
+\bigskip
 
 \begin{itemize}
-\item What are the financial markets of the type observed in a modern economy?
+\item \textbf{Bonds:} non-contingent contracts
+\item \textbf{Output-based contracts:} contingent on the (observable) realized outputs of firms
 \end{itemize}
-
-\begin{assumption}
-There is no explicit market on which entrepreneurial effort $e$ is bought or sold
-\end{assumption}
-
-\begin{block}{Why?}
-    \begin{itemize}
-    \item Effort is a complex input which is not readily observable, measurable or monitored
-    \item It is difficult to enforce contracts contingent on effort
-    \end{itemize}
-\end{block}
-
-
-\end{frame}
-
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Which financial markets?}
-
-\begin{small}
-\begin{assumption}
-There are no markets for contracts contingent on the realization of the primitive states of nature that are the exogenous shocks to firms' outputs
-\end{assumption}
-
-\begin{block}{Why?}
-    \begin{itemize}
-    \item This is a strong assumption since there are some standard insurable risks (fire in a warehouse)
-    \item We focus on ``business risks'' like technological shocks
-    \item It is difficult to describe precisely ex-ante and verify accurately ex-post the precise nature of these primitive shocks which affect firms' outputs
-    \item Entrepreneurs and investors understand the nature of the shocks to which firms are subjected but the transaction costs of itemizing the contingencies ex-ante and verifying them ex-post are
-taken to be very large such that trading contingent contracts is unfeasible
-    \end{itemize}
-\end{block}
-\end{small}
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Which financial markets?}
-
-The financial contracts that are available for financing firms and sharing productive risks are
-\begin{itemize}
-\item Bonds: non-contingent contracts
-\item Contracts based directly on the (observable) realized outputs of firms:
-\end{itemize}
+\bigskip
 
 \begin{block}{Examples}
 \begin{itemize}
 \item equity of firms (stocks)
-\item derivative securities like options on equity
+\item derivative securities (e.g., options on equity)
 \end{itemize}
 \end{block}
-
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{The physical and financial assets}
-
-\begin{itemize}
-\item There is a finite set $J$ of contracts
-\item Asset~$j$ is characterized by an output-dependent function
-\[
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Securities: setup}
+There is a finite set $J$ of securities. Each $j \in J$ has a payoff function
+\begin{equation*}
 V_j : \R^I \to \R
-\]
-\item Denote by $y=(y^i)_{i\in I}$ the random outputs of the firms\footnote{By convention we have $y^i_s=0$ for each~$s$ and each investor~$i\in I_2$.} where $y^i=(y^i_s)_{s\in S}$
+\end{equation*}
+\bigskip
+
+Let $y = (y^i)_{i \in I}$ denote the random outputs of firms (with $y^i = 0$ for $i \in I_2$)
+\bigskip
+
+\begin{itemize}
+\item $y_s = (y^i_s)_{i \in I}$: cross-section of outputs in state $s$
+\item $V_j(y_s)$: payoff of security $j$ in state $s$
+\item $V_j(y) = (V_j(y_s))_{s \in S}$: state-contingent payoff vector
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Marketed subspace}
+The linear mapping $V(y) : \R^J \to \R^S$ is defined by
+\begin{equation*}
+V(y) z := \sum_{j \in J} z_j V_j(y), \quad z \in \R^J
+\end{equation*}
+\bigskip
+
+The \emph{marketed subspace} at output $y$ is
+\begin{equation*}
+\mathcal{V}(y) := \Range V(y) \subset \R^S
+\end{equation*}
+\bigskip
+
+This is the set of state-contingent claims at $t=1$ that can be replicated by a portfolio of traded securities
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Four classes of securities}
+\textbf{Bond.} One asset $j_0$ with $V_{j_0}(y) = \1_S$ for every $y$
+\bigskip
+
+\textbf{Equity.} For each firm $i \in I_1$, a security with $V_i(y) = y^i$
+\bigskip
+
+\textbf{Simple options.} A call on firm $i$'s equity with strike $\tau$:
+\begin{equation*}
+V_j(y_s) = \max\{ y^i_s - \tau, 0 \}
+\end{equation*}
+\bigskip
+
+\textbf{Indices and complex options.} An index is a weighted sum:
+\begin{equation*}
+V_j(y_s) = \sum_{i \in I} \gamma^i y^i_s, \quad \sum_i \gamma^i = 1
+\end{equation*}
+A complex option is a call/put on an index
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Inside vs.\ outside securities}
+For each entrepreneur $i \in I_1$, partition the securities:
+\begin{equation*}
+J = J^i \cup J^i_{-i} \cup J_{-i}
+\end{equation*}
+\bigskip
+
+\begin{itemize}
+\item $J^i$: securities depending \emph{exclusively} on firm $i$'s output
     \begin{itemize}
-    \item $y_s=(y^i_s)_{i\in I}$ denotes the collection of realized outputs in state~$s$
+    \item equity $i$, simple options on $i$
     \end{itemize}
-\item The payoff of security~$j$ in state $s$ is $V_j(y_s)$
-\item The vector $(V_j(y_s))_{s\in S}$ is denoted by $V_j(y)$
-\item We denote by $V(y)$ the linear mapping (matrix)
-\[
-V(y) : \R^J \to \R^S
-\]
-defined by
-\[
-\forall z=(z_j)_{j\in J}, \quad V(y) z \equiv \sum_{j\in J} z_j V_j(y)
-\]
+\item $J^i_{-i}$: securities depending on $i$'s output \emph{and} on at least one other firm
+    \begin{itemize}
+    \item indices, complex options
+    \end{itemize}
+\item $J_{-i}$: securities not depending on firm $i$'s output
+    \begin{itemize}
+    \item bond, equity of other firms, options on other firms
+    \end{itemize}
 \end{itemize}
-
 \end{frame}
 
-%------------------------------------------------
+%====================================================================
+\section{Budgets and Effort}
+%====================================================================
 
-\begin{frame}\frametitle{Description}
+\begin{frame}\frametitle{Entrepreneur's budget}
+Given $q$, $y^{-i}$, and choices $(k^i, z^i, e^i)$:
+\bigskip
 
-\begin{small}
-\begin{itemize}
-\item \alert{Bond}: There is one asset~$j_0$ satisfying $V_{j_0}(y) = \1_S$ for any $y$
-\item \alert{Equity}: We assume that $J=I \cup J^d$ where security~$i$ is the equity contract of the firm~$i$
-\[
-V_i(y) = y^i \quad  (0 \textrm{ if } i\in I_2)
-\]
-\item \alert{Simple options}: security~$j$ may be a call option on the equity of firm~$i$ with a strike~$\tau$, in that case
-\[
-V_j(y) \equiv (\max\{y^i_s-\tau,0\})_{s\in S}
-\]
-\item \alert{Indices and complex options}: if the security~$j$ is a weighted sum of the payoffs of some firms' equities
-\[
-V_j(y) \equiv \sum_{i\in I} \gamma^i y^i \quad \textrm{with} \quad \sum_{i\in I} \gamma^i =1
-\]
-then it is called a (market or sectoral) index
-
-Call and put options on an index are called complex options
-\end{itemize}
-\end{small}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Investors}
-
-Each investor~$i\in I_2$ chooses a portfolio
-\[
-z^i =(z^i_j)_{j\in J} \in \R^J
-\]
-\begin{itemize}
-\item to distribute consumption between periods
-\item to choose the risk to which his date~$t=1$ consumption is exposed
-\end{itemize}
-
-\begin{block}{Short-selling}
-We assume that default penalties are so harsh that personal debts of investors is default-free
+\begin{block}{At $t = 0$}
+\begin{equation*}
+0 \leq x^i_0 := \omega^i_0 + q_i - q \cdot z^i - k^i
+\end{equation*}
 \end{block}
 
+\begin{block}{At $t = 1$ in state $s$}
+\begin{equation*}
+0 \leq x^i_s := V_s(f^i(k^i, e^i), y^{-i}) \cdot z^i
+\end{equation*}
+\end{block}
+\bigskip
+
+The entrepreneur receives $q_i$ from selling his equity, uses the proceeds to finance investment $k^i$, and consumes the residual
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Investor's budget}
+With $k^i = 0$, $e^i = 0$, $q_i = 0$, $f^i = 0$:
+\bigskip
 
-\begin{frame}\frametitle{Entrepreneurs}
+\begin{block}{At $t = 0$}
+\begin{equation*}
+0 \leq x^i_0 := \omega^i_0 - q \cdot z^i
+\end{equation*}
+\end{block}
 
-Fix an entrepreneur $i\in I_1$
-\begin{itemize}
-\item He decides the amount of capital $k^i$ to invest in his firm
-\item He chooses a portfolio $z^i \in \R^J$ of securities (no-default)
-    \begin{itemize}
-    \item for financing the capital investment
-    \item diversifying his risks
-    \end{itemize}
-\item The choice of the portfolio $z^i$ will determine incentives to invest effort
-\item The entrepreneur has the full initial property rights to his firm
-    \begin{itemize}
-    \item He has the knowledge and skill to implement the technology $f^i$
-    \end{itemize}
-\end{itemize}
+\begin{block}{At $t = 1$ in state $s$}
+\begin{equation*}
+0 \leq x^i_s := V_s(0, y^{-i}) \cdot z^i
+\end{equation*}
+\end{block}
+\bigskip
 
+\textbf{No short-sale constraints in this chapter:} default penalties are assumed to be so harsh that all personal debts are honoured
 \end{frame}
 
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Entrepreneurs}
-
-Fix an entrepreneur $i\in I_1$
-
-For incentives purposes it is useful to distinguish between securities which depend on the output of entrepreneur~$i$'s firm
-\[
-J = J^i \cup J^i_{-i} \cup J_{-i}
-\]
-
-\begin{itemize}
-\item $J^i$ is the set of securities whose payoffs depend exclusively on the output of firm~$i$ (equity of firm~$i$, options on equity~$i$)
-\item $J^i_{-i}$ is the set of securities whose payoffs depend on the output of firm~$i$ and the output of at least one other firm (indices)
-\item $J_{-i}$ is the set of securities whose payoffs do not depend on firm~$i$'s output (bond, equity of other firms, etc.)
-\end{itemize}
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Budget set: Entrepreneur~$i \in I_1$}
-
-Given
-\begin{itemize}
-\item the equilibrium vector $q=(q_j)_{j\in J}$ of securities prices
-\item the random outputs $y^{-i}=(y^k)_{k\neq i}$ of the other firms
-\item the choice of investment $k^i$ and portfolio $z^i$
-\item the effort $e^i$
-\end{itemize}
-the entrepreneur's intertemporal consumption is given by:
-\[
-0 \leq x^i_0 \equiv \omega^i_0 + q_i - q \cdot z^i - k^i
-\]
-and at $t=1$ for each state~$s$
-\[
-0 \leq x^i_s \equiv V(f^i_s(k^i,e^i),y^{-i}_s) \cdot z^i = \sum_{j \in J} V_j(f^i_s(k^i,e^i),y^{-i}_s) z_j
-\]
-or equivalently
-\[
-\R^S_+ \ni x^i_1 \equiv V(f^i(k^i,e^i),y^{-i}) z^i
-\]
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Budget set: Investor~$i \in I_2$}
-
-Given
-\begin{itemize}
-\item the equilibrium vector $q=(q_j)_{j\in J}$ of securities prices
-\item the random outputs $y^{-i}=(y^k)_{k\neq i}$ of the firms
-\item the choice of investment $k^i\alert{=0}$ and portfolio $z^i$
-\item the effort $e^i\alert{=0}$
-\end{itemize}
-the investor's intertemporal consumption is given by:
-\[
-0 \leq x^i_0 \equiv \omega^i_0 + \alert{0} - q \cdot z^i - \alert{0}
-\]
-and at $t=1$ for each state~$s$
-\[
-0 \leq x^i_s \equiv V(\alert{0},y^{-i}_s) \cdot z^i = \sum_{j \in J} V_j(\alert{0},y^{-i}_s) z_j
-\]
-or equivalently
-\[
-\R^S_+ \ni x^i_1 \equiv V(\alert{0},y^{-i}) z^i
-\]
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Entrepreneur's reward and incentives}
-
-\begin{itemize}
-\item There are securities whose payoffs depend at $t=1$ on firm~$i$'s realized output
-\item Therefore the date $t=1$ reward of an entrepreneur for his effort depends on his choice of financial variables
-\item The capital structure of the firm
-    \begin{itemize}
-    \item inside equity
-    \item options held by the manager
-    \item firm's debt
-    \end{itemize}
-affects the performance of its management through the incentives to invest effort
-\item We assume that choice of effort $e^i$ by an entrepreneur is made \alert{after} the financial decisions have been determined, but \alert{before} the state of nature is realized
-\end{itemize}
-
-\end{frame}
-
-%------------------------------------------------
-
+%--------------------------------------------------------------------
 \begin{frame}\frametitle{Preferences}
+Each agent $i$ has utility $U^i : \R_+ \times \R_+^S \times E^i \to \R$
+\bigskip
 
-Each agent~$i$ has a utility function
-\[
-U^i : \R_+ \times \R^S_+ \times E^i \longrightarrow \R
-\]
-where $U^i(x^i_0,x^i_1,e^i)$ is the utility associated to
-\begin{itemize}
-\item the consumption plan $x^i=(x^i_0,x^i_1)$ with $x^i_1=(x^i_s)_{s\in S}$
-\item the effort level $e^i$
-\end{itemize}
-
-\begin{assumption}
-The utility function is time separable
-\[
-U^i(x^i_0,x^i_1,e^i) = u^i_0(x^i_0) + u^i_1(x^i_1,e^i)
-\]
+\begin{assumption}[Time-separability]
+\begin{equation*}
+U^i(x^i_0, x^i_1, e^i) = u^i_0(x^i_0) + u^i_1(x^i_1, e^i)
+\end{equation*}
 \end{assumption}
+\bigskip
 
+with $u^i_0$ continuous, strictly increasing, strictly concave; $u^i_1$ continuous
+\bigskip
+
+Time-separability ensures that the entrepreneur's incentive to exert effort is driven exclusively by the effect of effort on his $t=1$ consumption
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Timing of decisions}
+\textbf{Crucial timing assumption:}
+\bigskip
 
-\begin{frame}\frametitle{Optimal effort}
-
-\begin{itemize}
-\item After entrepreneur~$i$ has chosen his financial variables $(k^i,z^i)$
-\item He chooses the effort level $e^i$ which maximizes his time $t=1$ utility, given the expected outputs of the other firms
-\end{itemize}
-
-We denote by $\widetilde{e}^i$ the \alert{optimal effort correspondence} defined by
-\[
-\widetilde{e}^i(k^i,z^i,y^{-i}) \equiv \argmax \{ u^i_1(x^i_1,e^i) \colon e^i \in E^i \ \textrm{et} \ x^i_1 = V(f^i(k^i,e^i),y^{-i}) z^i \}
-\]
-
-\begin{assumption}
-The correspondence $\widetilde{e}$ has non-empty values for every $(k^i,z^i,y^{-i})$
-\end{assumption}
+The entrepreneur chooses effort $e^i$ \alert{after} the financial decisions $(k^i, z^i)$ have been made, but \alert{before} the state of nature is realized
+\bigskip
 
 \begin{itemize}
-\item Since the effort level $e^i$ is chosen after the financial decisions $(k^i,z^i)$ have been made, every agent agrees that entrepreneur~$i$ will choose the effort in the set
-$\widetilde{e}^i(k^i,z^i,y^{-i})$
+\item He is committed to $(k^i, z^i)$ when he picks $e^i$
+\item He cannot re-trade securities after observing effort-induced expected payoffs
 \end{itemize}
+\bigskip
 
+The capital structure of the firm thus affects the performance of management through incentives
 \end{frame}
 
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The optimal effort correspondence}
+For given $(k^i, z^i, y^{-i})$, define
+\begin{equation*}
+\widetilde{e}^i(k^i, z^i, y^{-i}) := \argmax \bigl\{ u^i_1(x^i_1, e^i) \colon e^i \in E^i,\ x^i_1 = V(f^i(k^i, e^i), y^{-i}) z^i \bigr\}
+\end{equation*}
+\bigskip
 
-%------------------------------------------------
+\begin{assumption}[Existence of optimal effort]
+The correspondence $\widetilde{e}^i(\cdot)$ has non-empty values for every $(k^i, z^i, y^{-i})$.
+\end{assumption}
+\bigskip
 
-%\begin{frame}\frametitle{Conditions for existence of an optimal effort}
-%
-%\begin{itemize}
-%\item The space $E^i$ is a subset of $\R_+$
-%\item The function $e^i \mapsto u^i(x^i_1,e^i)$ is continuous on $E^i$
-%\item Together with
-%    \begin{itemize}
-%    \item either $E^i$ is compact
-%    \item or the marginal product of effort tends to $0$ uniformly in $k^i$
-%    \[
-%    \lim_{e^i\to \infty} \sup_{k^i} \frac{\partial f^i_s}{\partial e^i}(k^i,e^i) =0
-%    \]
-%    while the marginal cost tends to infinity uniformly in $x^i_1$
-%    \[
-%    \lim_{e^i\to \infty} \sup_{x^i_1} -\frac{\partial u^i_1}{\partial e^i} (x^i_1,e^i) = + \infty
-%    \]
-%     and ...
-%    \end{itemize}
-%\end{itemize}
-%
-%\end{frame}
+Every agent agrees that entrepreneur $i$ will choose some $e^i \in \widetilde{e}^i(k^i, z^i, y^{-i})$
+\end{frame}
 
-%------------------------------------------------
+%====================================================================
+\section{Inference and Price Perceptions}
+%====================================================================
 
 \begin{frame}\frametitle{Anticipating efforts}
+Consider an investor or entrepreneur who is thinking of buying equity or options of firm $i$
+\bigskip
 
-Consider an investor or an entrepreneur who is thinking of buying either the equity or options of firm~$i$
-\begin{itemize}
-\item To anticipate what the firm's profit will be, the agent needs to anticipate the entrepreneur's inputs $(k^i,e^i)$
-\item We assume that the capital input $k^i$ is observable, while the effort $e^i$ is not
-\item However, the effort level $e^i$ can be deduced if the entrepreneur's characteristics $(u^i_1,f^i)$ and his financial variables are known
-\end{itemize}
+\textbf{To anticipate the firm's profit,} the agent needs to anticipate $(k^i, e^i)$
+\bigskip
 
-\begin{assumption}
-Every agent has access to the each entrepreneur's characteristics and financial decisions
+\textbf{The capital input $k^i$ is observable.}
+\bigskip
+
+\textbf{The effort $e^i$ is unobservable,} but it can be \emph{deduced} if the entrepreneur's characteristics $(u^i_1, f^i)$ and his financial variables are known
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Information assumption}
+\begin{assumption}[Common knowledge of characteristics]
+For every entrepreneur $i \in I_1$, the tuple $(u^i_1, f^i, k^i, z^i)$ is common knowledge among all agents.
 \end{assumption}
+\bigskip
 
+\textbf{Plausibility (Magill--Quinzii 2002):}
+\begin{itemize}
+\item SEC disclosure rules require statements on capital projects, equity holdings, options
+\item Securities analysts accumulate detailed knowledge of firms and managers
+\item Brokerage firms disseminate this information
+\end{itemize}
+\bigskip
+
+The informational asymmetry at the level of effort is compensated by full observability of financial decisions
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Entrepreneurs as signallers}
+Investors infer effort from $(k^i, z^i)$ and price securities accordingly
+\bigskip
 
-\begin{frame}\frametitle{Information}
-
+Entrepreneurs understand this and use their financial choices as \emph{signals}:
 \begin{itemize}
-\item The inside financial variables: $k^i$ and $(z^i_j)_{j\in J^i}$
-    \begin{itemize}
-    \item Disclosure rules of the Securities and Exchange Commission require that statements of publicly traded firms contain information regarding capital projects ($k^i$), as well as the equity
-and
-options holdings of the top management
-    \end{itemize}
-\item More detailed information regarding the characteristics of the firm and its manager are less directly accessible
+\item retaining a high equity stake signals high effort
+\item full diversification signals low effort
 \end{itemize}
+\bigskip
 
+\textbf{In equilibrium:} the signal is correct
+\begin{itemize}
+\item investors' inference matches the entrepreneur's actual effort
+\item the entrepreneur, anticipating this, makes the financial choice that best trades off incentives against risk-sharing
+\end{itemize}
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Price perceptions: notation}
+For each agent $i \in I$ and each security $j \in J$:
+\begin{equation*}
+\widetilde{Q}^i_j(k^i, z^i; \overline{y}^{-i}) \in \R
+\end{equation*}
+\bigskip
 
-\begin{frame}\frametitle{Information}
-
+denotes the price agent $i$ expects for security $j$, conditional on:
 \begin{itemize}
-\item Analysts, in the course of scrutinizing the earnings prospects of the firms they follow, acquire a good knowledge of the characteristics of the firms and their top management
-\item Past performance gives information on entrepreneurs' ability ($f^i$) and their motivation and ability to take risks ($u^i_1$)
-\item Analysts who have followed the careers of top executives are likely to have a good estimate of the magnitude of their personal wealth
-\item The information collected by analysts spread to investors through advisory services and the recommendation given by large brokerage companies
+\item entrepreneur $i$'s alternative financial choice $(k^i, z^i)$
+\item the equilibrium outputs $\overline{y}^{-i}$ of all other firms
 \end{itemize}
+\bigskip
 
-
+The collection $\widetilde{Q}^i = (\widetilde{Q}^i_j)_{j \in J}$ is agent $i$'s price perception
 \end{frame}
 
-%------------------------------------------------
+%====================================================================
+\section{Equilibrium with Price Perceptions}
+%====================================================================
 
-\begin{frame}\frametitle{Rationality}
+\begin{frame}\frametitle{Equilibrium: definition}
+\begin{definitionns}
+A stock-market equilibrium with price perceptions $\widetilde{Q}$ is a list
+\begin{equation*}
+\bigl\{ (\overline{x}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)_{i \in I}, (\overline{y}^j)_{j \in J}, \overline{q} \bigr\}
+\end{equation*}
+satisfying conditions (a)--(d) on the next slides.
+\end{definitionns}
+\end{frame}
 
-\begin{block}{Financial decisions as a signaling device}
-\begin{itemize}
-\item If investors make use of this information to anticipate the outputs of firms, and come to decide on the prices they are prepared to pay for the equity
-\item Then it seems reasonable to suppose that entrepreneurs will come to understand this
-\item We assume that entrepreneurs will use their financial decisions as ``signals'' of the effort that they will exert in their firms
-\end{itemize}
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Equilibrium: condition (a) -- agents are rational}
+For each $i \in I$, $(\overline{x}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)$ maximizes $U^i(x^i_0, x^i_1, e^i)$ subject to:
+\bigskip
+
+\begin{equation*}
+x^i_0 = \omega^i_0 + \widetilde{Q}^i_i(k^i, z^i; \overline{y}^{-i}) - \widetilde{Q}^i(k^i, z^i; \overline{y}^{-i}) \cdot z^i - k^i
+\end{equation*}
+\bigskip
+
+\begin{equation*}
+x^i_1 = V(f^i(k^i, e^i), \overline{y}^{-i}) z^i
+\end{equation*}
+\bigskip
+
+The budget set is denoted $B^i(\overline{q}, \overline{y}^{-i})$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Equilibrium: conditions (b)--(d)}
+\begin{block}{(b) Production is compatible with effort}
+For every firm $i \in I_1$:
+\begin{equation*}
+\overline{y}^i = f^i(\overline{k}^i, \overline{e}^i)
+\end{equation*}
 \end{block}
 
-\begin{block}{Consistent competitive equilibrium}
-We should define an equilibrium concept that captures
+\begin{block}{(c) Price perceptions are consistent at equilibrium}
+For every agent $i \in I$:
+\begin{equation*}
+\overline{q} = \widetilde{Q}^i(\overline{k}^i, \overline{z}^i; \overline{y}^{-i})
+\end{equation*}
+\end{block}
+
+\begin{block}{(d) Markets clear}
+\begin{equation*}
+\sum_{i \in I} \overline{z}^i_j = 1 \text{ for $j \in I$}, \quad \sum_{i \in I} \overline{z}^i_j = 0 \text{ for $j \notin I$}
+\end{equation*}
+\end{block}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{What the equilibrium captures}
 \begin{itemize}
-\item[(a)] the fact that investors use the available information (the financial variables) to correctly anticipate the firms' outputs
-\item[(b)] the fact that entrepreneurs understand this
-\end{itemize}
-\end{block}
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Price perceptions}
-
-\begin{itemize}
-\item We should model the entrepreneurs' perceptions of the way their financial decisions affect the price that the ``market'' will pay for the securities (equity and options)
-\item For each agent~$i\in I$ and each security $j\in J$ we denote by
-\[
-\widetilde{Q}^i_j (k^i,z^i;y^{-i}) \in \R_+
-\]
-the price that agent~$i$ expects for security~$j$
-\item The family $(\widetilde{Q}^i_j)_{j\in J}$ is denoted by $\widetilde{Q}^i$
-\item The family $(\widetilde{Q}^i)_{i\in I}$ is denoted by $\widetilde{Q}$
-\end{itemize}
-
-\end{frame}
-
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Equilibrium with price perceptions}
-
-A stock market equilibrium \emph{with price perceptions} $\widetilde{Q}$ is a family
-\[
-\{(\overline{x}^i,\overline{e}^i,\overline{k}^i,\overline{z}^i)_{i\in I},(\overline{y}^j)_{j\in J},\overline{q}\}
-\]
-consisting of actions and prices such that
-\begin{block}{Agents are rational}
-each agent~$i$ takes the production of the other firms as given and choose the action $(\overline{x}^i,\overline{e}^i,\overline{k}^i,\overline{z}^i)$ that maximizes $U^i(x^i,e^i)$ among consumption
-streams ${x}^i$, efforts ${e}^i$ and financial decisions $({k}^i,{z}^i)$ such that
-    \[
-    {x}^i_0 = \omega^i_0 + \widetilde{Q}^i_i({k}^i,{z}^i;\overline{y}^{-i}) - \widetilde{Q}^i({k}^i,{z}^i;\overline{y}^{-i}) \cdot {z}^i - {k}^i
-    \]
-    and
-    \[
-    {x}^i_1 = V(f^i({k}^i,{e}^i),\overline{y}^{-i}){z}^i
-    \]
-\end{block}
-
-The budget set is denoted by $B^i(\overline{q},\overline{y}^{-i})$
-
-\end{frame}
-
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Equilibrium with price perceptions}
-
-\begin{block}{Production is compatible with effort}
-For each firm~$i$,
-\[
-\overline{y}^i = f^i(\overline{k}^i,\overline{e}^i)
-\]
-\end{block}
-
-\begin{block}{Price perceptions are consistent at equilibrium}
-For every investor~$i$,
-\[
-\overline{q} = \widetilde{Q}^i(\overline{k}^i,\overline{z}^i;\overline{y}^{-i})
-\]
-\end{block}
-
-\end{frame}
-
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Equilibrium with price perceptions}
-
-\begin{block}{Security markets clear}
-\begin{itemize}
-\item Equity markets clear\footnote{If $i\in I_2$ we choose by convention $z^i_i =1$ and $z^k_i=0$ for every $k\neq i$.}
-\[
-\forall j\in I, \quad \sum_{i\in I} \overline{z}^i_j = 1
-\]
-\item Markets for bonds and derivatives clear
-\[
-\forall j\not \in I, \quad \sum_{i\in I} \overline{z}^i_j = 0
-\]
-\end{itemize}
-\end{block}
-
-\end{frame}
-
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Equilibrium with price perceptions}
-
-In equilibrium with price perceptions
-\begin{itemize}
-\item each entrepreneur takes the production plans and the prices of the securities of other entrepreneurs' firms as given
-\item each entrepreneur chooses his own action anticipating that his financial decisions will influence the prices of the securities depending on his firm's outputs
+\item each entrepreneur takes the production plans and security prices of other firms as given
+\item each entrepreneur anticipates how his financial decisions influence the prices of securities depending on his firm's outputs
 \item the output anticipated by outside investors is compatible with the entrepreneur's choice of effort
-\item the price perceptions of each agent are consistent with the observed equilibrium prices
+\item the price perceptions are consistent with the observed equilibrium prices
 \end{itemize}
+\bigskip
 
-\begin{block}{Problem}
-How to define $(k^i,z^i) \mapsto \widetilde{Q}^i(k^i,z^i;\overline{y}^{-i})$ outside the equilibrium path $(\overline{k}^i,\overline{z}^i)$?
+\begin{block}{Open question}
+How to define $\widetilde{Q}^i(k^i, z^i; \overline{y}^{-i})$ \emph{outside} the equilibrium path?
 \end{block}
-
 \end{frame}
 
-%------------------------------------------------
+%====================================================================
+\section{Pricing Out-of-Equilibrium}
+%====================================================================
 
-\begin{frame}\frametitle{Price perceptions $\widetilde{Q}^i$}
+\begin{frame}\frametitle{What entrepreneur $i$ needs to predict}
+To form $\widetilde{Q}^i(k^i, z^i; \overline{y}^{-i})$, entrepreneur $i$ needs:
+\bigskip
 
-To form his anticipations $\widetilde{Q}^i({k}^i,{z}^i;\overline{y}^{-i})$, entrepreneur~$i$ needs to predict
-\begin{itemize}
-\item[(a)] the \alert{output} of his firm that investors expect if they observe $({k}^i,{z}^i)$
-\item[(b)] how the market will \alert{price} the securities whose payoff depends on the value of this output
-\end{itemize}
+\begin{enumerate}
+\item[(a)] the \alert{output} of his firm that investors expect upon observing $(k^i, z^i)$
+\bigskip
+\item[(b)] how the market will \alert{price} the resulting securities
+\end{enumerate}
+\bigskip
 
-\begin{block}{To answer (a)}
-Entrepreneur~$i$ knows that investors will deduce from the observation of $({k}^i,{z}^i)$ what his likely effort ${e}^i \in \widetilde{e}^i(k^i,z^i;\overline{y}^{-i})$ will be, and hence what the likely output $f^i({k}^i,{e}^i)$ of his
-firm will be
-\end{block}
-
+\textbf{Answer to (a):} Investors deduce from $(k^i, z^i)$ what the likely effort
+\begin{equation*}
+\widehat{e}^i \in \widetilde{e}^i(k^i, z^i, \overline{y}^{-i})
+\end{equation*}
+will be, and hence the likely output $f^i(k^i, \widehat{e}^i)$
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{Price perceptions $\widetilde{Q}^i$: To answer (b)}
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{State prices at equilibrium}
+At equilibrium, no arbitrage implies the existence of state prices $\overline{\pi} \in \R_{++}^S$ such that
+\begin{equation*}
+\overline{q}_j = \sum_{s \in S} \overline{\pi}_s V_j(\overline{y}_s), \quad \text{for all $j \in J$}
+\end{equation*}
+\bigskip
 
 \begin{itemize}
-\item At equilibrium there are no-arbitrage opportunities
-\item There exists at least one vector $\overline{\pi} \in \R^S_{++}$ of state prices, i.e.,
-\[
-\overline{q} = \sum_{s\in S} \overline{\pi}_s V_s(\overline{y})
-\]
-\item If markets are complete then $\overline{\pi}$ is unique, otherwise there are infinitely many state prices compatible with $(\overline{q},\overline{y})$
-\item Let $\mathcal{V}(\overline{y})$ be the marketed subspace at equilibrium, i.e., the subspace of contingent streams in $\R^S$ spanned by the linear operator $V(\overline{y})$
-\item If $m \in \R^S$ is a marketed stream, i.e., $m \in \mathcal{V}(\overline{y})$ then
-\[
-\pi \cdot m = \sum_{s\in S} \pi_s m_s
-\]
-is independent of the state price $\pi$ compatible with $(\overline{q},\overline{y})$ and is denoted by $v(m;\overline{q},\overline{y})$
+\item If markets are complete, $\overline{\pi}$ is unique
+\item Otherwise, infinitely many state prices are compatible with $(\overline{q}, \overline{y})$
 \end{itemize}
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Pricing of marketed cash flows}
+Let $\mathcal{V}(\overline{y})$ be the marketed subspace at equilibrium
+\bigskip
 
-\begin{frame}\frametitle{Price perceptions $\widetilde{Q}^i$: To answer (b)}
+For any $m \in \mathcal{V}(\overline{y})$, the value
+\begin{equation*}
+\overline{\pi} \cdot m = \sum_{s \in S} \overline{\pi}_s m_s
+\end{equation*}
+is \emph{independent} of the choice of $\overline{\pi}$
+\bigskip
 
-\begin{itemize}
-\item Let $m \in \R^S$ be a marketed stream in $\mathcal{V}(\overline{y})$
-\item Assume that we add an asset (in zero net supply) which payoff (output) is $m$
-\item We can show that a possible competitive equilibrium is defined by the ``previous'' equilibrium
- \[
- \{(\overline{x}^i,\overline{e}^i,\overline{k}^i,\overline{z}^i)_{i\in I},(\overline{y}^j)_{j\in J},\overline{q}\}
- \]
- together with the price $v(m;\overline{q},\overline{y})$ for the new asset and the position $0$ of each agent on the new asset
-\item $v(m;\overline{q},\overline{y})$ is consistent with the fact that competitive investors and entrepreneurs are indifferent at the margin between buying or purchasing this new asset
-\end{itemize}
+We denote this common value by $v(m; \overline{q}, \overline{y})$
+\bigskip
+
+\textbf{Why?} Two state prices that disagree on $\R^S$ must agree on $\mathcal{V}(\overline{y})$, since their difference lies in the orthogonal complement of the rows of $V(\overline{y})$
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Pricing a marketed innovation}
+Suppose entrepreneur $i$ deviates to $(k^i, z^i)$ and the resulting cash flow $f^i(k^i, \widehat{e}^i)$ \emph{lies in the marketed subspace} $\mathcal{V}(\overline{y})$
+\bigskip
 
-\begin{frame}\frametitle{Price perceptions $\widetilde{Q}^i$: To answer (b)}
+Then the entrepreneur may price the new asset using any state-price vector compatible with equilibrium:
+\begin{equation*}
+\widetilde{Q}^i(k^i, z^i; \overline{y}^{-i}) := \sum_{s \in S} \overline{\pi}_s V_s(f^i(k^i, \widehat{e}^i), \overline{y}^{-i})
+\end{equation*}
+\bigskip
 
-\begin{itemize}
-\item Assume entrepreneur~$i$ decides to modify\footnote{\alert{Should we assume that there is a continuum of each entrepreneur's type and consider unilateral deviations only?}} his financial
-decision by choosing $(k^i,z^i)$
-\item Assume that the associated output\footnote{The associated effort level $\widehat{e}^i$ follows from (a)} $f^i(k^i,\widehat{e}^i)$ belongs to the marketed space $\mathcal{V}(\overline{y})$
-\item Then the entrepreneur may expect the market to ``price'' the new asset without ambiguity using any vector of state prices, i.e.,
-\[
-\widetilde{Q}^i(k^i,z^i;\overline{y}^{-i}) \equiv \sum_{s\in S} \overline{\pi}_s V_s(f^i(k^i,\widehat{e}^i),\overline{y}^{-i})
-\]
-for any $\overline{\pi} \in \R^S_{++}$ satisfying\footnote{For instance his own marginal valuation $\MRS^i_{s}$}
-\[
-\overline{q} = \sum_{s\in S} \overline{\pi} V_s(\overline{y})
-\]
-\end{itemize}
+The result is independent of the choice of $\overline{\pi}$
+\bigskip
 
+\textbf{Caveat:} this requires the deviation to stay within $\mathcal{V}(\overline{y})$
 \end{frame}
 
-%------------------------------------------------
+%====================================================================
+\section{Partial Spanning}
+%====================================================================
 
-\begin{frame}\frametitle{Partial spanning}
-
-\begin{definition}
-We say that there is \alert{partial spanning} (PS) at $\overline{y}$ if for every~$i\in I$, for all $(k^i,e^i)$ and $y^i = f^i(k^i,e^i)$, the subspace $\mathcal{V}(y)$ is contained in the marketed subspace
-at $\overline{y}$, i.e.,
-\[
+\begin{frame}\frametitle{Partial spanning: definition}
+\begin{definitionns}[Partial spanning]
+There is \alert{partial spanning} (PS) at $\overline{y}$ if for every $i \in I$, every alternative $(k^i, e^i)$ with $y^i = f^i(k^i, e^i)$:
+\begin{equation*}
 \mathcal{V}(y) \subset \mathcal{V}(\overline{y})
-\]
-\end{definition}
+\end{equation*}
+\end{definitionns}
+\bigskip
 
 \begin{itemize}
-\item Under (PS) a firm cannot create a ``new security'' by modifying its financial decisions
-\item With (PS) the market prices of the securities are sufficient signals to value any possible alternative production plan of any firm
+\item Under PS, a firm cannot create a ``new security'' by modifying its financial decisions
+\item Market prices of existing securities are sufficient signals to value any alternative production plan
 \end{itemize}
-
 \end{frame}
 
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{RCPP equilibrium}
+\begin{definitionns}[RCPP]
+A stock-market equilibrium with price perceptions $\widetilde{Q}$ is a \alert{rational competitive price perceptions} (RCPP) equilibrium if:
+\end{definitionns}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{Rational Competitive Price Perceptions (RCPP)}
-
-\begin{small}
-A \alert{financial market equilibrium with rational competitive price perceptions} is a stock market equilibrium
-\[
-\{(\overline{x}^i,\overline{e}^i,\overline{k}^i,\overline{z}^i)_{i\in I},(\overline{y}^j)_{j\in J},\overline{q}\}
-\]
-with price perceptions $\widetilde{Q}$ such that
 \begin{itemize}
-\item partial spanning holds at $\overline{y}$
-\item for each~$i$ the price perceptions are given by
-\[
-\widetilde{Q}^i(k^i,z^i;\overline{y}^{-i}) = \sum_{s\in S} \overline{\pi}_s V_s(f^i(k^i,\widehat{e}^i),\overline{y}^{-i})
-\]
-for any $\overline{\pi} \in \R^S_{++}$ satisfying
-\[
-\overline{q} = \sum_{s\in S} \overline{\pi} V_s(\overline{y})
-\]
-and for an optimal effort choice $\widehat{e}^i$ in $\widetilde{e}^i(k^i,z^i;\overline{y}^{-i})$ which maximizes
-\[
-\sum_{s\in S} \overline{\pi}_s \left[ f^i_s(k^i,e^i) - V_s(f^i(k^i,e^i),\overline{y}^{-i}) \cdot z^i \right]
-\]
+\item[(i)] partial spanning holds at $\overline{y}$
+\bigskip
+\item[(ii)] for every $i$ and every alternative $(k^i, z^i)$:
+\begin{equation*}
+\widetilde{Q}^i_j(k^i, z^i; \overline{y}^{-i}) = \sum_{s \in S} \overline{\pi}_s V_j(f^i(k^i, \widehat{e}^i), \overline{y}^{-i})
+\end{equation*}
+for any $\overline{\pi}$ compatible with equilibrium and $\widehat{e}^i$ in $\widetilde{e}^i(k^i, z^i, \overline{y}^{-i})$ that maximizes the entrepreneur's date-$0$ consumption
 \end{itemize}
-\end{small}
-
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{RCPP: rational}
+\textbf{Why ``rational''?}
+\bigskip
 
-\begin{frame}\frametitle{Rational Competitive Price Perceptions (RCPP)}
+Investors correctly deduce $\widehat{e}^i$ from $(k^i, z^i)$ and the common knowledge of $(u^i_1, f^i)$
+\bigskip
 
-To check if his equilibrium decision $(\overline{k}^i,\overline{z}^i)$ is optimal, entrepreneur~$i$ considers alternative decisions $(k^i,z^i)$
-\begin{small}
-\begin{block}{Rational}
-recognizing that investors are rational and will deduce from $(k^i,z^i)$ what his associated optimal effort will be:
-    \begin{itemize}
-    \item the solution of the optimal effort problem $\widetilde{e}^i(k^i,z^i,\overline{y}^{-i})$ if it is unique
-    \item or if it is multivalued, the solution which yields the highest date~$0$ income for the entrepreneur
-    \end{itemize}
-\end{block}
-
-\begin{block}{Competitive}
-evaluating the prices $\widetilde{Q}^i(k^i,z^i;\overline{y}^{-i})$ that he would then get in the market for his equity or the price that the market would pay for the options on his firm
-    \begin{itemize}
-    \item to evaluate theses prices he uses any no-arbitrage state price compatible with equilibrium values $(\overline{q},\overline{y})$ since he cannot create a ``new security'' and change equilibrium
-prices
-    \end{itemize}
-\end{block}
-\end{small}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Rational Competitive Price Perceptions (RCPP)}
-
-If agent~$i$ is
 \begin{itemize}
-\item an investor
-\item or an entrepreneur evaluating securities of other firms
+\item if $\widetilde{e}^i(k^i, z^i, \overline{y}^{-i})$ is single-valued, the inference is immediate
+\item if multi-valued, agents select the element yielding the highest date-$0$ income for the entrepreneur
 \end{itemize}
-the price anticipation is
-\[
-\widetilde{Q}^i_j(\overline{y}^{-i}) = \sum_{s\in S} \overline{\pi}_s V^j(\overline{y}_s)
-\]
-which is correct since $\widetilde{Q}^i_j(\overline{y}^{-i}) = \overline{q}_j$
+\bigskip
 
+The entrepreneur has every incentive to signal the highest-valuation effort level
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{RCPP: competitive}
+\textbf{Why ``competitive''?}
+\bigskip
 
-\begin{frame}\frametitle{When do we have partial spanning at $\overline{y}$?}
+Entrepreneurs take state prices as given:
+\begin{itemize}
+\item an individual firm's deviation does not perturb the equilibrium state-price vector
+\item even when the deviation is large relative to the firm's own output
+\end{itemize}
+\bigskip
 
-\begin{proposition}
-Assume that
-\begin{enumerate}
-\item the financial markets consist solely of the bond and equity markets, i.e., $J= I \cup \{j_0\}$
-\item the production functions have the following structure
-\[
-\forall i\in I_1, \quad f^i(k^i,e^i) = f^i_c(k^i,e^i) \1_S + g^i(k^i,e^i) \bm{\eta}^i
-\]
-where $f^i_c,g^i: \R_+ \times E^i \to \R$ are concave increasing functions and $\bm{\eta}^i \in \R^S_+$ is a fixed vector characterizing the risk structure of the firm
-\end{enumerate}
-There is partial spanning at $\overline{y}$ if
-\[
-\forall i\in I, \quad g^i(\overline{k}^i,\overline{e}^i) >0
-\]
+This is the price-taking hypothesis adapted to the moral-hazard framework
+\end{frame}
+
+%====================================================================
+\section{Sufficient Conditions for PS}
+%====================================================================
+
+\begin{frame}\frametitle{Single-factor model}
+\begin{proposition}[Bond, equity, single-factor risk]
+Assume:
+\begin{itemize}
+\item[(a)] $J = I \cup \{j_0\}$ (only bond and equities)
+\item[(b)] for every $i \in I_1$:
+\begin{equation*}
+f^i(k^i, e^i) = f^i_c(k^i, e^i) \1_S + g^i(k^i, e^i) \bm{\eta}^i
+\end{equation*}
+with $f^i_c, g^i$ concave non-decreasing and $\bm{\eta}^i \in \R_+^S$ a fixed risk-structure vector
+\end{itemize}
+If, at equilibrium, $g^i(\overline{k}^i, \overline{e}^i) > 0$ for every $i \in I_1$, then partial spanning holds at $\overline{y}$.
 \end{proposition}
-
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{When do we have partial spanning at $\overline{y}$?}
-
-\begin{enumerate}
-\item Assume that the financial markets consist of the riskless bond, equity, and options on each firm
-\item Suppose uncertainty affecting the production is decomposed as follows
-\[
-S =\prod_{i\in I_1} S^i
-\]
-so that $s^i$ is the shock experienced by firm~$i$, i.e., there exists $s^i \mapsto g^i_{s^i}$ such that
-\[
-\forall s=(s^i)_{i\in I_1}, \quad f^i_s(k^i,e^i) = g^i_{s^i}(k^i,e^i)
-\]
-\end{enumerate}
-If the mapping $s^i \mapsto g^i_{s^i}(\overline{k}^i,\overline{e}^i)$ is injective and if there are options with striking prices in between the values taken by the output of firm~$i$, then partial spanning at
-$\overline{y}$ is satisfied
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{When do we have partial spanning at $\overline{y}$?}
-
-\begin{example}
-\begin{enumerate}
-\item Suppose that there are three states of nature, i.e., $S=\{s_1,s_2,s_3\}$ and there is one entrepreneur
-\item Assume that $E^i=\{e^i_h,e^i_\ell\}$ and $y^i \in \{y^i_h,y^i_\ell\}$
-\item Suppose that production does not depend on $k^i$ and is defined by
-\[
-f^i(e^i_h) = (y^i_h,y^i_h,y^i_\ell) \et f^i(e^i_\ell) = (y^i_h,y^i_\ell,y^i_\ell)
-\]
-\end{enumerate}
-
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Single-factor model: idea}
+Firm $i$'s output decomposes:
 \begin{itemize}
-\item If the entrepreneur makes a high effort at equilibrium, i.e., $\overline{e}^i=e^i_h$ then the securities (equity and simple options) based on the output of firm~$i$ will generate a subspace
-included in $\{w \in \R^3 \ \colon \ w_1 = w_2\}$
-
-\item If entrepreneur~$i$ considers making a low effort, the payoff of the equity of his firm will be such that $y_1 \neq y_2$ and will not be in the equilibrium market subspace
+\item deterministic component $f^i_c(k^i, e^i) \1_S$, spanned by the bond
+\item risky component $g^i(k^i, e^i) \bm{\eta}^i$, proportional to a fixed direction $\bm{\eta}^i$
 \end{itemize}
-\end{example}
+\bigskip
 
+At equilibrium, the marketed subspace contains:
+\begin{itemize}
+\item $\1_S$ (the bond)
+\item $\bm{\eta}^i = [\overline{y}^i - \overline{f}^i_c \1_S] / \overline{g}^i$ (from the equity)
+\end{itemize}
+\bigskip
+
+Any alternative output is a linear combination of these spanned vectors, hence in $\mathcal{V}(\overline{y})$
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{Trade-off between incentives and risk sharing}
-
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Independent shocks with options}
+\begin{proposition}[Independent shocks plus options]
+Assume:
 \begin{itemize}
-\item Entrepreneurs who want to finance their investment without incurring a large debt can choose to issue equity: opening the way to risk sharing and diversification
-\item Issuing equity means no longer receive the full benefit of their effort
-    \begin{itemize}
-    \item Incentives to exert effort are diminished
-    \end{itemize}
+\item[(a)] markets consist of bond, equity, and call/put options on each firm at a rich set of strike prices
+\item[(b)] $S = \prod_{i \in I_1} S^i$ and there exist $g^i_{s^i}$ such that
+\begin{equation*}
+f^i_s(k^i, e^i) = g^i_{s^i}(k^i, e^i)
+\end{equation*}
 \end{itemize}
+If $s^i \mapsto g^i_{s^i}(\overline{k}^i, \overline{e}^i)$ is injective and strikes lie between consecutive output values, then partial spanning holds at $\overline{y}$.
+\end{proposition}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{A counter-example: setup}
+Consider one entrepreneur and three states: $S = \{s_1, s_2, s_3\}$
+\bigskip
+
+Effort set: $E^i = \{e^i_h, e^i_\ell\}$, with $y^i_h > y^i_\ell > 0$
+\bigskip
+
+Production does not depend on capital:
+\begin{equation*}
+f^i(e^i_h) = (y^i_h, y^i_h, y^i_\ell)
+\end{equation*}
+\begin{equation*}
+f^i(e^i_\ell) = (y^i_h, y^i_\ell, y^i_\ell)
+\end{equation*}
+\bigskip
+
+Securities: bond, equity, simple options
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{A counter-example: failure of PS}
+At equilibrium with high effort $\overline{e}^i = e^i_h$:
+\begin{itemize}
+\item equity payoff is $(y^i_h, y^i_h, y^i_\ell)$
+\item the marketed subspace is contained in $\{w \in \R^3 \colon w_1 = w_2\}$
+\item every security written on equity is constant across $s_1$ and $s_2$
+\end{itemize}
+\bigskip
+
+If the entrepreneur deviates to low effort:
+\begin{itemize}
+\item the equity payoff becomes $(y^i_h, y^i_\ell, y^i_\ell)$
+\item this vector is \emph{not} in the equilibrium marketed subspace ($w_1 \neq w_2$)
+\end{itemize}
+\bigskip
+
+\alert{Partial spanning fails at $\overline{y}$}, and the RCPP price perception is ill-defined
+\end{frame}
+
+%====================================================================
+\section{Constrained Pareto Efficiency}
+%====================================================================
+
+\begin{frame}\frametitle{The trade-off}
+\textbf{The fundamental tension:}
+\bigskip
+
+Entrepreneurs who want to finance investment without large debt can issue equity:
+\begin{itemize}
+\item opens the way to risk-sharing and diversification
+\item but means no longer receiving the full benefit of their effort
+\item incentives to exert effort are diminished
+\end{itemize}
+\bigskip
 
 \begin{block}{Question}
-Do markets induce entrepreneurs to make the optimal trade-off between incentives and risk sharing in their choice of debt and equity?
+Do markets induce entrepreneurs to make the optimal trade-off between incentives and risk-sharing in their choice of debt and equity?
 \end{block}
-
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{What does ``optimal'' mean?}
+We compare the equilibrium to an allocation chosen by a planner facing the same frictions:
+\bigskip
 
+\begin{itemize}
+\item the planner uses the same financial markets as the agents
+\item the planner cannot dictate effort: entrepreneurs choose $e^i$ optimally given the financial structure imposed by the planner
+\item the planner respects market clearing
+\end{itemize}
+\bigskip
+
+This defines a notion of \emph{constrained} efficiency: better than no notion of efficiency, but weaker than the unconstrained first-best
+\end{frame}
+
+%--------------------------------------------------------------------
 \begin{frame}\frametitle{Constrained feasible allocations}
+\begin{definitionns}
+$(\bm{x}, \bm{e}) = (x^i, e^i)_{i \in I}$ is \alert{constrained feasible} if there exist $(\bm{k}, \bm{z})$ such that:
+\end{definitionns}
 
-\begin{block}{Question}
-What does optimal mean?
-\end{block}
-To answer this question
 \begin{itemize}
-\item we consider another way of arriving at an allocation
-\item a ``planner''--rather than agents--chooses the financial variables
-\item we examine if the planner could obtain a better allocation than that achieved in an RCPP equilibrium
-\item the planner should face the same problem for risk sharing as those available to the agents with the system of financial markets
-\item the planner cannot dictate effort level to entrepreneurs
-    \begin{itemize}
-    \item effort levels are chosen optimally by the entrepreneurs
-    \item entrepreneurs take the reward structure given by the debt-equity-option choice of the planner and the effort of other agents
-    \end{itemize}
+\item[(i)] production: $y^i = f^i(k^i, e^i)$
+\item[(ii)] optimal effort: $e^i \in \widetilde{e}^i(k^i, z^i, y^{-i})$
+\item[(iii)] risk-sharing: $x^i_s = V_s(y) \cdot z^i$ for all $s \in S$
+\item[(iv)] date-$0$ market clearing: $\sum_i (x^i_0 + k^i) = \sum_i \omega^i_0$
+\item[(v)] portfolio market clearing:
+\begin{equation*}
+\sum_\ell z^\ell_j = 1 \text{ for $j \in I$}, \quad \sum_\ell z^\ell_j = 0 \text{ for $j \notin I$}
+\end{equation*}
 \end{itemize}
-
 \end{frame}
 
-%------------------------------------------------
-
+%--------------------------------------------------------------------
 \begin{frame}\frametitle{Constrained Pareto optimality}
+\begin{definitionns}
+A constrained feasible allocation $(\bm{x}, \bm{e})$ is \alert{constrained Pareto optimal} (CPO) if there is no other constrained feasible $(\widehat{\bm{x}}, \widehat{\bm{e}})$ with
+\begin{equation*}
+U^i(\widehat{x}^i, \widehat{e}^i) \geq U^i(x^i, e^i), \quad \text{for all $i \in I$}
+\end{equation*}
+and strict inequality for at least one $i$.
+\end{definitionns}
+\bigskip
 
-\begin{small}
-\begin{definition}
-An allocation $(\bm{x},\bm{e})=(x^i,e^i)_{i\in I}$ is \alert{constrained feasible} if there exist inputs and portfolios $(\bm{k},\bm{z})$ such that
-\begin{itemize}
-\item the production $y^i$ is given by $y^i = f^i(k^i,e^i)$
-\item the effort is optimal $e^i \in \widetilde{e}^i(k^i,z^i;y^{-i})$
-\item risk sharing is made through existing contracts, i.e.,
-\[
-\forall s\in S, \quad x^i_s = V_s(y) \cdot z^i
-\]
-\item markets for consumption at period~$0$ clear, i.e., $\sum_{i\in I} x^i_0 + k^i = \sum_{i\in I} \omega^i_0$
-\item markets for contracts clear
-\[
-\forall i\in I, \quad \sum_{\ell\in I} z^\ell_i = 1 \et \forall j\not \in I, \quad \sum_{\ell \in I} z^\ell_j =0
-\]
-\end{itemize}
-\end{definition}
-\end{small}
-
+\textbf{Question:} Is every RCPP equilibrium constrained Pareto optimal?
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{Constrained Pareto optimality}
-
-\begin{definition}
-An allocation $(\bm{x},\bm{e})$ is \alert{constrained Pareto optimal} (CPO) if it is constrained feasible, and if there does not exist any alternative constrained feasible allocation
-$(\widehat{\bm{x}},\widehat{\bm{e}})$ such that
-\[
-\forall i\in I, \quad U^i(\widehat{x}^i,\widehat{e}^i) \geq U^i(x^i,e^i)
-\]
-with strict inequality for at least one~$i$
-\end{definition}
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}\frametitle{Sources of co-ordination failure}
-
-Why a RCPP equilibrium may not be constrained Pareto optimal?
-\begin{enumerate}
-\item An RCPP equilibrium is a Nash equilibrium in which the effort decision of each entrepreneur depends on the decisions of all other entrepreneurs
-\item The moral hazard problem: the choice of effort of an entrepreneur affects the payoffs of all securities based on the output of his firm, and thus, has an external effect on any investor or
-entrepreneur who buys these securities
-\end{enumerate}
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Why an RCPP equilibrium may fail to be CPO}
+\textbf{Two potential sources of inefficiency:}
+\bigskip
 
 \begin{itemize}
-\item The ``planner'' could avoid these possibilities of co-ordination failure
-\item We need to introduce additional assumptions
+\item \textbf{Externalities through effort.} Entrepreneur $i$'s effort affects the payoff of every security written on firm $i$'s output, hence the consumption of every holder. The equilibrium ignores this; a planner would internalize it.
+\bigskip
+\item \textbf{Nash interactions through outputs.} An RCPP equilibrium is implicitly a Nash equilibrium: each entrepreneur takes the others' decisions as given. A planner could co-ordinate on better effort levels.
 \end{itemize}
+\bigskip
 
+The next section identifies a spanning condition that neutralizes both channels
 \end{frame}
 
-%------------------------------------------------
+%====================================================================
+\section{The Welfare Theorem}
+%====================================================================
 
 \begin{frame}\frametitle{No index-based securities}
-
 \begin{assumption}
-The economy has no index-based securities, i.e., for every entrepreneur $i\in I_1$ we have $J^i_{-i} = \emptyset$
+For every $i \in I_1$, $J^i_{-i} = \emptyset$: every security depends \emph{exclusively} on firm $i$'s output or \emph{not at all}
 \end{assumption}
+\bigskip
 
-\begin{itemize}
-\item The income stream at date~1 is now decomposed into two components
-\[
-x^i_1 = m^i_1 + \sum_{j\in J^i} V^j(f^i(k^i,e^i))z^i_j \quad \textrm{where} \quad m^i_1 = \sum_{j\in J_{-i}} V^j(y^{-i})z^i_j
-\]
-\item The stream $m^i_1$ is the \alert{outside income} of entrepreneur~$i$ since it does not depend on his effort
-\item The other component is entrepreneur~$i$'s \alert{inside income}
-\end{itemize}
+Under this assumption, agent $i$'s date-$1$ income decomposes:
+\begin{equation*}
+x^i_1 = m^i_1 + \sum_{j \in J^i} V_j(f^i(k^i, e^i)) z^i_j
+\end{equation*}
 
+where $m^i_1 := \sum_{j \in J_{-i}} V_j(y^{-i}) z^i_j$ is the \emph{outside income}
+\bigskip
+
+The other component is the \emph{inside income}, which depends on $i$'s effort
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Outside subspace}
+For every $i \in I$, define the outside operator $V_{-i}(y^{-i}) : \R^{J_{-i}} \to \R^S$ associated with the matrix $(V_j(y^{-i}))_{j \in J_{-i}}$
+\bigskip
 
-\begin{frame}\frametitle{Strong Partial Spanning (SPS)}
+The \emph{outside subspace} is its range:
+\begin{equation*}
+\mathcal{V}_{-i}(y^{-i}) := \Range V_{-i}(y^{-i}) \subset \R^S
+\end{equation*}
+\bigskip
 
-\begin{itemize}
-\item We denote by $V_{-i}(y^{-i})$ the linear operator from $\R^{J_{-i}}$ to $\R^S$ associated to the matrix
-\[
-(V^j(y^{-i}))_{j\in J_{-i}}
-\]
-\item We denote by $V^i(y^i)$ the linear operator from $\R^{J^i}$ to $\R^S$ associated to the matrix
-\[
-(V^j(y^{i}))_{j\in J^i}
-\]
-\item We denote by $\mathcal{V}_{-i}(y^{-i})$ and $\mathcal{V}^i(y^i)$ the associated ranges, called respectively the \alert{outside} and \alert{inside subspace}
-\item It is through the outside subspace that the choices of effort by other entrepreneurs affect agent~$i$
-\item We need to impose limits on the extent to which changes in the effort choice of other entrepreneurs can affect agent~$i$'s outside subspace
-\end{itemize}
+The choice of effort by entrepreneurs $\ell \neq i$ affects agent $i$ \emph{only through the outside subspace}
+\bigskip
 
+We need to limit how changes in others' efforts can affect this subspace
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Strong partial spanning}
+\begin{definitionns}[Strong partial spanning, SPS]
+There is SPS at $\overline{y}$ if, for all alternative investments and efforts $(\bm{k}, \bm{e})$ with outputs $y^\ell = f^\ell(k^\ell, e^\ell)$:
+\begin{equation*}
+\mathcal{V}_{-i}(y^{-i}) \subset \mathcal{V}_{-i}(\overline{y}^{-i}), \quad \text{for all $i \in I_1$}
+\end{equation*}
+\end{definitionns}
+\bigskip
 
-\begin{frame}\frametitle{Strong Partial Spanning (SPS)}
+The outside subspace, while it may change with others' efforts, stays within its equilibrium span
+\bigskip
 
-
-
-\begin{definition}
-We say that there is \alert{strong partial spanning} (SPS) at $\overline{y}$, if for all alternative investment and effort choices $(\bm{k},\bm{e})$ we have
-\[
-\forall i\in I_1, \quad \mathcal{V}_{-i}(y^{-i}) \subset \mathcal{V}_{-i}(\overline{y}^{-i})
-\]
-where $y^\ell = f^\ell_1(k^\ell,e^\ell)$
-\end{definition}
-
-
-\begin{remark}
-\begin{itemize}
-\item Even if markets were complete, SPS would not automatically be satisfied
-\item SPS holds if securities based on the outputs of any subset of $I_1-1$ firms suffice to complete the markets
-\item SPS holds if each firm spans its own subspace, as in the two previous examples
-\end{itemize}
-\end{remark}
-
+This rules out coordinated deviations creating new outside cash flows
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{Constrained Pareto optimality of RCPP equilibria}
-
-\begin{theorem}
-Let $\{(\overline{x}^i,\overline{e}^i,\overline{k}^i,\overline{z}^i)_{i\in I},(\overline{y}^j)_{j\in J},\overline{q}\}$ be an RCPP equilibrium with price perceptions $\widetilde{Q}$.
-If the security structure has no index-based securities, and satisfies Strong Partial Spanning at $\overline{y}$, then $(\overline{x}^i,\overline{e}^i)_{i\in I}$ is constrained Pareto optimal
-\end{theorem}
-
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{SPS: comments}
 \begin{itemize}
-\item A planner choosing the financial decisions of entrepreneurs in a CPO allocation directly takes into account the fact that the effort of entrepreneur~$i$ affects all holders of securities based on
-firm~$i$
-\item While in a RCPP equilibrium, entrepreneur~$i$ chooses his financial decisions in his own self-interest
-\item Under the previous assumption, the moral hazard problem is resolved by the competitive and rational price perceptions equilibrium concept: a planner cannot improve on the equilibrium
-allocation
+\item Even complete markets ($\mathcal{V}(\overline{y}) = \R^S$) do not automatically imply SPS, since $\mathcal{V}_{-i}(y^{-i}) \subsetneq \mathcal{V}(y)$
+\bigskip
+\item SPS holds if securities on the outputs of any subset of $I_1 \setminus \{i\}$ firms suffice to complete the markets
+\bigskip
+\item SPS holds in the two examples (single-factor; independent shocks with options): each firm spans its own subspace
 \end{itemize}
-
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame}\frametitle{Proof}
-
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The welfare theorem}
+\begin{theoremns}[Constrained Pareto optimality of RCPP]
+Let $\bigl\{ (\overline{x}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)_i, (\overline{y}^j)_j, \overline{q} \bigr\}$ be an RCPP equilibrium. Suppose:
 \begin{itemize}
-\item Let $\{(\overline{x}^i,\overline{e}^i,\overline{k}^i,\overline{z}^i)_{i\in I},(\overline{y}^j)_{j\in J},\overline{q}\}$ be an RCPP equilibrium allocation with price perceptions $\widetilde{Q}$
-such that there exists a constrained feasible allocation $\{(x^i,e^i,k^i,z^i)_{i\in I},(y^j)_{j\in J}\}$ satisfying
-\[
-(U^i(x^i,e^i))_{i\in I} > (U^i(\overline{x}^i,\overline{e}^i))_{i\in I}
-\]
-\item Let $(\widehat{k}^i,\widehat{z}^i)$ be defined by
-\[
-\widehat{k}^i = k^i, \et \forall j\in J^i,\quad \widehat{z}^i_j = z^i_j
-\]
-and $(\widehat{z}^i_j)_{j\in J_{-i}}$ is chosen such that
-\[
-m^i_1 \equiv \sum_{j\in J_{-i}} V^j(y^{-i}) z^i_j = \sum_{j\in J_{-i}} V^j(\overline{y}^{-i}) \widehat{z}^i_j
-\]
+\item time-separable preferences
+\item common knowledge of characteristics
+\item no index-based securities
+\item strong partial spanning at $\overline{y}$
 \end{itemize}
-
-\begin{lemma}
-\[
-\widetilde{e}^i(\widehat{k}^i,\widehat{z}^i;\overline{y}^{-i}) = \widetilde{e}^i(k^i,z^i;y^{-i})
-\]
-\end{lemma}
-
+Then $(\overline{x}^i, \overline{e}^i)_{i \in I}$ is constrained Pareto optimal.
+\end{theoremns}
 \end{frame}
 
-%------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{The welfare theorem: significance}
+\textbf{The result is remarkable:}
+\bigskip
 
-\begin{frame}\frametitle{Proof}
+Despite the moral-hazard friction, the decentralized equilibrium fully internalizes the externalities through the signalling channel
+\bigskip
 
+The entrepreneur, rationally anticipating that investors will read his financial decisions as signals of his effort, is led to choose precisely the effort level that the planner would have wanted
+\bigskip
+
+\textbf{Comparison with the previous part (Chapter on competitive price perceptions):}
 \begin{itemize}
-\item If agent~$i$ ``thinks'' about the alternative $(\widehat{k}^i,\widehat{z}^i)$, he anticipates the following date~$0$ consumption
-\[
-\widehat{x}^i_0 = \omega^i_0 + \widetilde{Q}^i_i(\widehat{k}^i,\widehat{z}^i;\overline{y}^{-i}) - \widetilde{Q}^i(\widehat{k}^i,\widehat{z}^i;\overline{y}^{-i}) \widehat{z}^i - \widehat{k}^i
-\]
-\item By definition we have
-\[
-\forall j\in J, \quad \widetilde{Q}^i_j(\widehat{k}^i,\widehat{z}^i;\overline{y}^{-i}) = \overline{\pi} \cdot V^j(f^i(\widehat{k}^i,\widehat{e}^i);\overline{y}^{-i})
-\]
-where $\widehat{e}^i$ is the element of $\widetilde{e}^i(\widehat{k}^i,\widehat{z}^i;\overline{y}^{-i})$ which maximizes the date~$0$ consumption
-\item Deduce that
-\[
-\widehat{x}^i_0 \geq \omega^i_0 + \overline{\pi} \cdot f^i(k^i,e^i) - \overline{\pi} \cdot x^i_1 - k^i
-\]
-\item Show that we must have $x^i_0 \geq \widehat{x}^i_0$ for every~$i$ with a strict inequality for some~$i$
+\item Same logic: Makowski-style price perceptions plus a spanning condition
+\item Moral hazard changes the inferential content of financial choices, but not the welfare logic
 \end{itemize}
-
 \end{frame}
 
-%------------------------------------------------------------------------------------------------
+%====================================================================
+\section{Sketch of Proof}
+%====================================================================
+
+\begin{frame}\frametitle{Proof: the strategy}
+Suppose for contradiction that $(\bm{x}, \bm{e})$ is constrained feasible and Pareto-dominates $(\overline{\bm{x}}, \overline{\bm{e}})$
+\bigskip
+
+\textbf{Steps:}
+\begin{enumerate}
+\item Construct, for each agent $i$, an alternative portfolio $\widehat{z}^i$ that replicates the outside income $m^i_1$ at equilibrium outputs
+\item Show that the optimal effort is invariant under this construction
+\item Compute the implied date-$0$ consumption $\widehat{x}^i_0$
+\item Use RCPP-optimality to conclude $x^i_0 \geq \widehat{x}^i_0$ for all $i$, with strict inequality for at least one
+\item Aggregate to derive a contradiction with market clearing
+\end{enumerate}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: replicating portfolio}
+For each $i \in I$, define $(\widehat{k}^i, \widehat{z}^i)$ by:
+\begin{equation*}
+\widehat{k}^i = k^i, \quad \widehat{z}^i_j = z^i_j \text{ for $j \in J^i$}
+\end{equation*}
+\bigskip
+
+and $(\widehat{z}^i_j)_{j \in J_{-i}}$ such that
+\begin{equation*}
+\sum_{j \in J_{-i}} V_j(\overline{y}^{-i}) \widehat{z}^i_j = m^i_1
+\end{equation*}
+\bigskip
+
+\textbf{Why is this feasible?} By the no-index assumption and SPS:
+\begin{itemize}
+\item the right-hand side $m^i_1$ belongs to $\mathcal{V}_{-i}(y^{-i})$
+\item by SPS, $\mathcal{V}_{-i}(y^{-i}) \subset \mathcal{V}_{-i}(\overline{y}^{-i})$
+\item so a portfolio of \emph{outside} securities exists that replicates $m^i_1$
+\end{itemize}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: effort invariance}
+\begin{lemmans}[Effort invariance]
+\begin{equation*}
+\widetilde{e}^i(\widehat{k}^i, \widehat{z}^i, \overline{y}^{-i}) = \widetilde{e}^i(k^i, z^i, y^{-i})
+\end{equation*}
+\end{lemmans}
+\bigskip
+
+\textbf{Sketch.} For every $e^i$, the date-$1$ consumption under the alternative coincides with the original:
+\begin{equation*}
+\widehat{x}^i_1 = \sum_{j \in J^i} V_j(f^i(k^i, e^i)) z^i_j + m^i_1 = x^i_1
+\end{equation*}
+\bigskip
+
+Since $u^i_1$ depends only on $(x^i_1, e^i)$, the argmax sets coincide
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: implied date-$0$ consumption}
+By the RCPP price perception:
+\begin{equation*}
+\widehat{x}^i_0 = \omega^i_0 + \overline{\pi} \cdot f^i(k^i, \widehat{e}^i) - \overline{\pi} \cdot \widehat{x}^i_1 - k^i
+\end{equation*}
+\bigskip
+
+Choosing $\widehat{e}^i = e^i$ (in the common argmax by Lemma) and using $\widehat{x}^i_1 = x^i_1$:
+\begin{equation*}
+\widehat{x}^i_0 = \omega^i_0 + \overline{\pi} \cdot y^i - \overline{\pi} \cdot x^i_1 - k^i
+\end{equation*}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: individual comparison}
+The alternative $(\widehat{k}^i, \widehat{z}^i, \widehat{x}^i_0, x^i_1, e^i)$ is in the RCPP budget set
+\bigskip
+
+By RCPP-optimality of $(\overline{x}^i, \overline{e}^i)$:
+\begin{equation*}
+U^i(\overline{x}^i, \overline{e}^i) \geq U^i(\widehat{x}^i_0, x^i_1, e^i)
+\end{equation*}
+\bigskip
+
+Combined with Pareto dominance:
+\begin{equation*}
+U^i(x^i_0, x^i_1, e^i) \geq U^i(\widehat{x}^i_0, x^i_1, e^i)
+\end{equation*}
+\bigskip
+
+By time-separability and strict monotonicity of $u^i_0$:
+\begin{equation*}
+x^i_0 \geq \widehat{x}^i_0, \quad \text{for all $i \in I$}
+\end{equation*}
+with strict inequality for the agent $i^\ast$ enjoying strict utility improvement
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: aggregation and contradiction}
+Summing over $i$:
+\begin{equation*}
+\sum_{i \in I} x^i_0 > \sum_{i \in I} \omega^i_0 + \overline{\pi} \cdot \sum_{i \in I} y^i - \overline{\pi} \cdot \sum_{i \in I} x^i_1 - \sum_{i \in I} k^i
+\end{equation*}
+\bigskip
+
+By date-$0$ market clearing: $\sum_i (x^i_0 + k^i) = \sum_i \omega^i_0$
+\bigskip
+
+By portfolio market clearing: $\sum_i x^i_1 = \sum_i y^i$
+\bigskip
+
+Substituting yields $0 > 0$, a contradiction $\boite$
+\end{frame}
+
+%====================================================================
+\section{Conclusion}
+%====================================================================
 
 \begin{frame}\frametitle{Conclusion}
+\textbf{Constrained efficiency of the stock market} under moral hazard
+\bigskip
 
-\begin{itemize}
-\item We have constrained efficiency of the stock market
-\item This result is obtained under two behavioral assumptions:
-    \begin{enumerate}
-    \item \emph{rationality of agents}: investors correctly infer an entrepreneur's effort from his observable financing decisions, and the entrepreneur is aware of this
-    \item \emph{competitive markets}: an entrepreneur cannot influence the equilibrium state prices
-    \end{enumerate}
-and additional spanning conditions
-\item Intuition
-    \begin{itemize}
-    \item entrepreneur's asset holdings can act as a signal for his effort choice
-    \item this allows inefficiencies from lowered incentives (arising from selling the firm) to be internalized by the entrepreneur through a lower price investors are prepared to pay for the firm's stock
-    \end{itemize}
-\end{itemize}
+Two behavioral assumptions:
+\begin{enumerate}
+\item \emph{Rationality of agents:} investors correctly infer the entrepreneur's effort from his observable financing decisions, and the entrepreneur is aware of this
+\item \emph{Competitive markets:} an entrepreneur cannot influence the equilibrium state prices
+\end{enumerate}
+\bigskip
 
+Plus structural conditions on the security structure (PS, SPS, no indices)
 \end{frame}
 
-%------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Intuition}
+\begin{itemize}
+\item The entrepreneur's asset holdings act as a \emph{signal} for his effort choice
+\bigskip
+\item Investors re-price the firm's securities based on their inference of effort
+\bigskip
+\item The entrepreneur, anticipating this, internalizes the inefficiency from lowered incentives through a lower price for his firm's stock
+\bigskip
+\item The externality at the heart of the moral-hazard problem is internalized through the price mechanism
+\end{itemize}
+\end{frame}
 
+%--------------------------------------------------------------------
 \begin{frame}\frametitle{Limitations}
-
+\textbf{Calcagno--Wagner (2006):}
 \begin{itemize}
-\item Calcagno and Wagner (2006) show that the market allocation is constrained efficient only when in each firm the entrepreneur who generates payoffs through unobservable effort has full initial ownership
-\item Quiggin and Chambers (2006) show that the market allocation is constrained efficient only when the production technology has a single input scalar
+\item The market allocation is constrained efficient \emph{only when} the entrepreneur has \emph{full initial ownership} of his firm
+\item With dispersed initial ownership, the signalling mechanism breaks down
 \end{itemize}
+\bigskip
 
+\textbf{Quiggin--Chambers (2006):}
+\begin{itemize}
+\item The market allocation is constrained efficient \emph{only when} the production technology has a \emph{single scalar input}
+\item With multi-dimensional inputs, signalling cannot pin down the optimal composition
+\end{itemize}
 \end{frame}
 
-%------------------------------------------------
+%====================================================================
+\section{Bibliography}
+%====================================================================
+
+\begin{frame}\frametitle{Main reference}
+\begin{thebibliography}{8}
+\beamertemplatearticlebibitems
+    \bibitem{MagillQuinzii2002}
+    Magill, M. and Quinzii, M.
+    \newblock Capital market equilibrium with moral hazard.
+    \newblock {\em Journal of Mathematical Economics} 38, 2002.
+\end{thebibliography}
+\bigskip
+
+The exposition of this part is based on this paper
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Earlier work and contemporary developments}
+\begin{thebibliography}{8}
+\begin{small}
+\beamertemplatearticlebibitems
+    \bibitem{KihlstromMatthews1990}
+    Kihlstrom, R. E. and Matthews, S. A.
+    \newblock Managerial incentives in an entrepreneurial stock market model.
+    \newblock {\em Journal of Financial Intermediation} 1, 1990.
+    \bibitem{Kocherlakota1998}
+    Kocherlakota, N. R.
+    \newblock The effects of moral hazard on asset prices when financial markets are complete.
+    \newblock {\em Journal of Monetary Economics} 41, 1998.
+    \bibitem{BisinGottardiRampini2008}
+    Bisin, A., Gottardi, P. and Rampini, A.
+    \newblock Managerial hedging and portfolio monitoring.
+    \newblock {\em Journal of the European Economic Association} 6, 2008.
+    \bibitem{AcharyaBisin2009}
+    Acharya, V. V. and Bisin, A.
+    \newblock Managerial hedging, equity ownership, and firm value.
+    \newblock {\em RAND Journal of Economics} 40, 2009.
+\end{small}
+\end{thebibliography}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Comments and extensions on Magill--Quinzii (2002)}
+\begin{thebibliography}{8}
+\beamertemplatearticlebibitems
+    \bibitem{CalcagnoWagner2006}
+    Calcagno, R. and Wagner, W.
+    \newblock Dispersed initial ownership and the efficiency of the stock market under moral hazard.
+    \newblock {\em Journal of Mathematical Economics} 42, 2006.
+    \bibitem{QuigginChambers2006}
+    Quiggin, J. and Chambers, R.
+    \newblock Capital market equilibrium with moral hazard and flexible technology.
+    \newblock {\em Journal of Mathematical Economics} 42, 2006.
+\end{thebibliography}
+\end{frame}
 
 \end{document}
