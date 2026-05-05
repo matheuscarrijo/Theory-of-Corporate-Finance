@@ -554,131 +554,131 @@ The value map $V(k, \cdot)$ is independent of the financial policy on the no-def
 Whether MM holds is now an \emph{equilibrium} question, answered by whether $I = I^e \cup I^b$
 \end{frame}
 
-%====================================================================
-\section{Intermediated Short Sales}
-%====================================================================
+% %====================================================================
+% \section{Intermediated Short Sales}
+% %====================================================================
 
-\begin{frame}\frametitle{Can intermediation restore efficiency?}
-The previous sections took short-sale constraints as exogenous
-\bigskip
+% \begin{frame}\frametitle{Can intermediation restore efficiency?}
+% The previous sections took short-sale constraints as exogenous
+% \bigskip
 
-\textbf{Question:} Can financial intermediaries who issue contracts replicating short positions restore the full unanimity and efficiency results?
-\bigskip
+% \textbf{Question:} Can financial intermediaries who issue contracts replicating short positions restore the full unanimity and efficiency results?
+% \bigskip
 
-A \emph{financial intermediary} is a risk-neutral, zero-profit institution that:
-\begin{itemize}
-\item issues long positions on the firm's equity to some investors
-\item issues short positions on the firm's equity to other investors
-\item the two positions net out except for a default friction
-\end{itemize}
-\end{frame}
+% A \emph{financial intermediary} is a risk-neutral, zero-profit institution that:
+% \begin{itemize}
+% \item issues long positions on the firm's equity to some investors
+% \item issues short positions on the firm's equity to other investors
+% \item the two positions net out except for a default friction
+% \end{itemize}
+% \end{frame}
 
-%--------------------------------------------------------------------
-\begin{frame}\frametitle{The default technology}
-A simple default technology: in every state $s$, a fraction $\delta \in (0, 1)$ of the short position fails to be repaid
-\bigskip
+% %--------------------------------------------------------------------
+% \begin{frame}\frametitle{The default technology}
+% A simple default technology: in every state $s$, a fraction $\delta \in (0, 1)$ of the short position fails to be repaid
+% \bigskip
 
-To insure his solvency, the intermediary holds $\gamma$ units of the firm's equity as collateral, satisfying
-\begin{equation*}
-m \leq m(1 - \delta) + \gamma, \quad \text{i.e.,} \quad \gamma \geq m \delta
-\end{equation*}
-where $m$ is the volume of intermediated long (= short) positions
-\end{frame}
+% To insure his solvency, the intermediary holds $\gamma$ units of the firm's equity as collateral, satisfying
+% \begin{equation*}
+% m \leq m(1 - \delta) + \gamma, \quad \text{i.e.,} \quad \gamma \geq m \delta
+% \end{equation*}
+% where $m$ is the volume of intermediated long (= short) positions
+% \end{frame}
 
-%--------------------------------------------------------------------
-\begin{frame}\frametitle{The intermediary's problem}
-Long and short positions trade at different prices $q^+$ and $q^-$
-\bigskip
+% %--------------------------------------------------------------------
+% \begin{frame}\frametitle{The intermediary's problem}
+% Long and short positions trade at different prices $q^+$ and $q^-$
+% \bigskip
 
-The intermediary solves
-\begin{equation*}
-\max \bigl\{ (q^+ - q^-) m - q \gamma \colon m \geq 0, \ \gamma \geq m \delta \bigr\}
-\end{equation*}
-\bigskip
+% The intermediary solves
+% \begin{equation*}
+% \max \bigl\{ (q^+ - q^-) m - q \gamma \colon m \geq 0, \ \gamma \geq m \delta \bigr\}
+% \end{equation*}
+% \bigskip
 
-\textbf{Constant returns to scale:} a positive $m$ at equilibrium requires zero profits, hence
-\begin{equation*}
-\gamma = m \delta \et q^+ - q^- = q \delta
-\end{equation*}
-\bigskip
+% \textbf{Constant returns to scale:} a positive $m$ at equilibrium requires zero profits, hence
+% \begin{equation*}
+% \gamma = m \delta \et q^+ - q^- = q \delta
+% \end{equation*}
+% \bigskip
 
-The spread between long and short prices equals the per-unit collateral cost
-\end{frame}
+% The spread between long and short prices equals the per-unit collateral cost
+% \end{frame}
 
-%--------------------------------------------------------------------
-\begin{frame}\frametitle{Investor's budget set with intermediation}
-Each investor holds long position $\phi^i_+ \geq 0$ and short position $\phi^i_- \geq 0$ on the intermediated derivative
-\bigskip
+% %--------------------------------------------------------------------
+% \begin{frame}\frametitle{Investor's budget set with intermediation}
+% Each investor holds long position $\phi^i_+ \geq 0$ and short position $\phi^i_- \geq 0$ on the intermediated derivative
+% \bigskip
 
-\begin{block}{At $t = 0$}
-\begin{small}
-\begin{equation*}
-c^i_0 + q \theta^i + q^+ \phi^i_+ + E \alpha^i \leq \omega^i_0 + (E + q \beta - k) \xi^i + q^- \phi^i_-
-\end{equation*}
-\end{small}
-\end{block}
+% \begin{block}{At $t = 0$}
+% \begin{small}
+% \begin{equation*}
+% c^i_0 + q \theta^i + q^+ \phi^i_+ + E \alpha^i \leq \omega^i_0 + (E + q \beta - k) \xi^i + q^- \phi^i_-
+% \end{equation*}
+% \end{small}
+% \end{block}
 
-\begin{block}{At $t = 1$ in state $s$}
-\begin{small}
-\begin{equation*}
-c^i_s + (1 - \delta)[f_s(k) - \beta] \phi^i_- \leq \omega^i_s + \theta^i + [f_s(k) - \beta](\alpha^i + \phi^i_+)
-\end{equation*}
-\end{small}
-\end{block}
-\bigskip
+% \begin{block}{At $t = 1$ in state $s$}
+% \begin{small}
+% \begin{equation*}
+% c^i_s + (1 - \delta)[f_s(k) - \beta] \phi^i_- \leq \omega^i_s + \theta^i + [f_s(k) - \beta](\alpha^i + \phi^i_+)
+% \end{equation*}
+% \end{small}
+% \end{block}
+% \bigskip
 
-A long position substitutes direct equity ownership; a short position replicates a negative equity holding up to the default friction
-\end{frame}
+% A long position substitutes direct equity ownership; a short position replicates a negative equity holding up to the default friction
+% \end{frame}
 
-%--------------------------------------------------------------------
-\begin{frame}\frametitle{Adjusted price perceptions}
-When intermediation is active ($m > 0$), the Makowski map must reflect the value of equity as collateral:
-\begin{equation*}
-\widetilde{E}(k', \beta') = \max \biggl\{ \widetilde{E}^c(k', \beta'), \ \frac{\widetilde{q}^+(k', \beta') - \widetilde{q}^-(k', \beta')}{\delta} \biggr\}
-\end{equation*}
-\bigskip
+% %--------------------------------------------------------------------
+% \begin{frame}\frametitle{Adjusted price perceptions}
+% When intermediation is active ($m > 0$), the Makowski map must reflect the value of equity as collateral:
+% \begin{equation*}
+% \widetilde{E}(k', \beta') = \max \biggl\{ \widetilde{E}^c(k', \beta'), \ \frac{\widetilde{q}^+(k', \beta') - \widetilde{q}^-(k', \beta')}{\delta} \biggr\}
+% \end{equation*}
+% \bigskip
 
-where
-\begin{itemize}
-\item $\widetilde{E}^c(k', \beta') = \max_i \PV^i[f_1(k') - \beta' \1_S]$ is the consumer-only valuation
-\item the second argument is the value of equity as collateral input to the intermediation technology
-\end{itemize}
-\end{frame}
+% where
+% \begin{itemize}
+% \item $\widetilde{E}^c(k', \beta') = \max_i \PV^i[f_1(k') - \beta' \1_S]$ is the consumer-only valuation
+% \item the second argument is the value of equity as collateral input to the intermediation technology
+% \end{itemize}
+% \end{frame}
 
-%--------------------------------------------------------------------
-\begin{frame}\frametitle{Two equilibrium regimes}
-At equilibrium with $m > 0$, two regimes may occur:
-\bigskip
+% %--------------------------------------------------------------------
+% \begin{frame}\frametitle{Two equilibrium regimes}
+% At equilibrium with $m > 0$, two regimes may occur:
+% \bigskip
 
-\begin{block}{Regime $q > q^+$}
-\begin{itemize}
-\item Equity trades at a premium over the long position
-\item All outstanding shares purchased by the intermediary, $\gamma = 1$
-\item The premium $q - q^+$ compensates the intermediation collateral cost
-\end{itemize}
-\end{block}
+% \begin{block}{Regime $q > q^+$}
+% \begin{itemize}
+% \item Equity trades at a premium over the long position
+% \item All outstanding shares purchased by the intermediary, $\gamma = 1$
+% \item The premium $q - q^+$ compensates the intermediation collateral cost
+% \end{itemize}
+% \end{block}
 
-\begin{block}{Regime $q = q^+$}
-\begin{itemize}
-\item Investors are indifferent between equity and the long position
-\item Some shares are held by consumers, some by the intermediary
-\end{itemize}
-\end{block}
-\end{frame}
+% \begin{block}{Regime $q = q^+$}
+% \begin{itemize}
+% \item Investors are indifferent between equity and the long position
+% \item Some shares are held by consumers, some by the intermediary
+% \end{itemize}
+% \end{block}
+% \end{frame}
 
-%--------------------------------------------------------------------
-\begin{frame}\frametitle{Unanimity and efficiency with intermediation}
-\begin{proposition}[Unanimity and efficiency with intermediation]
-At a competitive equilibrium of the economy with intermediated short sales:
-\begin{itemize}
-\item equity holders unanimously support the production and financial decisions of the firm
-\item the equilibrium allocation is constrained Pareto optimal relative to the admissibility notion adapted to the enriched asset structure
-\end{itemize}
-\end{proposition}
-\bigskip
+% %--------------------------------------------------------------------
+% \begin{frame}\frametitle{Unanimity and efficiency with intermediation}
+% \begin{proposition}[Unanimity and efficiency with intermediation]
+% At a competitive equilibrium of the economy with intermediated short sales:
+% \begin{itemize}
+% \item equity holders unanimously support the production and financial decisions of the firm
+% \item the equilibrium allocation is constrained Pareto optimal relative to the admissibility notion adapted to the enriched asset structure
+% \end{itemize}
+% \end{proposition}
+% \bigskip
 
-The proof parallels the previous theorems with two modifications: the price perception is replaced by the adjusted version with collateral value, and admissibility is enlarged to include the derivative positions
-\end{frame}
+% The proof parallels the previous theorems with two modifications: the price perception is replaced by the adjusted version with collateral value, and admissibility is enlarged to include the derivative positions
+% \end{frame}
 
 %====================================================================
 \section{Bibliography}
