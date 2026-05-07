@@ -109,7 +109,6 @@ The set of agents is partitioned:
 \begin{equation*}
 I = I_1 \cup I_2
 \end{equation*}
-\bigskip
 
 \begin{itemize}
 \item $I_1$: finite set of \emph{entrepreneurs}
@@ -218,7 +217,6 @@ There is a finite set $J$ of securities. Each $j \in J$ has a payoff function
 \begin{equation*}
 V_j : \R^I \to \R
 \end{equation*}
-\bigskip
 
 Let $y = (y^i)_{i \in I}$ denote the random outputs of firms (with $y^i = 0$ for $i \in I_2$)
 \bigskip
@@ -236,13 +234,11 @@ The linear mapping $V(y) : \R^J \to \R^S$ is defined by
 \begin{equation*}
 V(y) z := \sum_{j \in J} z_j V_j(y), \quad z \in \R^J
 \end{equation*}
-\bigskip
 
 The \emph{marketed subspace} at output $y$ is
 \begin{equation*}
 \mathcal{V}(y) := \Range V(y) \subset \R^S
 \end{equation*}
-\bigskip
 
 This is the set of state-contingent claims at $t=1$ that can be replicated by a portfolio of traded securities
 \end{frame}
@@ -259,7 +255,7 @@ This is the set of state-contingent claims at $t=1$ that can be replicated by a 
 \begin{equation*}
 V_j(y_s) = \max\{ y^i_s - \tau, 0 \}
 \end{equation*}
-\bigskip
+
 
 \textbf{Indices and complex options.} An index is a weighted sum:
 \begin{equation*}
@@ -274,7 +270,6 @@ For each entrepreneur $i \in I_1$, partition the securities:
 \begin{equation*}
 J = J^i \cup J^i_{-i} \cup J_{-i}
 \end{equation*}
-\bigskip
 
 \begin{itemize}
 \item $J^i$: securities depending \emph{exclusively} on firm $i$'s output
@@ -302,13 +297,13 @@ Given $q$, $y^{-i}$, and choices $(k^i, z^i, e^i)$:
 
 \begin{block}{At $t = 0$}
 \begin{equation*}
-0 \leq x^i_0 := \omega^i_0 + q_i - q \cdot z^i - k^i
+0 \leq c^i_0 := \omega^i_0 + q_i - q \cdot z^i - k^i
 \end{equation*}
 \end{block}
 
 \begin{block}{At $t = 1$ in state $s$}
 \begin{equation*}
-0 \leq x^i_s := V_s(f^i(k^i, e^i), y^{-i}) \cdot z^i
+0 \leq c^i_s := V_s(f^i(k^i, e^i), y^{-i}) \cdot z^i
 \end{equation*}
 \end{block}
 \bigskip
@@ -323,13 +318,13 @@ With $k^i = 0$, $e^i = 0$, $q_i = 0$, $f^i = 0$:
 
 \begin{block}{At $t = 0$}
 \begin{equation*}
-0 \leq x^i_0 := \omega^i_0 - q \cdot z^i
+0 \leq c^i_0 := \omega^i_0 - q \cdot z^i
 \end{equation*}
 \end{block}
 
 \begin{block}{At $t = 1$ in state $s$}
 \begin{equation*}
-0 \leq x^i_s := V_s(0, y^{-i}) \cdot z^i
+0 \leq c^i_s := V_s(0, y^{-i}) \cdot z^i
 \end{equation*}
 \end{block}
 \bigskip
@@ -344,7 +339,7 @@ Each agent $i$ has utility $U^i : \R_+ \times \R_+^S \times E^i \to \R$
 
 \begin{assumption}[Time-separability]
 \begin{equation*}
-U^i(x^i_0, x^i_1, e^i) = u^i_0(x^i_0) + u^i_1(x^i_1, e^i)
+U^i(c^i_0, c^i_1, e^i) = u^i_0(c^i_0) + u^i_1(c^i_1, e^i)
 \end{equation*}
 \end{assumption}
 \bigskip
@@ -376,9 +371,8 @@ The capital structure of the firm thus affects the performance of management thr
 \begin{frame}\frametitle{The optimal effort correspondence}
 For given $(k^i, z^i, y^{-i})$, define
 \begin{equation*}
-\widetilde{e}^i(k^i, z^i, y^{-i}) := \argmax \bigl\{ u^i_1(x^i_1, e^i) \colon e^i \in E^i,\ x^i_1 = V(f^i(k^i, e^i), y^{-i}) z^i \bigr\}
+\widetilde{e}^i(k^i, z^i, y^{-i}) := \argmax \bigl\{ u^i_1(c^i_1, e^i) \colon e^i \in E^i,\ c^i_1 = V(f^i(k^i, e^i), y^{-i}) z^i \bigr\}
 \end{equation*}
-\bigskip
 
 \begin{assumption}[Existence of optimal effort]
 The correspondence $\widetilde{e}^i(\cdot)$ has non-empty values for every $(k^i, z^i, y^{-i})$.
@@ -468,7 +462,7 @@ The collection $\widetilde{Q}^i = (\widetilde{Q}^i_j)_{j \in J}$ is agent $i$'s 
 \begin{definitionns}
 A stock-market equilibrium with price perceptions $\widetilde{Q}$ is a list
 \begin{equation*}
-\bigl\{ (\overline{x}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)_{i \in I}, (\overline{y}^j)_{j \in J}, \overline{q} \bigr\}
+\bigl\{ (\overline{c}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)_{i \in I}, (\overline{y}^j)_{j \in J}, \overline{q} \bigr\}
 \end{equation*}
 satisfying conditions (a)--(d) on the next slides.
 \end{definitionns}
@@ -476,16 +470,16 @@ satisfying conditions (a)--(d) on the next slides.
 
 %--------------------------------------------------------------------
 \begin{frame}\frametitle{Equilibrium: condition (a) -- agents are rational}
-For each $i \in I$, $(\overline{x}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)$ maximizes $U^i(x^i_0, x^i_1, e^i)$ subject to:
+For each $i \in I$, $(\overline{c}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)$ maximizes $U^i(c^i_0, c^i_1, e^i)$ subject to:
 \bigskip
 
 \begin{equation*}
-x^i_0 = \omega^i_0 + \widetilde{Q}^i_i(k^i, z^i; \overline{y}^{-i}) - \widetilde{Q}^i(k^i, z^i; \overline{y}^{-i}) \cdot z^i - k^i
+c^i_0 = \omega^i_0 + \widetilde{Q}^i_i(k^i, z^i; \overline{y}^{-i}) - \widetilde{Q}^i(k^i, z^i; \overline{y}^{-i}) \cdot z^i - k^i
 \end{equation*}
 \bigskip
 
 \begin{equation*}
-x^i_1 = V(f^i(k^i, e^i), \overline{y}^{-i}) z^i
+c^i_1 = V(f^i(k^i, e^i), \overline{y}^{-i}) z^i
 \end{equation*}
 \bigskip
 
@@ -677,7 +671,7 @@ This is the price-taking hypothesis adapted to the moral-hazard framework
 \begin{proposition}[Bond, equity, single-factor risk]
 Assume:
 \begin{itemize}
-\item[(a)] $J = I \cup \{j_0\}$ (only bond and equities)
+\item[(a)] $J = I \cup \{j_0\}$ (only equities and a riskless bond)
 \item[(b)] for every $i \in I_1$:
 \begin{equation*}
 f^i(k^i, e^i) = f^i_c(k^i, e^i) \1_S + g^i(k^i, e^i) \bm{\eta}^i
@@ -801,14 +795,14 @@ This defines a notion of \emph{constrained} efficiency: better than no notion of
 %--------------------------------------------------------------------
 \begin{frame}\frametitle{Constrained feasible allocations}
 \begin{definitionns}
-$(\bm{x}, \bm{e}) = (x^i, e^i)_{i \in I}$ is \alert{constrained feasible} if there exist $(\bm{k}, \bm{z})$ such that:
+$(\bm{c}, \bm{e}) = (c^i, e^i)_{i \in I}$ is \alert{constrained feasible} if there exist $(\bm{k}, \bm{z})$ such that:
 \end{definitionns}
 
 \begin{itemize}
 \item[(i)] production: $y^i = f^i(k^i, e^i)$
 \item[(ii)] optimal effort: $e^i \in \widetilde{e}^i(k^i, z^i, y^{-i})$
-\item[(iii)] risk-sharing: $x^i_s = V_s(y) \cdot z^i$ for all $s \in S$
-\item[(iv)] date-$0$ market clearing: $\sum_i (x^i_0 + k^i) = \sum_i \omega^i_0$
+\item[(iii)] risk-sharing: $c^i_s = V_s(y) \cdot z^i$ for all $s \in S$
+\item[(iv)] date-$0$ market clearing: $\sum_i (c^i_0 + k^i) = \sum_i \omega^i_0$
 \item[(v)] portfolio market clearing:
 \begin{equation*}
 \sum_\ell z^\ell_j = 1 \text{ for $j \in I$}, \quad \sum_\ell z^\ell_j = 0 \text{ for $j \notin I$}
@@ -819,9 +813,9 @@ $(\bm{x}, \bm{e}) = (x^i, e^i)_{i \in I}$ is \alert{constrained feasible} if the
 %--------------------------------------------------------------------
 \begin{frame}\frametitle{Constrained Pareto optimality}
 \begin{definitionns}
-A constrained feasible allocation $(\bm{x}, \bm{e})$ is \alert{constrained Pareto optimal} (CPO) if there is no other constrained feasible $(\widehat{\bm{x}}, \widehat{\bm{e}})$ with
+A constrained feasible allocation $(\bm{c}, \bm{e})$ is \alert{constrained Pareto optimal} (CPO) if there is no other constrained feasible $(\widehat{\bm{c}}, \widehat{\bm{e}})$ with
 \begin{equation*}
-U^i(\widehat{x}^i, \widehat{e}^i) \geq U^i(x^i, e^i), \quad \text{for all $i \in I$}
+U^i(\widehat{c}^i, \widehat{e}^i) \geq U^i(c^i, e^i), \quad \text{for all $i \in I$}
 \end{equation*}
 and strict inequality for at least one $i$.
 \end{definitionns}
@@ -857,7 +851,7 @@ For every $i \in I_1$, $J^i_{-i} = \emptyset$: every security depends \emph{excl
 
 Under this assumption, agent $i$'s date-$1$ income decomposes:
 \begin{equation*}
-x^i_1 = m^i_1 + \sum_{j \in J^i} V_j(f^i(k^i, e^i)) z^i_j
+c^i_1 = m^i_1 + \sum_{j \in J^i} V_j(f^i(k^i, e^i)) z^i_j
 \end{equation*}
 
 where $m^i_1 := \sum_{j \in J_{-i}} V_j(y^{-i}) z^i_j$ is the \emph{outside income}
@@ -913,14 +907,14 @@ This rules out coordinated deviations creating new outside cash flows
 %--------------------------------------------------------------------
 \begin{frame}\frametitle{The welfare theorem}
 \begin{theoremns}[Constrained Pareto optimality of RCPP]
-Let $\bigl\{ (\overline{x}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)_i, (\overline{y}^j)_j, \overline{q} \bigr\}$ be an RCPP equilibrium. Suppose:
+Let $\bigl\{ (\overline{c}^i, \overline{e}^i, \overline{k}^i, \overline{z}^i)_i, (\overline{y}^j)_j, \overline{q} \bigr\}$ be an RCPP equilibrium. Suppose:
 \begin{itemize}
 \item time-separable preferences
 \item common knowledge of characteristics
 \item no index-based securities
 \item strong partial spanning at $\overline{y}$
 \end{itemize}
-Then $(\overline{x}^i, \overline{e}^i)_{i \in I}$ is constrained Pareto optimal.
+Then $(\overline{c}^i, \overline{e}^i)_{i \in I}$ is constrained Pareto optimal.
 \end{theoremns}
 \end{frame}
 
@@ -947,15 +941,15 @@ The entrepreneur, rationally anticipating that investors will read his financial
 %====================================================================
 
 \begin{frame}\frametitle{Proof: the strategy}
-Suppose for contradiction that $(\bm{x}, \bm{e})$ is constrained feasible and Pareto-dominates $(\overline{\bm{x}}, \overline{\bm{e}})$
+Suppose for contradiction that $(\bm{c}, \bm{e})$ is constrained feasible and Pareto-dominates $(\overline{\bm{c}}, \overline{\bm{e}})$
 \bigskip
 
 \textbf{Steps:}
 \begin{enumerate}
 \item Construct, for each agent $i$, an alternative portfolio $\widehat{z}^i$ that replicates the outside income $m^i_1$ at equilibrium outputs
 \item Show that the optimal effort is invariant under this construction
-\item Compute the implied date-$0$ consumption $\widehat{x}^i_0$
-\item Use RCPP-optimality to conclude $x^i_0 \geq \widehat{x}^i_0$ for all $i$, with strict inequality for at least one
+\item Compute the implied date-$0$ consumption $\widehat{c}^i_0$
+\item Use RCPP-optimality to conclude $c^i_0 \geq \widehat{c}^i_0$ for all $i$, with strict inequality for at least one
 \item Aggregate to derive a contradiction with market clearing
 \end{enumerate}
 \end{frame}
@@ -993,47 +987,47 @@ and $(\widehat{z}^i_j)_{j \in J_{-i}}$ such that
 
 \textbf{Sketch.} For every $e^i$, the date-$1$ consumption under the alternative coincides with the original:
 \begin{equation*}
-\widehat{x}^i_1 = \sum_{j \in J^i} V_j(f^i(k^i, e^i)) z^i_j + m^i_1 = x^i_1
+\widehat{c}^i_1 = \sum_{j \in J^i} V_j(f^i(k^i, e^i)) z^i_j + m^i_1 = c^i_1
 \end{equation*}
 \bigskip
 
-Since $u^i_1$ depends only on $(x^i_1, e^i)$, the argmax sets coincide
+Since $u^i_1$ depends only on $(c^i_1, e^i)$, the argmax sets coincide
 \end{frame}
 
 %--------------------------------------------------------------------
 \begin{frame}\frametitle{Proof: implied date-$0$ consumption}
 By the RCPP price perception:
 \begin{equation*}
-\widehat{x}^i_0 = \omega^i_0 + \overline{\pi} \cdot f^i(k^i, \widehat{e}^i) - \overline{\pi} \cdot \widehat{x}^i_1 - k^i
+\widehat{c}^i_0 = \omega^i_0 + \overline{\pi} \cdot f^i(k^i, \widehat{e}^i) - \overline{\pi} \cdot \widehat{c}^i_1 - k^i
 \end{equation*}
 \bigskip
 
-Choosing $\widehat{e}^i = e^i$ (in the common argmax by Lemma) and using $\widehat{x}^i_1 = x^i_1$:
+Choosing $\widehat{e}^i = e^i$ (in the common argmax by Lemma) and using $\widehat{c}^i_1 = c^i_1$:
 \begin{equation*}
-\widehat{x}^i_0 = \omega^i_0 + \overline{\pi} \cdot y^i - \overline{\pi} \cdot x^i_1 - k^i
+\widehat{c}^i_0 = \omega^i_0 + \overline{\pi} \cdot y^i - \overline{\pi} \cdot c^i_1 - k^i
 \end{equation*}
 \end{frame}
 
 %--------------------------------------------------------------------
 \begin{frame}\frametitle{Proof: individual comparison}
-The alternative $(\widehat{k}^i, \widehat{z}^i, \widehat{x}^i_0, x^i_1, e^i)$ is in the RCPP budget set
+The alternative $(\widehat{k}^i, \widehat{z}^i, \widehat{c}^i_0, c^i_1, e^i)$ is in the RCPP budget set
 \bigskip
 
-By RCPP-optimality of $(\overline{x}^i, \overline{e}^i)$:
+By RCPP-optimality of $(\overline{c}^i, \overline{e}^i)$:
 \begin{equation*}
-U^i(\overline{x}^i, \overline{e}^i) \geq U^i(\widehat{x}^i_0, x^i_1, e^i)
+U^i(\overline{c}^i, \overline{e}^i) \geq U^i(\widehat{c}^i_0, c^i_1, e^i)
 \end{equation*}
 \bigskip
 
 Combined with Pareto dominance:
 \begin{equation*}
-U^i(x^i_0, x^i_1, e^i) \geq U^i(\widehat{x}^i_0, x^i_1, e^i)
+U^i(c^i_0, c^i_1, e^i) \geq U^i(\widehat{c}^i_0, c^i_1, e^i)
 \end{equation*}
 \bigskip
 
 By time-separability and strict monotonicity of $u^i_0$:
 \begin{equation*}
-x^i_0 \geq \widehat{x}^i_0, \quad \text{for all $i \in I$}
+c^i_0 \geq \widehat{c}^i_0, \quad \text{for all $i \in I$}
 \end{equation*}
 with strict inequality for the agent $i^\ast$ enjoying strict utility improvement
 \end{frame}
@@ -1042,14 +1036,14 @@ with strict inequality for the agent $i^\ast$ enjoying strict utility improvemen
 \begin{frame}\frametitle{Proof: aggregation and contradiction}
 Summing over $i$:
 \begin{equation*}
-\sum_{i \in I} x^i_0 > \sum_{i \in I} \omega^i_0 + \overline{\pi} \cdot \sum_{i \in I} y^i - \overline{\pi} \cdot \sum_{i \in I} x^i_1 - \sum_{i \in I} k^i
+\sum_{i \in I} c^i_0 > \sum_{i \in I} \omega^i_0 + \overline{\pi} \cdot \sum_{i \in I} y^i - \overline{\pi} \cdot \sum_{i \in I} c^i_1 - \sum_{i \in I} k^i
 \end{equation*}
 \bigskip
 
-By date-$0$ market clearing: $\sum_i (x^i_0 + k^i) = \sum_i \omega^i_0$
+By date-$0$ market clearing: $\sum_i (c^i_0 + k^i) = \sum_i \omega^i_0$
 \bigskip
 
-By portfolio market clearing: $\sum_i x^i_1 = \sum_i y^i$
+By portfolio market clearing: $\sum_i c^i_1 = \sum_i y^i$
 \bigskip
 
 Substituting yields $0 > 0$, a contradiction $\boite$
