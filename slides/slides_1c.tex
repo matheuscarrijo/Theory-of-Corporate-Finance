@@ -5,9 +5,11 @@
   \usefonttheme[onlysmall]{serif}
 }
 \usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{tikz}
 \usepackage{amsmath,amssymb,bm}
 \usepackage{colortbl}
 \usepackage[english]{babel}
+
 \setbeamercovered{dynamic}
 \DeclareMathOperator\PV{PV}
 \def\R{\mathbb{R}}
@@ -46,6 +48,7 @@
 \newtheorem*{theoremns}{Theorem}
 \newtheorem*{remark}{Remark}
 \newtheorem*{definitionns}{Definition}
+\newtheorem*{lemmans}{Lemma}
 %-----------------------------------------
 \title[Corporate Finance]{Theory of Corporate Finance}
 \author[Victor Filipe]{V. Filipe Martins-da-Rocha}
@@ -436,7 +439,7 @@ A profile $(c^i)_{i \in I}$ is \emph{admissible} if:
 \begin{equation*}
 k + \sum_{i \in I} c^i_0 \leq \omega_0 \et \sum_{i \in I} c^i_s \leq f_s(k) + \sum_{i \in I} \omega^i_s
 \end{equation*}
-\item[(ii)] implementability: there exists $\beta \geq 0$ and, for every $i \in I$, $(\theta^i, \alpha^i) \in \R_+^2$ with
+\item[(ii)] implementability: there exists $\beta \geq 0$ with $\beta \leq \inf_{s \in S} f_s(k)$ and, for every $i \in I$, $(\theta^i, \alpha^i) \in \R_+^2$ with
 \begin{equation*}
 c^i_s = \omega^i_s + \theta^i + [f_s(k) - \beta] \alpha^i, \quad \text{for all $s \in S$}
 \end{equation*}
@@ -463,25 +466,200 @@ This added flexibility is what makes the constrained-efficiency notion weaker th
 \end{frame}
 
 %--------------------------------------------------------------------
-\begin{frame}\frametitle{Constrained Pareto efficiency}
-\begin{definitionns}
-An admissible allocation $(c^i)_{i \in I}$ is \emph{constrained Pareto efficient} if there does not exist another admissible allocation $(\widetilde{c}^i)_{i \in I}$ with
+\begin{frame}\frametitle{Weak Pareto efficiency}
+\begin{definitionns}[Weak Pareto efficiency]
+An admissible allocation $(c^i)_{i \in I}$ is \emph{weakly constrained Pareto efficient} if there does not exist another admissible allocation $(\widetilde{c}^i)_{i \in I}$ with
 \begin{equation*}
-U^i(\widetilde{c}^i) \geq U^i(c^i), \quad \text{for all $i \in I$}
+U^i(\widetilde{c}^i) > U^i(c^i), \quad \text{for all $i \in I$}
 \end{equation*}
-and strict inequality for at least one $i$.
 \end{definitionns}
+\bigskip
 
-\begin{theoremns}[Welfare theorem]
-Under \textup{(C.1)--(C.4)}, every competitive-equilibrium allocation is constrained Pareto efficient.
+\textbf{The strict-improvement-for-everyone criterion:} no admissible deviation makes \emph{every} agent strictly better off
+\bigskip
+
+This is weaker than the standard (strong) notion: it permits ties at a subset of agents
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Weak vs.\ strong Pareto efficiency}
+\textbf{Strong} Pareto efficiency rules out admissible $(\widetilde{c}^i)$ with
+\begin{equation*}
+U^i(\widetilde{c}^i) \geq U^i(c^i) \text{ for all $i \in I$, strict for some $i$}
+\end{equation*}
+
+\textbf{Weak} Pareto efficiency rules out admissible $(\widetilde{c}^i)$ with strict improvement for \emph{everyone}
+\bigskip
+
+\begin{itemize}
+\item Strong $\Rightarrow$ weak (logically)
+\item Under continuity and strict monotonicity of $U^i$: \alert{the two notions coincide}
+\item Argument: small consumption transfers convert any weak improvement into a strict one for all
+\end{itemize}
+\bigskip
+
+\textbf{Reference:} Mas-Colell, Whinston and Green (1995), Proposition 16.D.2
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Weak welfare theorem}
+\begin{theoremns}[Weak welfare theorem]
+Under \textup{(C.1)--(C.4)}, every competitive-equilibrium allocation is weakly constrained Pareto efficient.
 \end{theoremns}
+\bigskip
+
+\textbf{Significance:} the equilibrium cannot be uniformly improved upon within the class of admissible allocations
+\bigskip
+
+Under standard regularity, this is equivalent to the strong welfare theorem
+\bigskip
+
+The proof uses the strong unanimity (Theorem 3.6) and an aggregation argument
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: the wealth gap}
+By contradiction: $(\widetilde{c}^i)$ admissible with $U^i(\widetilde{c}^i) > U^i(c^i)$ for all $i \in I$
+\bigskip
+
+Supporting investment, debt, portfolios: $(\widetilde{k}, \widetilde{\beta}) \in \mathcal{A}$ and $(\widetilde{\theta}^i, \widetilde{\alpha}^i)_i$
+\bigskip
+
+For each $i$, define the \emph{wealth gap}
+\begin{equation*}
+G^i := \omega^i_0 + V(\widetilde{k}, \widetilde{\beta}) \xi^i - \widetilde{c}^i_0 - q \widetilde{\theta}^i - \widetilde{E}(\widetilde{k}, \widetilde{\beta}) \widetilde{\alpha}^i
+\end{equation*}
+\bigskip
+
+\textbf{Claim:} $G^i < 0$ for every $i \in I$
+\bigskip
+
+If $G^{i^\ast} \geq 0$ for some $i^\ast$: $\widetilde{c}^{i^\ast}$ is achievable in $B^{i^\ast}(q, \widetilde{E}(\widetilde{k}, \widetilde{\beta}), \widetilde{k}, \widetilde{\beta})$ with portfolio $(\widetilde{\theta}^{i^\ast}, \widetilde{\alpha}^{i^\ast})$, so by strong unanimity $U^{i^\ast}(c^{i^\ast}) \geq U^{i^\ast}(\widetilde{c}^{i^\ast})$, contradicting the strict improvement at $i^\ast$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: aggregating the wealth gap}
+Sum $G^i$ over $i$, using $\sum_i \xi^i = 1$ and $V(\widetilde{k}, \widetilde{\beta}) = \widetilde{E}(\widetilde{k}, \widetilde{\beta}) + q\widetilde{\beta} - \widetilde{k}$:
+\bigskip
+
+\begin{small}
+\begin{equation*}
+\sum_{i \in I} G^i = \biggl[ \sum_i \omega^i_0 - \sum_i \widetilde{c}^i_0 - \widetilde{k} \biggr] + \widetilde{E}(\widetilde{k}, \widetilde{\beta})(1 - A) + q(\widetilde{\beta} - T)
+\end{equation*}
+\end{small}
+\bigskip
+
+where $T := \sum_i \widetilde{\theta}^i$ and $A := \sum_i \widetilde{\alpha}^i$
+\bigskip
+
+By date-$0$ feasibility, the bracketed term is $\geq 0$, so
+\begin{equation*}
+\sum_{i \in I} G^i \geq \widetilde{E}(\widetilde{k}, \widetilde{\beta})(1 - A) + q(\widetilde{\beta} - T)
+\end{equation*}
+\bigskip
+
+\textbf{Goal:} show the right-hand side is $\geq 0$ (then $\sum G^i \geq 0$, contradicting $G^i < 0$ for all $i$)
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: case $A \leq 1$}
+By max-valuation pricing, choose $j^\ast \in I^b$ with $\PV^{j^\ast}[\1_S] = q$. Let
+\begin{equation*}
+\Pi^\ast := \PV^{j^\ast}[f_1(\widetilde{k}) - \widetilde{\beta} \1_S] \leq \widetilde{E}(\widetilde{k}, \widetilde{\beta})
+\end{equation*}
+(by Makowski)
+\bigskip
+
+Multiply date-$1$ feasibility by $\MRS^{j^\ast}_s$ and sum over $s$:
+\begin{equation*}
+T q + A \Pi^\ast \leq \PV^{j^\ast}[f_1(\widetilde{k})] = \Pi^\ast + \widetilde{\beta} q
+\end{equation*}
+
+Equivalently:
+\begin{equation*}
+q(T - \widetilde{\beta}) \leq (1 - A) \Pi^\ast \leq (1 - A) \widetilde{E}(\widetilde{k}, \widetilde{\beta})
+\end{equation*}
+(second inequality uses $A \leq 1$)
+\bigskip
+
+Rearranging gives $\widetilde{E}(\widetilde{k}, \widetilde{\beta})(1-A) + q(\widetilde{\beta} - T) \geq 0$ \alert{$\checkmark$}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: case $A > 1$, part 1}
+\textbf{Sub-step:} show $T \leq \widetilde{\beta}$
+\bigskip
+
+Let $\underline{s} := \arg\min_s f_s(\widetilde{k})$. Date-$1$ feasibility at $\underline{s}$:
+\begin{equation*}
+T + (f_{\underline{s}}(\widetilde{k}) - \widetilde{\beta}) A \leq f_{\underline{s}}(\widetilde{k})
+\end{equation*}
+\bigskip
+
+Equivalently: $T \leq f_{\underline{s}}(\widetilde{k})(1-A) + \widetilde{\beta} A$
+\bigskip
+
+Since $\widetilde{\beta} \leq f_{\underline{s}}(\widetilde{k})$ (no-default) and $1 - A < 0$:
+\begin{equation*}
+f_{\underline{s}}(\widetilde{k})(1-A) \leq \widetilde{\beta}(1-A)
+\end{equation*}
+\bigskip
+
+Hence
+\begin{equation*}
+T \leq \widetilde{\beta}(1-A) + \widetilde{\beta} A = \widetilde{\beta}
+\end{equation*}
+
+So $\widetilde{\beta} - T \geq 0$ in this case
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: case $A > 1$, part 2}
+Choose $\widehat{i}$ achieving the Makowski max:
+\begin{equation*}
+\PV^{\widehat{i}}[f_1(\widetilde{k}) - \widetilde{\beta} \1_S] = \widetilde{E}(\widetilde{k}, \widetilde{\beta})
+\end{equation*}
+
+By max-valuation pricing, $\PV^{\widehat{i}}[\1_S] \leq q$
+\bigskip
+
+Multiply date-$1$ feasibility by $\MRS^{\widehat{i}}_s$ and sum:
+\begin{equation*}
+T \PV^{\widehat{i}}[\1_S] + A \widetilde{E}(\widetilde{k}, \widetilde{\beta}) \leq \widetilde{E}(\widetilde{k}, \widetilde{\beta}) + \widetilde{\beta} \PV^{\widehat{i}}[\1_S]
+\end{equation*}
+
+Rearranging:
+\begin{equation*}
+\widetilde{E}(\widetilde{k}, \widetilde{\beta})(A - 1) \leq \PV^{\widehat{i}}[\1_S] (\widetilde{\beta} - T) \leq q(\widetilde{\beta} - T)
+\end{equation*}
+
+last inequality uses $\widetilde{\beta} - T \geq 0$ and $\PV^{\widehat{i}}[\1_S] \leq q$. So $\widetilde{E}(\widetilde{k}, \widetilde{\beta})(1-A) + q(\widetilde{\beta} - T) \geq 0$ \alert{$\checkmark$}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: conclusion}
+Combining the two cases:
+\begin{equation*}
+\widetilde{E}(\widetilde{k}, \widetilde{\beta})(1 - A) + q(\widetilde{\beta} - T) \geq 0
+\end{equation*}
+
+Together with the aggregation step:
+\begin{equation*}
+\sum_{i \in I} G^i \geq 0
+\end{equation*}
+\bigskip
+
+But by step 1, $G^i < 0$ for every $i$, so $\sum_i G^i < 0$
+\bigskip
+
+\alert{Contradiction.} The supposed weakly Pareto-dominating allocation cannot exist $\boite$
 \end{frame}
 
 %====================================================================
 \section{Modigliani--Miller Revisited}
 %====================================================================
 
-\begin{frame}\frametitle{Equity holders and bond holders}
+\begin{frame}\frametitle{Equity and bond holders}
 Fix a competitive equilibrium with $\beta > 0$
 \bigskip
 
@@ -505,7 +683,121 @@ By max-valuation pricing, $I^e$ and $I^b$ are both non-empty
 \end{frame}
 
 %--------------------------------------------------------------------
-\begin{frame}\frametitle{Equity holders are bond holders}
+\begin{frame}\frametitle{Convexity of the value map}
+\begin{lemmans}[Convexity of $V(k, \cdot)$]
+For each $k \geq 0$, the map
+\begin{equation*}
+\beta' \mapsto V(k, \beta') = \widetilde{E}(k, \beta') + q\beta' - k
+\end{equation*}
+is convex piecewise linear on $[0, \inf_{s \in S} f_s(k)]$.
+\end{lemmans}
+\bigskip
+
+\textbf{Why?} For each $i \in I$:
+\begin{equation*}
+\PV^i[f_1(k) - \beta' \1_S] = \PV^i[f_1(k)] - \beta' \PV^i[\1_S]
+\end{equation*}
+is \emph{affine} in $\beta'$
+\bigskip
+
+Hence $\widetilde{E}(k, \beta') = \max_i \PV^i[f_1(k) - \beta' \1_S]$ is the max of finitely many affine functions: convex piecewise linear
+\bigskip
+
+Adding $q\beta' - k$ (linear) preserves convexity
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Danskin's theorem}
+Let $g_1, \ldots, g_n : \R \to \R$ be differentiable, and define
+\begin{equation*}
+h(x) := \max_{i = 1, \ldots, n} g_i(x)
+\end{equation*}
+
+The active set at $x_0$ is $I^\ast(x_0) := \{i \colon g_i(x_0) = h(x_0)\}$
+\bigskip
+
+\begin{theoremns}[Danskin, 1966]
+$h$ has one-sided directional derivatives at every $x_0$:
+\begin{equation*}
+\partial^+ h(x_0) = \max_{i \in I^\ast(x_0)} g_i'(x_0)
+\end{equation*}
+\begin{equation*}
+\partial^- h(x_0) = \min_{i \in I^\ast(x_0)} g_i'(x_0)
+\end{equation*}
+\end{theoremns}
+\bigskip
+
+\textbf{References:} Danskin (1966); Rockafellar (1970), Thm 23.4--23.5; Bertsekas (1999), Prop B.25
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Danskin: geometric intuition}
+The function $h(x) = \max_i g_i(x)$ is the \emph{upper envelope} of the family $(g_i)$
+\bigskip
+
+At a point $x_0$ where two or more $g_i$ tie, $h$ has a \alert{kink}
+\bigskip
+
+\begin{itemize}
+\item Going \emph{right} from $x_0$: the maximizer becomes the $i$ with the \emph{steepest} slope $g_i'$ \\
+  $\Rightarrow \partial^+ h = \max_i g_i'$
+\bigskip
+\item Going \emph{left} from $x_0$: the maximizer becomes the $i$ with the \emph{shallowest} slope \\
+  $\Rightarrow \partial^- h = \min_i g_i'$
+\end{itemize}
+\bigskip
+
+For convex $h$ (max of linear): $\partial^- h \leq \partial^+ h$, with equality iff $h$ differentiable at $x_0$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Danskin: geometric intuition}
+\begin{center}
+\begin{tikzpicture}[scale=1.05, font=\small]
+  % Axes
+  \draw[->, gray!70] (-0.3, 0) -- (5.7, 0) node[right, black] {$x$};
+  \draw[->, gray!70] (0, -0.3) -- (0, 3.6);
+  
+  % g_1: y = -x + 3, drawn from (0, 3) to (3.5, -0.5); only positive part visible
+  \draw[blue!50, thin] (0, 3) -- (3.5, -0.5);
+  \node[blue, anchor=south west] at (0.05, 3.0) {$g_1$};
+  
+  % g_2: y = 0.5x
+  \draw[red!50, thin] (0, 0) -- (5.4, 2.7);
+  \node[red, anchor=south] at (5.3, 2.6) {$g_2$};
+  
+  % h(x) = max(g_1, g_2) emphasized (V-shape on top)
+  \draw[ultra thick, black] (0, 3) -- (2, 1);
+  \draw[ultra thick, black] (2, 1) -- (5, 2.5);
+  
+  % h(x) label on the right segment
+  \node[anchor=south west, inner sep=1pt] at (2, 2.5) {\small $h = \max(g_1, g_2)$};
+  
+  % Kink point
+  \filldraw[black] (2, 1) circle (2.2pt);
+  \draw[dotted, gray!80] (2, 1) -- (2, 0) node[below, black] {$x_0$};
+  
+  % Slope annotations placed beside the relevant segments
+  \node[blue, anchor=west] at (0.6, 2.4) {\scriptsize $g_1' = -1$};
+  \node[red, anchor=west] at (3.8, 1.4) {\scriptsize $g_2' = +\tfrac{1}{2}$};
+
+  % Arrows indicating left/right slopes of h
+  \draw[<-, blue!70, thick] (1.0, 2.0) -- (0.3, 1.3) node[anchor=north east, font=\footnotesize] {slope of $h$ on left};
+  \draw[<-, red!70, thick] (3.5, 1.75) -- (4.0, 0.7) node[anchor=north west, font=\footnotesize] {slope of $h$ on right};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Reading off the derivatives:}
+\begin{itemize}
+\item Left: $h$ coincides with $g_1$, so $\partial^- h(x_0) = g_1'(x_0) = -1$
+\item Right: $h$ coincides with $g_2$, so $\partial^+ h(x_0) = g_2'(x_0) = +\tfrac{1}{2}$
+\end{itemize}
+
+\textbf{Convexity:} $\partial^- h(x_0) = \min_{i \in I^\ast} g_i' \leq \max_{i \in I^\ast} g_i' = \partial^+ h(x_0)$
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Equity holders are bond holders: statement}
 \begin{proposition}[Equity holders are bond holders]
 At a value-maximizing equilibrium with strictly slack no-default constraint
 \begin{equation*}
@@ -518,40 +810,114 @@ E = \PV^i[f_1(k) - \beta \1_S] \;\Longrightarrow\; q = \PV^i[\1_S]
 \end{proposition}
 \bigskip
 
-\textbf{Sketch:} differentiating $V(k, \beta')$ at $\beta' = \beta$ uses that the maximizer in $\widetilde{E}$ is $i$, giving $\partial V / \partial \beta = q - \PV^i[\1_S]$. Value maximization implies this derivative vanishes
+The proof applies Danskin's theorem to $\widetilde{E}(k, \cdot)$ at $\beta$ and uses the first-order conditions for an interior maximum
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: applying Danskin}
+For each $i \in I$, define
+\begin{equation*}
+g_i(\beta') := \PV^i[f_1(k)] - \beta' \PV^i[\1_S]
+\end{equation*}
+
+Affine, with constant slope $g_i'(\beta') = -\PV^i[\1_S]$
+\bigskip
+
+The active set at $\beta$ is $I^e$. By Danskin:
+\begin{equation*}
+\partial^+ \widetilde{E}(k, \beta) = \max_{i \in I^e}(-\PV^i[\1_S]) = -\min_{i \in I^e} \PV^i[\1_S]
+\end{equation*}
+\begin{equation*}
+\partial^- \widetilde{E}(k, \beta) = \min_{i \in I^e}(-\PV^i[\1_S]) = -\max_{i \in I^e} \PV^i[\1_S]
+\end{equation*}
+\bigskip
+
+Adding $q$:
+\begin{equation*}
+\partial^+ V(k, \beta) = q - \min_{i \in I^e} \PV^i[\1_S]
+\end{equation*}
+\begin{equation*}
+\partial^- V(k, \beta) = q - \max_{i \in I^e} \PV^i[\1_S]
+\end{equation*}
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: combining with the FOC}
+\textbf{Convexity of $V(k, \cdot)$:} $\partial^- V \leq \partial^+ V$
+\bigskip
+
+\textbf{Interior maximum at $\beta$:} the standard first-order conditions for a maximum at an interior point require
+\begin{equation*}
+\partial^- V(k, \beta) \geq 0 \geq \partial^+ V(k, \beta)
+\end{equation*}
+
+Combining:
+\begin{equation*}
+\partial^- V(k, \beta) = \partial^+ V(k, \beta) = 0
+\end{equation*}
+
+Substituting:
+\begin{equation*}
+\min_{i \in I^e} \PV^i[\1_S] = \max_{i \in I^e} \PV^i[\1_S] = q
+\end{equation*}
+
+That is: $\PV^i[\1_S] = q$ for every $i \in I^e$, i.e., $I^e \subset I^b$ \alert{$\boite$}
 \end{frame}
 
 %--------------------------------------------------------------------
 \begin{frame}\frametitle{Modigliani--Miller in the BGR framework}
 \begin{proposition}[Modigliani--Miller in BGR]
-Under the previous setup, if in addition every investor is either an equity holder or a bond holder, $I = I^e \cup I^b$, then for every $\beta'$ with $f_s(k) > \beta' \geq 0$ for all $s \in S$:
+Under the same hypotheses (interior value-maximizing $\beta$ with $f_s(k) > \beta > 0$), the value map is constant on the no-default region:
 \begin{equation*}
 V(k, \beta') = V(k, 0) = \widetilde{E}(k, 0) - k
 \end{equation*}
+for all $\beta' \in [0, \inf_{s \in S} f_s(k)]$.
 \end{proposition}
 \bigskip
 
-The value map $V(k, \cdot)$ is independent of the financial policy on the no-default interior
+\textbf{No assumption on $I = I^e \cup I^b$ is needed:} the result follows from convexity alone
+\end{frame}
+
+%--------------------------------------------------------------------
+\begin{frame}\frametitle{Proof: convexity argument}
+$V(k, \cdot)$ is convex on $[0, \inf_{s \in S} f_s(k)]$ (by the Lemma)
+\bigskip
+
+$\beta$ in the open interval is a maximizer
+\bigskip
+
+\textbf{Claim:} a convex function with an \emph{interior} maximum is constant on the whole interval
+\bigskip
+
+For any $\beta'_1, \beta'_2$ with $0 < \beta'_1 < \beta < \beta'_2 < \inf_s f_s(k)$, pick $\lambda \in (0,1)$ with $\lambda\beta'_1 + (1-\lambda)\beta'_2 = \beta$. Convexity:
+\begin{equation*}
+V(k, \beta) \leq \lambda V(k, \beta'_1) + (1-\lambda) V(k, \beta'_2) \leq V(k, \beta)
+\end{equation*}
+
+Equalities throughout, so $V(k, \beta'_1) = V(k, \beta) = V(k, \beta'_2)$
+\bigskip
+
+Continuity extends constancy to the closed interval. At $\beta' = 0$: $V(k, 0) = \widetilde{E}(k, 0) - k$ \alert{$\boite$}
 \end{frame}
 
 %--------------------------------------------------------------------
 \begin{frame}\frametitle{When Modigliani--Miller fails}
-\textbf{Case 1: Binding no-default constraint}
+\textbf{The only way MM can fail in BGR:} the firm value is maximized at the \alert{boundary} of the no-default region
+\bigskip
+
 \begin{itemize}
-\item If $\inf_s f_s(k) = \beta$, the firm sits on the boundary of $\mathcal{A}$
-\item The marginal envelope condition no longer applies
+\item If $\inf_{s \in S} f_s(k) = \beta$: the firm sits on the boundary of $\mathcal{A}$
+\item The convexity argument no longer forces local constancy
+\item Increasing debt is infeasible; comparison of values requires direct computation
 \end{itemize}
 \bigskip
 
-\textbf{Case 2: Investors who are neither equity nor bond holders}
+\textbf{Comparison with Stiglitz strong irrelevance (Chapter 2):}
 \begin{itemize}
-\item There exist $i$ with $\PV^i[\1_S] < q$ \emph{and} $\PV^i[f_1(k) - \beta \1_S] < E$
-\item Such investors are strictly infra-marginal in both markets
-\item A change in $\beta$ may shift the identity of the marginal equity holder, changing $\widetilde{E}$ by more than $q \cdot d\beta$
+\item No interior-max hypothesis was needed there
+\item Reason: \emph{homemade leverage} allows investors to undo any change in the firm's financial structure for free
+\item With short-sale constraints, this is no longer possible: irrelevance becomes an \emph{equilibrium} property
 \end{itemize}
-\bigskip
-
-Whether MM holds is now an \emph{equilibrium} question, answered by whether $I = I^e \cup I^b$
 \end{frame}
 
 % %====================================================================

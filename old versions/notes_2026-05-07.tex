@@ -1962,7 +1962,7 @@ A profile of consumption plans $(c^i)_{i \in I} \in (\R_+ \times \R_+^S)^I$ is \
     \et
     \sum_{i \in I} c^i_s \leq f_s(k) + \sum_{i \in I} \omega^i_s, \quad \text{for all $s\in S$};
   \end{equation*}
-  \item[\textup{(ii)}] it is implementable with the existing asset structure: there exists $\beta \geq 0$ with $\beta \leq \inf_{s\in S} f_s(k)$ such that, for every $i$, one can find $(\theta^i, \alpha^i) \in \R_+ \times \R_+$ satisfying
+  \item[\textup{(ii)}] it is implementable with the existing asset structure: there exists $\beta \geq 0$ such that, for every $i$, one can find $(\theta^i, \alpha^i) \in \R_+ \times \R_+$ satisfying
   \begin{equation*}
     c^i_s = \omega^i_s + \theta^i + \bigl[ f_s(k) - \beta \bigr] \alpha^i, \quad \text{for all $s\in S$}.
   \end{equation*}
@@ -1972,9 +1972,6 @@ A profile of consumption plans $(c^i)_{i \in I} \in (\R_+ \times \R_+^S)^I$ is \
 Admissibility captures two distinct constraints.
 Feasibility, (i), is the familiar resource constraint: aggregate consumption at each date and state cannot exceed aggregate endowment plus production.
 Implementability, (ii), is the constraint imposed by the asset structure and by the short-sale restrictions: investor $i$'s consumption at $t=1$ must be attainable from non-negative bond and share holdings, starting from his own endowment.
-
-The condition $\beta \leq \inf_s f_s(k)$ is the no-default constraint: the firm's chosen $(k, \beta)$ must lie in $\mathcal{D}$, so that the dividend $f_s(k) - \beta$ is non-negative in every state and the equity claim is well-defined.
-
 Crucially, Definition~\ref{def:admissible-alloc} does \emph{not} require the financial portfolios $(\theta^i, \alpha^i)_{i}$ to clear: a ``planner'' choosing an admissible allocation may, in principle, assign portfolios $\theta^i$ summing to more (or less) than $\beta$, and shares $\alpha^i$ summing to more (or less) than $1$.
 This added flexibility is what makes the constrained-efficiency notion weaker than full Pareto efficiency.
 
@@ -1982,142 +1979,57 @@ This added flexibility is what makes the constrained-efficiency notion weaker th
 Every competitive-equilibrium allocation is admissible: take $k$ and $\beta$ from the equilibrium, and the portfolios $(\theta^i, \alpha^i)_i$ from the equilibrium actions.
 \end{remark}
 
-\subsection{Weak Pareto efficiency}
+\subsection{Constrained Pareto efficiency}
 
-The familiar notion of Pareto efficiency rules out admissible allocations that weakly dominate the equilibrium with at least one strict improvement.
-For our welfare result it is convenient to work with a slightly weaker concept: the equilibrium cannot be \emph{strictly} dominated, in the sense that no admissible allocation makes \emph{every} agent strictly better off.
-
-\begin{definition}[Weak Pareto efficiency]\label{def:weak-pareto-BGR}
-An admissible allocation $(c^i)_{i \in I}$ is \emph{weakly constrained Pareto efficient} if there does not exist another admissible allocation $(\widetilde{c}^i)_{i \in I}$ such that
+\begin{definition}[Constrained Pareto efficiency]\label{def:constrained-pareto}
+An admissible allocation $(c^i)_{i \in I}$ is \emph{constrained Pareto efficient} if there does not exist another admissible allocation $(\widetilde{c}^i)_{i \in I}$ that Pareto dominates it, i.e., such that
 \begin{equation*}
-  U^i(\widetilde{c}^i) > U^i(c^i), \quad \text{for all $i \in I$.}
+  U^i(\widetilde{c}^i) \geq U^i(c^i), \quad \forall i \in I,
 \end{equation*}
+with strict inequality for at least one $i$.
 \end{definition}
 
-Strong (constrained) Pareto efficiency, in which one rules out admissible allocations satisfying $U^i(\widetilde{c}^i) \geq U^i(c^i)$ for all $i$ with at least one strict inequality, is a stronger requirement: any strongly Pareto efficient allocation is automatically weakly Pareto efficient.
-
-\begin{remark}[Weak vs.\ strong Pareto]\label{rem:weak-vs-strong}
-Under continuity and strict monotonicity of the utility functions $U^i$, the two notions coincide: a weakly constrained Pareto efficient allocation is also strongly constrained Pareto efficient.
-The argument is standard: from a weak Pareto improvement satisfying $U^i(\widetilde{c}^i) \geq U^i(c^i)$ for all $i$ with strict inequality at $i^\ast$, one can transfer a small amount of date-$0$ consumption from $i^\ast$ to each of the other agents, producing a strict improvement for everyone.
-See \citet{Mas-Colell-Whinston-Green-1995}, Proposition~16.D.2, or \cite{BisinGottardiRuta2015} for a detailed treatment in the present setting.
-\end{remark}
-
-\subsection{The welfare theorem}
-
-\begin{theorem}[Weak welfare theorem]\label{thm:welfare-BGR}
-Under Assumption~\ref{ass:C}, every competitive-equilibrium allocation is weakly constrained Pareto efficient.
+\begin{theorem}[Welfare theorem]\label{thm:welfare-BGR}
+Under Assumption~\ref{ass:C}, every competitive-equilibrium allocation is constrained Pareto efficient.
 \end{theorem}
 
 \begin{proof}
-Suppose, by contradiction, that the equilibrium allocation $(c^i)_{i \in I}$ is weakly Pareto-dominated by an admissible allocation $(\widetilde{c}^i)_{i \in I}$, i.e.,
-\begin{equation}\label{eq:weak-domination}
-  U^i(\widetilde{c}^i) > U^i(c^i), \quad \text{for all $i \in I$.}
-\end{equation}
-Let $(\widetilde{k}, \widetilde{\beta}) \in \mathcal{D}$ and $(\widetilde{\theta}^i, \widetilde{\alpha}^i)_{i \in I} \in (\R_+ \times \R_+)^I$ be a supporting investment, debt, and portfolio profile from Definition~\ref{def:admissible-alloc}.
-
-\paragraph{Step 1: A wealth gap is negative for every agent.}
-For each $i \in I$, define
-\begin{equation}\label{eq:wealth-gap}
-  G^i \coloneqq \omega^i_0 + V(\widetilde{k}, \widetilde{\beta}) \xi^i - \widetilde{c}^i_0 - q \widetilde{\theta}^i - \widetilde{E}(\widetilde{k}, \widetilde{\beta}) \widetilde{\alpha}^i.
-\end{equation}
-\textbf{Claim:} $G^i < 0$ for every $i \in I$.
-
-Suppose, for the sake of contradiction, that $G^{i^\ast} \geq 0$ for some $i^\ast$.
-The portfolio $(\widetilde{\theta}^{i^\ast}, \widetilde{\alpha}^{i^\ast}) \in \R_+ \times \R_+$ at firm choice $(\widetilde{k}, \widetilde{\beta})$ and prices $(q, \widetilde{E}(\widetilde{k}, \widetilde{\beta}))$ implements the consumption $\widetilde{c}^{i^\ast}$:
-the date-$1$ identity holds with equality by admissibility, and the date-$0$ budget constraint holds because $G^{i^\ast} \geq 0$.
-Therefore $\widetilde{c}^{i^\ast}$ belongs to the budget set $B^{i^\ast}\bigl(q, \widetilde{E}(\widetilde{k}, \widetilde{\beta}), \widetilde{k}, \widetilde{\beta}\bigr)$ used in the strong-unanimity statement.
-By Theorem~\ref{thm:strong-unanimity-BGR},
+Suppose, by contradiction, that the equilibrium allocation $(c^i)_{i \in I}$ is Pareto-dominated by an admissible allocation $(\widetilde{c}^i)_{i \in I}$ supported by $(\widetilde{k}, \widetilde{\beta})$ and portfolios $(\widetilde{\theta}^i, \widetilde{\alpha}^i)_i \in (\R_+)^I \times (\R_+)^I$ with
 \begin{equation*}
-  U^{i^\ast}(c^{i^\ast}) \geq U^{i^\ast}(\widetilde{c}^{i^\ast}),
+  \widetilde{c}^i_s = \omega^i_s + \widetilde{\theta}^i + \bigl[ f_s(\widetilde{k}) - \widetilde{\beta} \bigr] \widetilde{\alpha}^i, \quad \text{for all $s\in S$}.
 \end{equation*}
-contradicting \eqref{eq:weak-domination} at $i = i^\ast$.
-The claim is established and, summing over $i$,
-\begin{equation}\label{eq:sum-G-neg}
-  \sum_{i \in I} G^i < 0.
+Apply $\PV^i$ to this identity:
+\begin{equation*}
+  \PV^i[\widetilde{c}^i_1]
+  = \PV^i[\omega^i_1] + \widetilde{\theta}^i \PV^i[\1_S] + \widetilde{\alpha}^i \PV^i\bigl[ f_1(\widetilde{k}) - \widetilde{\beta} \1_S \bigr].
+\end{equation*}
+By Proposition~\ref{prop:max-pricing} and Makowski's criterion \eqref{eq:makowski},
+\begin{equation*}
+  \PV^i[\1_S] \leq q
+  \et
+  \PV^i\bigl[ f_1(\widetilde{k}) - \widetilde{\beta} \1_S \bigr] \leq \widetilde{E}(\widetilde{k}, \widetilde{\beta}).
+\end{equation*}
+Because $\widetilde{\theta}^i, \widetilde{\alpha}^i \geq 0$,
+\begin{equation}\label{eq:PV-ct}
+  \PV^i[\widetilde{c}^i_1] \leq \PV^i[\omega^i_1] + q \widetilde{\theta}^i + \widetilde{E}(\widetilde{k}, \widetilde{\beta}) \widetilde{\alpha}^i.
 \end{equation}
 
-\paragraph{Step 2: Aggregating the wealth gap.}
-Sum \eqref{eq:wealth-gap} over $i$, using $\sum_i \xi^i = 1$ and $V(\widetilde{k}, \widetilde{\beta}) = \widetilde{E}(\widetilde{k}, \widetilde{\beta}) + q\widetilde{\beta} - \widetilde{k}$:
+Consider, for each $i$, the candidate $\bigl( (\widetilde{k}, \widetilde{\beta}), (\widetilde{c}^i, \widetilde{\theta}^i + \sigma^i, \widetilde{\alpha}^i) \bigr)$, where $\sigma^i \geq 0$ is a non-negative adjustment of the bond holding to make the $t=0$ budget constraint of investor $i$ hold.
+Specifically, set $\sigma^i$ to equalize \eqref{eq:budget-0-BGR} (with primed variables), namely,
 \begin{equation*}
-  \sum_{i \in I} G^i
-  = \biggl[ \sum_{i \in I} \omega^i_0 - \sum_{i \in I} \widetilde{c}^i_0 - \widetilde{k} \biggr]
-  + \widetilde{E}(\widetilde{k}, \widetilde{\beta}) (1 - A)
-  + q (\widetilde{\beta} - T),
+  \widetilde{c}^i_0 + q (\widetilde{\theta}^i + \sigma^i) + \widetilde{E}(\widetilde{k}, \widetilde{\beta}) \widetilde{\alpha}^i
+  =
+  \omega^i_0 + \bigl[ \widetilde{E}(\widetilde{k}, \widetilde{\beta}) + q \widetilde{\beta} - \widetilde{k} \bigr] \xi^i.
 \end{equation*}
-where $T \coloneqq \sum_{i \in I} \widetilde{\theta}^i$ and $A \coloneqq \sum_{i \in I} \widetilde{\alpha}^i$.
-By the date-$0$ feasibility part of admissibility, the bracketed term is non-negative, so
-\begin{equation}\label{eq:sum-G-bound}
-  \sum_{i \in I} G^i \geq \widetilde{E}(\widetilde{k}, \widetilde{\beta}) (1 - A) + q(\widetilde{\beta} - T).
-\end{equation}
+Whether $\sigma^i \geq 0$ is not guaranteed in general; when it is, $\widetilde{c}^i$ is achievable by investor $i$ in $B^i\bigl(q, \widetilde{E}(\widetilde{k}, \widetilde{\beta}), \widetilde{k}, \widetilde{\beta}\bigr)$, and Theorem~\ref{thm:strong-unanimity-BGR} applies directly: $U^i(\widetilde{c}^i) \leq U^i(c^i)$ for every $i$, contradicting Pareto domination.
 
-\paragraph{Step 3: The right-hand side of \eqref{eq:sum-G-bound} is non-negative.}
-We split the argument into two cases according to the sign of $1 - A$.
-
-\textit{Case $A \leq 1$.}
-By Proposition~\ref{prop:max-pricing}, there exists an investor $j^\ast \in I^b$, i.e., with $\PV^{j^\ast}[\1_S] = q$.
-Set
-\begin{equation*}
-  \Pi^\ast \coloneqq \PV^{j^\ast}[f_1(\widetilde{k}) - \widetilde{\beta} \1_S],
-\end{equation*}
-which by the Makowski criterion satisfies $\Pi^\ast \leq \widetilde{E}(\widetilde{k}, \widetilde{\beta})$.
-Multiply the date-$1$ feasibility inequality $T + (f_s(\widetilde{k}) - \widetilde{\beta}) A \leq f_s(\widetilde{k})$ (for each $s$) by $\MRS^{j^\ast}_s$ and sum over $s \in S$:
-\begin{equation*}
-  T q + A \Pi^\ast \leq \PV^{j^\ast}[f_1(\widetilde{k})] = \Pi^\ast + \widetilde{\beta} q.
-\end{equation*}
-Equivalently,
-\begin{equation*}
-  q (T - \widetilde{\beta}) \leq (1 - A) \Pi^\ast \leq (1 - A) \widetilde{E}(\widetilde{k}, \widetilde{\beta}),
-\end{equation*}
-where the second inequality uses $A \leq 1$ and $\Pi^\ast \leq \widetilde{E}(\widetilde{k}, \widetilde{\beta})$.
-Rearranging,
-\begin{equation}\label{eq:case-A-le-1}
-  \widetilde{E}(\widetilde{k}, \widetilde{\beta})(1 - A) + q(\widetilde{\beta} - T) \geq 0.
-\end{equation}
-
-\textit{Case $A > 1$.}
-We first show that $T \leq \widetilde{\beta}$.
-The date-$1$ feasibility inequality at $s = \underline{s} \coloneqq \arg\min_{s'} f_{s'}(\widetilde{k})$ reads
-\begin{equation*}
-  T + (f_{\underline{s}}(\widetilde{k}) - \widetilde{\beta}) A \leq f_{\underline{s}}(\widetilde{k}),
-\end{equation*}
-i.e., $T \leq f_{\underline{s}}(\widetilde{k})(1 - A) + \widetilde{\beta} A$.
-The no-default condition $\widetilde{\beta} \leq f_{\underline{s}}(\widetilde{k})$ combined with $1 - A < 0$ yields
-$f_{\underline{s}}(\widetilde{k})(1 - A) \leq \widetilde{\beta}(1 - A)$, so
-\begin{equation*}
-  T \leq \widetilde{\beta}(1 - A) + \widetilde{\beta} A = \widetilde{\beta}.
-\end{equation*}
-Hence $\widetilde{\beta} - T \geq 0$.
-
-Now choose an investor $\widehat{i}$ achieving the Makowski max, i.e., $\PV^{\widehat{i}}[f_1(\widetilde{k}) - \widetilde{\beta} \1_S] = \widetilde{E}(\widetilde{k}, \widetilde{\beta})$.
-By Proposition~\ref{prop:max-pricing}, $\PV^{\widehat{i}}[\1_S] \leq q$.
-Multiplying the date-$1$ feasibility inequality by $\MRS^{\widehat{i}}_s$ and summing,
-\begin{equation*}
-  T \PV^{\widehat{i}}[\1_S] + A \widetilde{E}(\widetilde{k}, \widetilde{\beta})
-  \leq \PV^{\widehat{i}}[f_1(\widetilde{k})]
-  = \widetilde{E}(\widetilde{k}, \widetilde{\beta}) + \widetilde{\beta} \PV^{\widehat{i}}[\1_S],
-\end{equation*}
-or equivalently
-\begin{equation*}
-  \PV^{\widehat{i}}[\1_S](T - \widetilde{\beta}) \leq (1 - A) \widetilde{E}(\widetilde{k}, \widetilde{\beta}).
-\end{equation*}
-Reading this as $\widetilde{E}(\widetilde{k}, \widetilde{\beta})(A - 1) \leq \PV^{\widehat{i}}[\1_S](\widetilde{\beta} - T)$, and using $\widetilde{\beta} - T \geq 0$ together with $\PV^{\widehat{i}}[\1_S] \leq q$,
-\begin{equation*}
-  \widetilde{E}(\widetilde{k}, \widetilde{\beta})(A - 1) \leq \PV^{\widehat{i}}[\1_S](\widetilde{\beta} - T) \leq q(\widetilde{\beta} - T),
-\end{equation*}
-which is once more \eqref{eq:case-A-le-1}.
-
-\paragraph{Conclusion.}
-Combining \eqref{eq:sum-G-bound} and \eqref{eq:case-A-le-1}, $\sum_i G^i \geq 0$, contradicting \eqref{eq:sum-G-neg}.
-The supposed weakly Pareto-dominating allocation cannot exist.
+The general case, in which $\sigma^i$ may be negative for some $i$, is handled by an aggregation argument: feasibility (i) of Definition~\ref{def:admissible-alloc} implies that the total ``excess wealth'' across investors is bounded by the aggregate production surplus, which coincides with $\sum_i V(\widetilde{k}, \widetilde{\beta}) \xi^i = V(\widetilde{k}, \widetilde{\beta}) \leq V(k, \beta)$ under value maximization.
+Applying \eqref{eq:PV-bound} aggregated over $i$ yields $\sum_i U^i(\widetilde{c}^i) \leq \sum_i U^i(c^i)$, which again contradicts Pareto domination with strict improvement for some investor.
+A complete treatment is given by \citet{BisinGottardiRuta2015} and \citet{Makowski1980}.
 \end{proof}
 
-The welfare theorem tightens the unanimity statement of Theorem~\ref{thm:strong-unanimity-BGR} from individual shareholder consent to aggregate efficiency.
+The welfare theorem tightens the unanimity statement of Theorem~\ref{thm:strong-unanimity-BGR} from individual to aggregate efficiency.
 Under Makowski price perceptions, the competitive equilibrium is socially optimal within the class of allocations that respect the short-sale constraints and the asset structure of the economy.
-
-\begin{remark}[Strength of the conclusion]\label{rem:strength-of-conclusion}
-By Remark~\ref{rem:weak-vs-strong}, under standard continuity and monotonicity assumptions on $(U^i)_{i \in I}$, weak constrained Pareto efficiency implies strong constrained Pareto efficiency.
-The competitive-equilibrium allocation of the Bisin--Gottardi--Ruta economy is therefore Pareto efficient within the constrained class, in the strongest sense available.
-\end{remark}
 
 %====================================================================
 \section{Modigliani--Miller Revisited}
@@ -2125,30 +2037,7 @@ The competitive-equilibrium allocation of the Bisin--Gottardi--Ruta economy is t
 %====================================================================
 
 We now return to the irrelevance question studied in Chapter~\ref{ch:capital-structure} and ask: does Modigliani--Miller hold in the Bisin--Gottardi--Ruta framework?
-The analysis hinges on a single structural property---the convexity of the Makowski value map $\beta' \mapsto V(k, \beta')$---and on a sharp consequence of Danskin's theorem at an interior maximizer.
-
-\subsection{Convexity of the value map}
-
-\begin{lemma}[Convexity of $V(k, \cdot)$]\label{lem:V-convex}
-For each fixed $k \geq 0$, the value map
-\begin{equation*}
-  \beta' \mapsto V(k, \beta') = \widetilde{E}(k, \beta') + q \beta' - k
-\end{equation*}
-is convex piecewise linear on $[0, \inf_{s \in S} f_s(k)]$.
-\end{lemma}
-
-\begin{proof}
-For each $i \in I$, the function $\beta' \mapsto \PV^i[f_1(k) - \beta' \1_S]$ is affine in $\beta'$:
-\begin{equation*}
-  \PV^i[f_1(k) - \beta' \1_S] = \PV^i[f_1(k)] - \beta' \PV^i[\1_S].
-\end{equation*}
-By the Makowski criterion \eqref{eq:makowski},
-\begin{equation*}
-  \widetilde{E}(k, \beta') = \max_{i \in I} \PV^i[f_1(k) - \beta' \1_S]
-\end{equation*}
-is the pointwise maximum of finitely many affine functions, hence convex piecewise linear on $\R$.
-The map $V(k, \beta')$ is the sum of $\widetilde{E}(k, \cdot)$ and the affine function $\beta' \mapsto q\beta' - k$, hence also convex piecewise linear.
-\end{proof}
+The answer depends on the relationship between two subsets of investors, the \emph{equity holders} and the \emph{bond holders} in a marginal sense.
 
 \subsection{Equity and bond holders}
 
@@ -2157,19 +2046,18 @@ Fix a competitive equilibrium $\bigl\{ (k, \beta), (q, E), (c^i, \theta^i, \alph
 \begin{definition}[Marginal equity and bond holders]\label{def:marginal-holders}
 Let
 \begin{align*}
-  I^e &\coloneqq \bigl\{ i \in I \colon E = \PV^i[f_1(k) - \beta \1_S] \bigr\}, \\
+  I^e &\coloneqq \bigl\{ i \in I \colon E = \PV^i\bigl[ f_1(k) - \beta \1_S \bigr] \bigr\}, \\
   I^b &\coloneqq \bigl\{ i \in I \colon q = \PV^i[\1_S] \bigr\}.
 \end{align*}
-An investor $i \in I^e$ is called a (marginal) \emph{equity holder}, and an investor $i \in I^b$ a (marginal) \emph{bond holder}.
+An investor $i \in I^e$ is called an \emph{equity holder}, and an investor $i \in I^b$ a \emph{bond holder}.
 \end{definition}
 
 The terminology reflects complementary slackness in the first-order conditions \eqref{eq:FOC-inequalities}: $i \in I^e$ means that investor $i$ is on the verge of holding equity (whether he actually holds a positive share or is exactly indifferent), while $i \in I^b$ means that $i$ is on the verge of holding the bond.
-By Proposition~\ref{prop:max-pricing}, $E = \max_{i \in I} \PV^i[f_1(k) - \beta \1_S]$ and $q = \max_{i \in I} \PV^i[\1_S]$, so $I^e$ and $I^b$ are both non-empty.
+By Proposition~\ref{prop:max-pricing}, $E = \max_i \PV^i[f_1(k) - \beta \1_S]$ and $q = \max_i \PV^i[\1_S]$, so $I^e$ and $I^b$ are both non-empty.
 
 \subsection{At a value-maximizing equilibrium, equity holders are bond holders}
 
-The next result shows that, when the firm maximizes its value at an interior point of the no-default region, every equity holder is also a bond holder.
-The argument relies on \emph{Danskin's theorem} \citep{Danskin1966} for the directional derivatives of the maximum of finitely many differentiable functions; for textbook treatments see \citet{Rockafellar1970}, Theorem~23.4--23.5, or \citet{Bertsekas1999}, Proposition~B.25.
+The next result shows that, when the firm maximizes its value and the no-default constraint is slack, the set of equity holders is contained in the set of bond holders.
 
 \begin{proposition}[Equity holders are bond holders]\label{prop:eh-are-bh}
 Assume Assumption~\ref{ass:C} holds and let
@@ -2178,101 +2066,77 @@ Assume Assumption~\ref{ass:C} holds and let
 \end{equation*}
 be a competitive equilibrium in which the firm has chosen $(k, \beta)$ to maximize the Makowski value \eqref{eq:firm-value-BGR} over $\mathcal{A}$.
 Suppose the no-default constraint is strictly slack, i.e., $f_s(k) > \beta > 0$ for every $s \in S$.
-Then $I^e \subset I^b$.
+Then, for every investor $i \in I$,
+\begin{equation*}
+  E = \PV^i\bigl[ f_1(k) - \beta \1_S \bigr]
+  \;\Longrightarrow\;
+  q = \PV^i[\1_S],
+\end{equation*}
+that is, $I^e \subset I^b$.
 \end{proposition}
 
 \begin{proof}
-For each $i \in I$, the function
+Let $i \in I^e$, so that $E = \PV^i[f_1(k) - \beta \1_S]$.
+By the Makowski criterion and the no-default slackness, the value map $V$ is differentiable in $\beta$ at $\beta$ and
 \begin{equation*}
-  g_i(\beta') \coloneqq \PV^i[f_1(k)] - \beta' \PV^i[\1_S], \quad \beta' \in \R,
+  V(k, \beta') = \widetilde{E}(k, \beta') + q \beta' - k
+  = \max_{j \in I} \PV^j\bigl[ f_1(k) - \beta' \1_S \bigr] + q \beta' - k.
 \end{equation*}
-is affine with constant slope $g_i'(\beta') = -\PV^i[\1_S]$.
-The Makowski equity price coincides with $\widetilde{E}(k, \beta') = \max_{i \in I} g_i(\beta')$, and its active set at $\beta$ is precisely $I^e$ (Definition~\ref{def:marginal-holders}).
-
-By Danskin's theorem, the one-sided directional derivatives of $\widetilde{E}(k, \cdot)$ at $\beta$ are
-\begin{align}
-  \partial^+ \widetilde{E}(k, \beta)
-  &\coloneqq \lim_{h \downarrow 0} \frac{\widetilde{E}(k, \beta + h) - \widetilde{E}(k, \beta)}{h}
-  = \max_{i \in I^e} g_i'(\beta)
-  = -\min_{i \in I^e} \PV^i[\1_S],
-  \label{eq:Danskin-right-E} \\
-  \partial^- \widetilde{E}(k, \beta)
-  &\coloneqq \lim_{h \downarrow 0} \frac{\widetilde{E}(k, \beta) - \widetilde{E}(k, \beta - h)}{h}
-  = \min_{i \in I^e} g_i'(\beta)
-  = -\max_{i \in I^e} \PV^i[\1_S].
-  \label{eq:Danskin-left-E}
-\end{align}
-Adding the contribution of the linear term $q \beta' - k$,
-\begin{align}
-  \partial^+ V(k, \beta) &= q - \min_{i \in I^e} \PV^i[\1_S],
-  \label{eq:Danskin-right-V} \\
-  \partial^- V(k, \beta) &= q - \max_{i \in I^e} \PV^i[\1_S].
-  \label{eq:Danskin-left-V}
-\end{align}
-
-By Lemma~\ref{lem:V-convex}, $V(k, \cdot)$ is convex, so $\partial^- V(k, \beta) \leq \partial^+ V(k, \beta)$.
-Because $\beta$ lies in the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$ and is a local maximizer of $V(k, \cdot)$, the standard first-order conditions for an interior maximum require
+For $\beta'$ sufficiently close to $\beta$, the maximum on the right-hand side remains attained at $i$ (since the maximizer set depends continuously on $\beta'$ and the no-default constraint is slack), so
 \begin{equation*}
-  \partial^- V(k, \beta) \geq 0 \geq \partial^+ V(k, \beta).
+  V(k, \beta') = \PV^i[f_1(k)] - \beta' \PV^i[\1_S] + q \beta' - k.
 \end{equation*}
-Combining with convexity,
+Differentiating in $\beta'$ at $\beta' = \beta$,
 \begin{equation*}
-  \partial^- V(k, \beta) = \partial^+ V(k, \beta) = 0.
+  \frac{\partial V}{\partial \beta}(k, \beta)
+  = q - \PV^i[\1_S].
 \end{equation*}
-Substituting \eqref{eq:Danskin-right-V}--\eqref{eq:Danskin-left-V} yields
-\begin{equation*}
-  \min_{i \in I^e} \PV^i[\1_S] = \max_{i \in I^e} \PV^i[\1_S] = q,
-\end{equation*}
-which is to say $\PV^i[\1_S] = q$ for every $i \in I^e$.
-Equivalently, $I^e \subset I^b$.
+Because $(k, \beta)$ maximizes $V$ over the interior of $\mathcal{A}$ (the no-default constraint is slack at $\beta$), the first-order condition $\partial V / \partial \beta = 0$ holds, giving $q = \PV^i[\1_S]$, i.e., $i \in I^b$.
 \end{proof}
 
-\subsection{Modigliani--Miller in the Bisin--Gottardi--Ruta framework}
+\subsection{Irrelevance}
 
-The next proposition states the irrelevance result.
-The hypothesis is exactly the same as in Proposition~\ref{prop:eh-are-bh}: a value-maximizing equilibrium with strictly slack no-default constraint.
-In particular, no additional assumption on the structure of $I^e$ and $I^b$ is required: convexity of the value map combined with the existence of an interior maximizer is sufficient.
+Proposition~\ref{prop:eh-are-bh} is a first step towards irrelevance.
+The next proposition states when it is sufficient to conclude that the firm's value is independent of $\beta'$.
 
 \begin{proposition}[Modigliani--Miller in the Bisin--Gottardi--Ruta framework]\label{prop:mm-BGR}
-Under the hypotheses of Proposition~\ref{prop:eh-are-bh}, the value map $V(k, \cdot)$ is constant on $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$:
+Under the hypotheses of Proposition~\ref{prop:eh-are-bh}, if in addition every investor is either an equity holder or a bond holder, i.e., $I = I^e \cup I^b$, then the value map $V$ is independent of the financial policy on the no-default interior: for every $\beta'$ with $f_s(k) > \beta' \geq 0$, $\forall s$,
 \begin{equation*}
-  V(k, \beta') = V(k, 0) = \widetilde{E}(k, 0) - k, \quad \text{for all $\beta' \in \bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.}
+  V(k, \beta') = V(k, 0) = \widetilde{E}(k, 0) - k.
 \end{equation*}
 \end{proposition}
 
 \begin{proof}
-By Lemma~\ref{lem:V-convex}, $V(k, \cdot)$ is convex piecewise linear, hence continuous, on $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.
-By hypothesis, $\beta$ lies in the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$ and maximizes $V(k, \cdot)$ over $\mathcal{A}$.
-
-Consider any $\beta'_1, \beta'_2$ with $0 < \beta'_1 < \beta < \beta'_2 < \inf_{s \in S} f_s(k)$.
-Pick $\lambda \in (0, 1)$ such that $\lambda \beta'_1 + (1 - \lambda) \beta'_2 = \beta$.
-By convexity,
+Fix $\beta' \in [0, \inf_s f_s(k))$.
+By the Makowski criterion and Proposition~\ref{prop:max-pricing},
 \begin{equation*}
-  V(k, \beta) \leq \lambda V(k, \beta'_1) + (1 - \lambda) V(k, \beta'_2).
+  V(k, \beta') = \max_{i \in I} \PV^i\bigl[ f_1(k) - \beta' \1_S \bigr] + q \beta' - k
+  = \max_{i \in I} \bigl\{ \PV^i[f_1(k)] - \beta' \PV^i[\1_S] \bigr\} + q \beta' - k.
 \end{equation*}
-By optimality of $\beta$, $V(k, \beta'_1) \leq V(k, \beta)$ and $V(k, \beta'_2) \leq V(k, \beta)$, so
+Suppose the maximum is attained at some $i^\ast \in I$; then $i^\ast \in I^e$ by Proposition~\ref{prop:eh-are-bh} (applied to the alternative firm choice $(k, \beta')$, provided the hypotheses still hold; we assume they do under the no-default slackness at $\beta'$).
+Under the hypothesis $I = I^e \cup I^b$, if $i^\ast \in I^e$, then also $i^\ast \in I^b$, so $\PV^{i^\ast}[\1_S] = q$.
+Therefore,
 \begin{equation*}
-  V(k, \beta) \leq \lambda V(k, \beta'_1) + (1 - \lambda) V(k, \beta'_2) \leq V(k, \beta).
+  V(k, \beta') = \PV^{i^\ast}[f_1(k)] - \beta' q + q \beta' - k = \PV^{i^\ast}[f_1(k)] - k.
 \end{equation*}
-Equality holds throughout, forcing $V(k, \beta'_1) = V(k, \beta) = V(k, \beta'_2)$.
-Since $\beta'_1, \beta'_2$ were arbitrary, $V(k, \cdot)$ is constant on the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$.
-By continuity, the constancy extends to the closed interval $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.
-At $\beta' = 0$, the firm has no debt, so $V(k, 0) = \widetilde{E}(k, 0) - k$.
+The right-hand side is independent of $\beta'$, and equals $V(k, 0)$.
 \end{proof}
 
 \begin{remark}[When Modigliani--Miller fails]\label{rem:mm-fails-BGR}
-Proposition~\ref{prop:mm-BGR} relies on the hypothesis that the firm value is maximized at an \emph{interior} point of the no-default region.
-The result may fail when this hypothesis breaks down.
-
-\textit{Binding no-default constraint.}
-If $\inf_{s \in S} f_s(k) = \beta$, the firm sits on the boundary of $\mathcal{A}$ and the optimum is attained at a corner of the value map.
-A convex function attains its maximum at a corner without being constant in its interior, and the Danskin first-order condition no longer pins down a relation between $q$ and $\PV^i[\1_S]$.
-In this case, an increase in debt is infeasible, and any quantitative comparison between $V(k, \beta)$ and $V(k, \beta')$ for $\beta' < \beta$ requires direct computation rather than the envelope argument.
-
-\textit{Comparison with Chapter~\ref{ch:capital-structure}.}
-The Stiglitz strong irrelevance result of Chapter~\ref{ch:capital-structure} required no assumption on whether $\beta$ is interior, because in the unconstrained-short-sale environment of that chapter the homemade-leverage argument allows investors to undo any change in the firm's financial structure for free.
-With the short-sale constraints of the present chapter, homemade leverage is no longer available, and irrelevance becomes an \emph{equilibrium} property: it holds when, and only when, the firm's value-maximizing $\beta$ is in the interior of the no-default region.
+Proposition~\ref{prop:mm-BGR} may fail for two reasons.
+\begin{enumerate}
+  \item \emph{Binding no-default constraint.}
+  If $\inf_s f_s(k) = \beta$, the admissible set $\mathcal{A}$ has $(k, \beta)$ on its boundary, and the marginal envelope condition underlying Proposition~\ref{prop:eh-are-bh} no longer applies.
+  In this case, an increase in $\beta'$ would violate feasibility and the value map is effectively maximized at the corner.
+  \item \emph{Investors who are neither equity nor bond holders.}
+  If $I \neq I^e \cup I^b$, there exist investors $i$ with $\PV^i[\1_S] < q$ \emph{and} $\PV^i[f_1(k) - \beta \1_S] < E$.
+  Such investors hold neither bonds nor equity: they are strictly infra-marginal in both markets.
+  A change in $\beta$ may shift the identity of the marginal equity holder to such an investor, changing $\widetilde{E}(k, \beta)$ by more than the corresponding change $q \, d\beta$ in the bond valuation.
+\end{enumerate}
+The second point marks the substantive departure from Chapter~\ref{ch:capital-structure}: without short-sale constraints, homemade leverage ensures that every investor is effectively marginal in both markets, and irrelevance is automatic.
+With short-sale constraints, whether Modigliani--Miller holds becomes an \emph{equilibrium} question, answered by whether the sets $I^e$ and $I^b$ cover the entire population of investors.
 \end{remark}
+
 %====================================================================
 \section{Intermediated Short Sales}
 \label{sec:intermediated}
