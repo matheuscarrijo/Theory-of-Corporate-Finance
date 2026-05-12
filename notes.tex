@@ -2166,113 +2166,258 @@ An investor $i \in I^e$ is called a (marginal) \emph{equity holder}, and an inve
 The terminology reflects complementary slackness in the first-order conditions \eqref{eq:FOC-inequalities}: $i \in I^e$ means that investor $i$ is on the verge of holding equity (whether he actually holds a positive share or is exactly indifferent), while $i \in I^b$ means that $i$ is on the verge of holding the bond.
 By Proposition~\ref{prop:max-pricing}, $E = \max_{i \in I} \PV^i[f_1(k) - \beta \1_S]$ and $q = \max_{i \in I} \PV^i[\1_S]$, so $I^e$ and $I^b$ are both non-empty.
 
-\subsection{At a value-maximizing equilibrium, equity holders are bond holders}
+% \subsection{At a value-maximizing equilibrium, equity holders are bond holders}
 
-The next result shows that, when the firm maximizes its value at an interior point of the no-default region, every equity holder is also a bond holder.
-The argument relies on \emph{Danskin's theorem} \citep{Danskin1966} for the directional derivatives of the maximum of finitely many differentiable functions; for textbook treatments see \citet{Rockafellar1970}, Theorem~23.4--23.5, or \citet{Bertsekas1999}, Proposition~B.25.
+% The next result shows that, when the firm maximizes its value at an interior point of the no-default region, every equity holder is also a bond holder.
+% The argument relies on \emph{Danskin's theorem} \citep{Danskin1966} for the directional derivatives of the maximum of finitely many differentiable functions; for textbook treatments see \citet{Rockafellar1970}, Theorem~23.4--23.5, or \citet{Bertsekas1999}, Proposition~B.25.
 
-\begin{proposition}[Equity holders are bond holders]\label{prop:eh-are-bh}
+% \begin{proposition}[Equity holders are bond holders]\label{prop:eh-are-bh}
+% Assume Assumption~\ref{ass:C} holds and let
+% \begin{equation*}
+%   \bigl\{ (k, \beta), (q, E), (c^i, \theta^i, \alpha^i)_{i \in I} \bigr\}
+% \end{equation*}
+% be a competitive equilibrium in which the firm has chosen $(k, \beta)$ to maximize the Makowski value \eqref{eq:firm-value-BGR} over $\mathcal{A}$.
+% Suppose the no-default constraint is strictly slack, i.e., $f_s(k) > \beta > 0$ for every $s \in S$.
+% Then $I^e \subset I^b$.
+% \end{proposition}
+
+% \begin{proof}
+% For each $i \in I$, the function
+% \begin{equation*}
+%   g_i(\beta') \coloneqq \PV^i[f_1(k)] - \beta' \PV^i[\1_S], \quad \beta' \in \R,
+% \end{equation*}
+% is affine with constant slope $g_i'(\beta') = -\PV^i[\1_S]$.
+% The Makowski equity price coincides with $\widetilde{E}(k, \beta') = \max_{i \in I} g_i(\beta')$, and its active set at $\beta$ is precisely $I^e$ (Definition~\ref{def:marginal-holders}).
+
+% By Danskin's theorem, the one-sided directional derivatives of $\widetilde{E}(k, \cdot)$ at $\beta$ are
+% \begin{align}
+%   \partial^+ \widetilde{E}(k, \beta)
+%   &\coloneqq \lim_{h \downarrow 0} \frac{\widetilde{E}(k, \beta + h) - \widetilde{E}(k, \beta)}{h}
+%   = \max_{i \in I^e} g_i'(\beta)
+%   = -\min_{i \in I^e} \PV^i[\1_S],
+%   \label{eq:Danskin-right-E} \\
+%   \partial^- \widetilde{E}(k, \beta)
+%   &\coloneqq \lim_{h \downarrow 0} \frac{\widetilde{E}(k, \beta) - \widetilde{E}(k, \beta - h)}{h}
+%   = \min_{i \in I^e} g_i'(\beta)
+%   = -\max_{i \in I^e} \PV^i[\1_S].
+%   \label{eq:Danskin-left-E}
+% \end{align}
+% Adding the contribution of the linear term $q \beta' - k$,
+% \begin{align}
+%   \partial^+ V(k, \beta) &= q - \min_{i \in I^e} \PV^i[\1_S],
+%   \label{eq:Danskin-right-V} \\
+%   \partial^- V(k, \beta) &= q - \max_{i \in I^e} \PV^i[\1_S].
+%   \label{eq:Danskin-left-V}
+% \end{align}
+
+% By Lemma~\ref{lem:V-convex}, $V(k, \cdot)$ is convex, so $\partial^- V(k, \beta) \leq \partial^+ V(k, \beta)$.
+% Because $\beta$ lies in the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$ and is a local maximizer of $V(k, \cdot)$, the standard first-order conditions for an interior maximum require
+% \begin{equation*}
+%   \partial^- V(k, \beta) \geq 0 \geq \partial^+ V(k, \beta).
+% \end{equation*}
+% Combining with convexity,
+% \begin{equation*}
+%   \partial^- V(k, \beta) = \partial^+ V(k, \beta) = 0.
+% \end{equation*}
+% Substituting \eqref{eq:Danskin-right-V}--\eqref{eq:Danskin-left-V} yields
+% \begin{equation*}
+%   \min_{i \in I^e} \PV^i[\1_S] = \max_{i \in I^e} \PV^i[\1_S] = q,
+% \end{equation*}
+% which is to say $\PV^i[\1_S] = q$ for every $i \in I^e$.
+% Equivalently, $I^e \subset I^b$.
+% \end{proof}
+
+% \subsection{Modigliani--Miller in the Bisin--Gottardi--Ruta framework}
+
+% The next proposition states the irrelevance result.
+% The hypothesis is exactly the same as in Proposition~\ref{prop:eh-are-bh}: a value-maximizing equilibrium with strictly slack no-default constraint.
+% In particular, no additional assumption on the structure of $I^e$ and $I^b$ is required: convexity of the value map combined with the existence of an interior maximizer is sufficient.
+
+% \begin{proposition}[Modigliani--Miller in the Bisin--Gottardi--Ruta framework]\label{prop:mm-BGR}
+% Assume Assumption~\ref{ass:C} holds and let
+% \begin{equation*}
+%   \bigl\{ (k, \beta), (q, E), (c^i, \theta^i, \alpha^i)_{i \in I} \bigr\}
+% \end{equation*}
+% be a competitive equilibrium in which the firm has chosen $(k, \beta)$ to maximize the Makowski value \eqref{eq:firm-value-BGR} over $\mathcal{A}$.
+% Suppose the no-default constraint is strictly slack, i.e., $f_s(k) > \beta > 0$ for every $s \in S$.
+
+% The value map $V(k, \cdot)$ is constant on $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$:
+% \begin{equation*}
+%   V(k, \beta') = V(k, 0) = \widetilde{E}(k, 0) - k, \quad \text{for all $\beta' \in \bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.}
+% \end{equation*}
+% \end{proposition}
+
+% \begin{proof}
+% By Lemma~\ref{lem:V-convex}, $V(k, \cdot)$ is convex piecewise linear, hence continuous, on $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.
+% By hypothesis, $\beta$ lies in the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$ and maximizes $V(k, \cdot)$ over $\mathcal{A}$.
+
+% Consider any $\beta'_1, \beta'_2$ with $0 < \beta'_1 < \beta < \beta'_2 < \inf_{s \in S} f_s(k)$.
+% Pick $\lambda \in (0, 1)$ such that $\lambda \beta'_1 + (1 - \lambda) \beta'_2 = \beta$.
+% By convexity,
+% \begin{equation*}
+%   V(k, \beta) \leq \lambda V(k, \beta'_1) + (1 - \lambda) V(k, \beta'_2).
+% \end{equation*}
+% By optimality of $\beta$, $V(k, \beta'_1) \leq V(k, \beta)$ and $V(k, \beta'_2) \leq V(k, \beta)$, so
+% \begin{equation*}
+%   V(k, \beta) \leq \lambda V(k, \beta'_1) + (1 - \lambda) V(k, \beta'_2) \leq V(k, \beta).
+% \end{equation*}
+% Equality holds throughout, forcing $V(k, \beta'_1) = V(k, \beta) = V(k, \beta'_2)$.
+% Since $\beta'_1, \beta'_2$ were arbitrary, $V(k, \cdot)$ is constant on the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$.
+% By continuity, the constancy extends to the closed interval $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.
+% At $\beta' = 0$, the firm has no debt, so $V(k, 0) = \widetilde{E}(k, 0) - k$.
+% \end{proof}
+
+% The combination of Lemma~\ref{lem:V-convex} (convexity of $V(k, \cdot)$) and the elementary fact that a convex function attaining a maximum at an interior point of an interval must be constant on the whole interval (proof of Proposition~\ref{prop:mm-BGR}) yields a sharp dichotomy for the firm's value function on the no-default region.
+
+% \begin{proposition}[Modigliani--Miller dichotomy]
+% \label{prop:mm-dichotomy}
+% For each $k \geq 0$, exactly one of the following holds.
+% \begin{enumerate}
+%   \item[\textup{(MM)}] $V(k, \cdot)$ is constant on $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$. Every $\beta$ in this interval is value-maximizing, and the firm's capital structure is fully indeterminate.
+%   \item[\textup{($\neg$MM)}] $V(k, \cdot)$ is not constant. Every value-maximizing $\beta$ lies in $\bigl\{ 0, \inf_{s \in S} f_s(k) \bigr\}$.
+% \end{enumerate}
+% \end{proposition}
+
+% \begin{proof}
+% By Lemma~\ref{lem:V-convex}, $V(k, \cdot)$ is convex piecewise linear, hence continuous, on $[0, \inf_{s \in S} f_s(k)]$. If a value-maximizing $\beta^\ast$ exists in the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$, then by the argument given in the proof of Proposition~\ref{prop:mm-BGR}, $V(k, \cdot)$ is constant on the whole interval (case (MM)). Otherwise every value-maximizing $\beta$ lies in the boundary $\{0, \inf_{s \in S} f_s(k)\}$ (case ($\neg$MM)).
+% \end{proof}
+
+% The MM regime admits a clean equivalent description in terms of the marginal-holder sets.
+
+% \begin{remark}[Characterization of (MM) via marginal holders]
+% \label{rem:mm-via-IeIb}
+% Case (MM) of Proposition~\ref{prop:mm-dichotomy} obtains if and only if $I^e(\beta) \subset I^b$ for every $\beta \in [0, \inf_{s \in S} f_s(k)]$, where
+% \begin{equation*}
+%   I^e(\beta) \coloneqq \bigl\{ i \in I \colon \widetilde{E}(k, \beta) = \PV^i[f_1(k) - \beta \1_S] \bigr\}.
+% \end{equation*}
+% The forward direction combines $V(k, \cdot)$ constant with Danskin's theorem: both one-sided derivatives vanish at every $\beta$, so $\min_{i \in I^e(\beta)} \PV^i[\1_S] = \max_{i \in I^e(\beta)} \PV^i[\1_S] = q$, and max-valuation pricing (Proposition~\ref{prop:max-pricing}) forces $\PV^i[\1_S] = q$ for every $i \in I^e(\beta)$. The reverse direction is immediate: if $\PV^i[\1_S] = q$ at every active $i$ and every $\beta$, then by Danskin's theorem both one-sided derivatives of $V(k, \cdot)$ vanish identically.
+% \end{remark}
+
+% \begin{remark}[Corner solutions in the ($\neg$MM) regime]
+% \label{rem:mm-corners}
+% The non-Modigliani--Miller regime splits into two economically distinct sub-cases according to which endpoint the firm selects.
+% \begin{itemize}
+%   \item \emph{$\beta^\ast = 0$ (all-equity financing).} The right-derivative at $\beta = 0$ is strictly positive, which by Danskin's theorem is equivalent to
+%   \begin{equation*}
+%     q > \min_{i \in I^e(0)} \PV^i[\1_S].
+%   \end{equation*}
+%   Some equity holder strictly under-values the bond at the equilibrium price: from his perspective, the bond is overpriced and the firm prefers to issue no debt.
+%   \item \emph{$\beta^\ast = \inf_{s \in S} f_s(k)$ (no-default constraint binding).} The left-derivative at $\beta = \beta^\ast$ is strictly positive, equivalent to
+%   \begin{equation*}
+%     q > \max_{i \in I^e(\beta^\ast)} \PV^i[\1_S].
+%   \end{equation*}
+%   \emph{Every} equity holder under-values the bond. The firm levers up to the maximal risk-free amount; in a model permitting risky debt, the firm would generally lever further at the cost of triggering default in adverse states.
+% \end{itemize}
+% The two cases reflect distinct demand-side situations: in the first, heterogeneous valuations among investors leave at least one equity holder unwilling to substitute towards the bond; in the second, the equity-bond wedge is uniform across all equity holders.
+% \end{remark}
+
+% \begin{remark}[Partial indeterminacy on a flat sub-interval]
+% \label{rem:partial-MM}
+% An economically natural intermediate case is the following: $V(k, \cdot)$ is strictly increasing on $[0, \beta_{\min}]$ and constant on $[\beta_{\min}, \inf_{s \in S} f_s(k)]$ for some $0 < \beta_{\min} < \inf_{s \in S} f_s(k)$. This belongs to the ($\neg$MM) regime of Proposition~\ref{prop:mm-dichotomy}---the global maximum is attained at $\inf_{s \in S} f_s(k)$---but the firm is indifferent across all $\beta \in [\beta_{\min}, \inf_{s \in S} f_s(k)]$, exhibiting \emph{partial} indeterminacy of capital structure. The numerical example in \citet[Figure~1]{BisinGottardiRuta2014} illustrates exactly this configuration, with $\beta_{\min} = 0.1828$ in their parameterization.
+% \end{remark}
+
+
+\subsection{The Modigliani--Miller dichotomy}
+\label{subsec:mm-dichotomy}
+
+The value map $V(k, \cdot)$ established in Lemma~\ref{lem:V-convex} is convex piecewise linear on the no-default interval. We henceforth write
+\begin{equation*}
+  \overline{\beta} \coloneqq \inf_{s \in S} f_s(k).
+\end{equation*}
+The convexity of $V(k, \cdot)$, combined with the elementary fact that a convex function attaining its maximum at an interior point of a closed interval must be constant on the entire interval, yields a sharp structural dichotomy.
+
+\begin{proposition}[Modigliani--Miller dichotomy]\label{prop:mm-BGR}
+Let $k \geq 0$ be fixed. Exactly one of the following holds.
+\begin{itemize}
+  \item[\textup{(MM)}] $V(k, \cdot)$ is constant on $[0, \overline{\beta}]$. Every $\beta \in [0, \overline{\beta}]$ is value-maximizing, and the firm's capital structure is indeterminate.
+  \item[\textup{($\neg$MM)}] $V(k, \cdot)$ is not constant on $[0, \overline{\beta}]$. Every value-maximizing $\beta$ lies in $\{ 0, \overline{\beta} \}$.
+\end{itemize}
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{lem:V-convex}, $V(k, \cdot)$ is convex piecewise linear, hence continuous, on $[0, \overline{\beta}]$. Suppose a value-maximizing $\beta^\ast \in (0, \overline{\beta})$ exists. We show that $V(k, \cdot)$ is constant on $[0, \overline{\beta}]$.
+
+Fix $\beta \in [0, \overline{\beta}]$ with $\beta \neq \beta^\ast$. Because $\beta^\ast \in (0, \overline{\beta})$, the interval $[0, \overline{\beta}]$ contains a point $\gamma$ on the opposite side of $\beta^\ast$ from $\beta$. Pick $\lambda \in (0, 1)$ such that $\beta^\ast = \lambda \beta + (1 - \lambda) \gamma$. By convexity,
+\begin{equation*}
+  V(k, \beta^\ast) \leq \lambda V(k, \beta) + (1 - \lambda) V(k, \gamma).
+\end{equation*}
+Optimality of $\beta^\ast$ implies $V(k, \beta) \leq V(k, \beta^\ast)$ and $V(k, \gamma) \leq V(k, \beta^\ast)$, so
+\begin{equation*}
+  \lambda V(k, \beta) + (1 - \lambda) V(k, \gamma) \leq V(k, \beta^\ast).
+\end{equation*}
+Equality must hold throughout, forcing $V(k, \beta) = V(k, \beta^\ast)$. Since $\beta$ was arbitrary, $V(k, \cdot)$ is constant on $[0, \overline{\beta}]$, which is case~(MM).
+
+If no value-maximizing $\beta^\ast$ lies in $(0, \overline{\beta})$, every value-maximizing $\beta$ lies in $\{0, \overline{\beta}\}$, which is case~($\neg$MM).
+\end{proof}
+
+\begin{remark}[Monotonicity of $V(k, \cdot)$ and the location of the optimum in the~($\neg$MM) regime]\label{rem:V-monotone}
+By max-valuation pricing (Proposition~\ref{prop:max-pricing}), $\PV^i[\1_S] \leq q$ for every $i \in I$. Each function $g_i(\beta') \coloneqq \PV^i[f_1(k)] - \beta' \PV^i[\1_S]$ has slope $g_i'(\beta') = -\PV^i[\1_S] \in [-q, 0]$, so the max function $\widetilde{E}(k, \cdot) = \max_{i \in I} g_i(\cdot)$ has slope in $[-q, 0]$ wherever differentiable, hence the value map $V(k, \cdot) = \widetilde{E}(k, \cdot) + q \cdot - k$ has slope in $[0, q]$. In particular, $V(k, \cdot)$ is non-decreasing on $[0, \overline{\beta}]$.
+
+It follows that in the~($\neg$MM) regime the unique maximizer that does not belong to a flat piece is the right endpoint $\overline{\beta}$. The corner $\beta = 0$ can be a maximizer in the~($\neg$MM) regime only as part of a flat piece on which $V(k, \cdot)$ already attains its global maximum, but then $V(k, \cdot)$ is constant on that flat piece, and the flat piece extends to $\overline{\beta}$ (by non-decrease combined with optimality of $0$), giving $V(k, \cdot)$ constant on $[0, \overline{\beta}]$ and contradicting the~($\neg$MM) hypothesis. Hence in~($\neg$MM), the firm pushes its debt to the no-default boundary: $\beta^\ast = \overline{\beta}$.
+\end{remark}
+
+\subsection{Equity holders are bond holders in the Modigliani--Miller regime}
+\label{subsec:eh-are-bh}
+
+The next proposition relates the value-function characterization in Proposition~\ref{prop:mm-BGR} to the marginal-holder sets $I^e$ and $I^b$ of Definition~\ref{def:marginal-holders}. The proof is direct: it uses only the constancy of $V(k, \cdot)$, the defining inequality of the Makowski maximum, and max-valuation pricing. No directional derivative is computed.
+
+\begin{proposition}[Equity holders are bond holders, Modigliani--Miller regime]\label{prop:eh-are-bh}
 Assume Assumption~\ref{ass:C} holds and let
 \begin{equation*}
   \bigl\{ (k, \beta), (q, E), (c^i, \theta^i, \alpha^i)_{i \in I} \bigr\}
 \end{equation*}
-be a competitive equilibrium in which the firm has chosen $(k, \beta)$ to maximize the Makowski value \eqref{eq:firm-value-BGR} over $\mathcal{A}$.
-Suppose the no-default constraint is strictly slack, i.e., $f_s(k) > \beta > 0$ for every $s \in S$.
-Then $I^e \subset I^b$.
+be a competitive equilibrium. If $V(k, \cdot)$ is constant on $[0, \overline{\beta}]$ \textup{(}case~\textup{(MM)} of Proposition~\textup{\ref{prop:mm-BGR}}\textup{)}, then $I^e(\beta') \subset I^b$ for every $\beta' \in [0, \overline{\beta})$.
 \end{proposition}
 
 \begin{proof}
-For each $i \in I$, the function
+Fix $\beta' \in [0, \overline{\beta})$ and let $i \in I^e(\beta')$. By the definition of the marginal-equity set,
 \begin{equation*}
-  g_i(\beta') \coloneqq \PV^i[f_1(k)] - \beta' \PV^i[\1_S], \quad \beta' \in \R,
+  \widetilde{E}(k, \beta') = \PV^i[f_1(k) - \beta' \1_S] = \PV^i[f_1(k)] - \beta' \PV^i[\1_S].
 \end{equation*}
-is affine with constant slope $g_i'(\beta') = -\PV^i[\1_S]$.
-The Makowski equity price coincides with $\widetilde{E}(k, \beta') = \max_{i \in I} g_i(\beta')$, and its active set at $\beta$ is precisely $I^e$ (Definition~\ref{def:marginal-holders}).
-
-By Danskin's theorem, the one-sided directional derivatives of $\widetilde{E}(k, \cdot)$ at $\beta$ are
-\begin{align}
-  \partial^+ \widetilde{E}(k, \beta)
-  &\coloneqq \lim_{h \downarrow 0} \frac{\widetilde{E}(k, \beta + h) - \widetilde{E}(k, \beta)}{h}
-  = \max_{i \in I^e} g_i'(\beta)
-  = -\min_{i \in I^e} \PV^i[\1_S],
-  \label{eq:Danskin-right-E} \\
-  \partial^- \widetilde{E}(k, \beta)
-  &\coloneqq \lim_{h \downarrow 0} \frac{\widetilde{E}(k, \beta) - \widetilde{E}(k, \beta - h)}{h}
-  = \min_{i \in I^e} g_i'(\beta)
-  = -\max_{i \in I^e} \PV^i[\1_S].
-  \label{eq:Danskin-left-E}
-\end{align}
-Adding the contribution of the linear term $q \beta' - k$,
-\begin{align}
-  \partial^+ V(k, \beta) &= q - \min_{i \in I^e} \PV^i[\1_S],
-  \label{eq:Danskin-right-V} \\
-  \partial^- V(k, \beta) &= q - \max_{i \in I^e} \PV^i[\1_S].
-  \label{eq:Danskin-left-V}
-\end{align}
-
-By Lemma~\ref{lem:V-convex}, $V(k, \cdot)$ is convex, so $\partial^- V(k, \beta) \leq \partial^+ V(k, \beta)$.
-Because $\beta$ lies in the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$ and is a local maximizer of $V(k, \cdot)$, the standard first-order conditions for an interior maximum require
+For any $\beta'' \in (\beta', \overline{\beta}]$, the Makowski maximum dominates the individual valuation:
+\begin{equation}
+  \widetilde{E}(k, \beta'') \geq \PV^i[f_1(k)] - \beta'' \PV^i[\1_S].
+  \label{eq:makowski-dominance}
+\end{equation}
+Subtracting,
+\begin{equation}
+  \widetilde{E}(k, \beta'') - \widetilde{E}(k, \beta') \geq (\beta' - \beta'') \PV^i[\1_S].
+  \label{eq:diff-bound}
+\end{equation}
+Constancy of $V(k, \cdot)$ on $[0, \overline{\beta}]$ implies $\widetilde{E}(k, \beta'') + q \beta'' = \widetilde{E}(k, \beta') + q \beta'$, hence
+\begin{equation}
+  \widetilde{E}(k, \beta'') - \widetilde{E}(k, \beta') = q(\beta' - \beta'').
+  \label{eq:diff-MM}
+\end{equation}
+Combining \eqref{eq:diff-bound} and \eqref{eq:diff-MM},
 \begin{equation*}
-  \partial^- V(k, \beta) \geq 0 \geq \partial^+ V(k, \beta).
+  q(\beta' - \beta'') \geq (\beta' - \beta'') \PV^i[\1_S].
 \end{equation*}
-Combining with convexity,
+Since $\beta'' > \beta'$, $\beta' - \beta'' < 0$. Dividing by this negative quantity reverses the inequality:
 \begin{equation*}
-  \partial^- V(k, \beta) = \partial^+ V(k, \beta) = 0.
+  q \leq \PV^i[\1_S].
 \end{equation*}
-Substituting \eqref{eq:Danskin-right-V}--\eqref{eq:Danskin-left-V} yields
-\begin{equation*}
-  \min_{i \in I^e} \PV^i[\1_S] = \max_{i \in I^e} \PV^i[\1_S] = q,
-\end{equation*}
-which is to say $\PV^i[\1_S] = q$ for every $i \in I^e$.
-Equivalently, $I^e \subset I^b$.
+Combined with max-valuation pricing $\PV^i[\1_S] \leq q$, this forces $\PV^i[\1_S] = q$, i.e., $i \in I^b$. Since $i \in I^e(\beta')$ was arbitrary, $I^e(\beta') \subset I^b$.
 \end{proof}
 
-\subsection{Modigliani--Miller in the Bisin--Gottardi--Ruta framework}
-
-The next proposition states the irrelevance result.
-The hypothesis is exactly the same as in Proposition~\ref{prop:eh-are-bh}: a value-maximizing equilibrium with strictly slack no-default constraint.
-In particular, no additional assumption on the structure of $I^e$ and $I^b$ is required: convexity of the value map combined with the existence of an interior maximizer is sufficient.
-
-\begin{proposition}[Modigliani--Miller in the Bisin--Gottardi--Ruta framework]\label{prop:mm-BGR}
-Under the hypotheses of Proposition~\ref{prop:eh-are-bh}, the value map $V(k, \cdot)$ is constant on $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$:
-\begin{equation*}
-  V(k, \beta') = V(k, 0) = \widetilde{E}(k, 0) - k, \quad \text{for all $\beta' \in \bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.}
-\end{equation*}
-\end{proposition}
-
-\begin{proof}
-By Lemma~\ref{lem:V-convex}, $V(k, \cdot)$ is convex piecewise linear, hence continuous, on $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.
-By hypothesis, $\beta$ lies in the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$ and maximizes $V(k, \cdot)$ over $\mathcal{A}$.
-
-Consider any $\beta'_1, \beta'_2$ with $0 < \beta'_1 < \beta < \beta'_2 < \inf_{s \in S} f_s(k)$.
-Pick $\lambda \in (0, 1)$ such that $\lambda \beta'_1 + (1 - \lambda) \beta'_2 = \beta$.
-By convexity,
-\begin{equation*}
-  V(k, \beta) \leq \lambda V(k, \beta'_1) + (1 - \lambda) V(k, \beta'_2).
-\end{equation*}
-By optimality of $\beta$, $V(k, \beta'_1) \leq V(k, \beta)$ and $V(k, \beta'_2) \leq V(k, \beta)$, so
-\begin{equation*}
-  V(k, \beta) \leq \lambda V(k, \beta'_1) + (1 - \lambda) V(k, \beta'_2) \leq V(k, \beta).
-\end{equation*}
-Equality holds throughout, forcing $V(k, \beta'_1) = V(k, \beta) = V(k, \beta'_2)$.
-Since $\beta'_1, \beta'_2$ were arbitrary, $V(k, \cdot)$ is constant on the open interval $\bigl( 0, \inf_{s \in S} f_s(k) \bigr)$.
-By continuity, the constancy extends to the closed interval $\bigl[ 0, \inf_{s \in S} f_s(k) \bigr]$.
-At $\beta' = 0$, the firm has no debt, so $V(k, 0) = \widetilde{E}(k, 0) - k$.
-\end{proof}
-
-\begin{remark}[When Modigliani--Miller fails]\label{rem:mm-fails-BGR}
-Proposition~\ref{prop:mm-BGR} relies on the hypothesis that the firm value is maximized at an \emph{interior} point of the no-default region.
-The result may fail when this hypothesis breaks down.
-
-\textit{Binding no-default constraint.}
-If $\inf_{s \in S} f_s(k) = \beta$, the firm sits on the boundary of $\mathcal{A}$ and the optimum is attained at a corner of the value map.
-A convex function attains its maximum at a corner without being constant in its interior, and the Danskin first-order condition no longer pins down a relation between $q$ and $\PV^i[\1_S]$.
-In this case, an increase in debt is infeasible, and any quantitative comparison between $V(k, \beta)$ and $V(k, \beta')$ for $\beta' < \beta$ requires direct computation rather than the envelope argument.
-
-\textit{Comparison with Chapter~\ref{ch:capital-structure}.}
-The Stiglitz strong irrelevance result of Chapter~\ref{ch:capital-structure} required no assumption on whether $\beta$ is interior, because in the unconstrained-short-sale environment of that chapter the homemade-leverage argument allows investors to undo any change in the firm's financial structure for free.
-With the short-sale constraints of the present chapter, homemade leverage is no longer available, and irrelevance becomes an \emph{equilibrium} property: it holds when, and only when, the firm's value-maximizing $\beta$ is in the interior of the no-default region.
+\begin{remark}[The two regimes and their economic content]\label{rem:two-regimes}
+The dichotomy in Proposition~\ref{prop:mm-BGR} carries direct economic meaning, sharpened by Remark~\ref{rem:V-monotone} and Proposition~\ref{prop:eh-are-bh}.
+\begin{itemize}
+  \item In the~\textup{(MM)} regime, the firm's capital structure is fully indeterminate. The market values debt and equity at consistent rates across every active margin: $\PV^i[\1_S] = q$ for every $i \in I^e(\beta)$ at every $\beta \in [0, \overline{\beta})$. There is no demand-side wedge that the firm can exploit by adjusting leverage.
+  \item In the~\textup{($\neg$MM)} regime, the firm's capital structure is determinate. By monotonicity, the unique value-maximizing choice is $\overline{\beta}$. There exists at least one $\beta < \overline{\beta}$ where some equity holder strictly under-values the bond at the equilibrium price, i.e., $\PV^i[\1_S] < q$ for some $i \in I^e(\beta)$. \textup{(}On a possibly empty initial flat segment $[0, \beta^\ast]$ of $V(k, \cdot)$, the conclusion $I^e(\beta) \subset I^b$ may still hold; what is ruled out is the validity of this inclusion at \emph{every} $\beta < \overline{\beta}$, which would force $V(k, \cdot)$ to be constant on the entire interval and place us in the~\textup{(MM)} regime.\textup{)}
+\end{itemize}
 \end{remark}
+
+\begin{remark}[Possible shapes of $V(k, \cdot)$ and the family of equilibria]\label{rem:V-shapes-and-BGR}
+The combination of convexity (Lemma~\ref{lem:V-convex}) and monotonicity (Remark~\ref{rem:V-monotone}) restricts $V(k, \cdot)$ to one of only three slope profiles on $[0, \overline{\beta}]$, corresponding to the regimes of Proposition~\ref{prop:mm-BGR}:
+\begin{itemize}
+  \item Slope identically zero: $V(k, \cdot)$ is constant. This is the~\textup{(MM)} regime.
+  \item Slope strictly positive everywhere: $V(k, \cdot)$ is strictly increasing on $[0, \overline{\beta}]$. This is the~\textup{($\neg$MM)} regime with unique optimum $\overline{\beta}$.
+  \item Slope zero on $[0, \beta^\ast]$ and strictly positive on $[\beta^\ast, \overline{\beta}]$ for some $0 < \beta^\ast < \overline{\beta}$: $V(k, \cdot)$ has an initial flat segment followed by a strictly increasing one. This is the~\textup{($\neg$MM)} regime with unique optimum $\overline{\beta}$; the flat sub-interval $[0, \beta^\ast]$ does \emph{not} contain the firm's optimum.
+\end{itemize}
+The opposite shape, ``strictly increasing on $[0, \beta_{\min}]$ then constant on $[\beta_{\min}, \overline{\beta}]$'', is ruled out by convexity: it would require a concave kink at $\beta_{\min}$.
+\end{remark}
+
 %====================================================================
 \section{Intermediated Short Sales}
 \label{sec:intermediated}

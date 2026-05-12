@@ -1,0 +1,490 @@
+\documentclass[blue]{beamer}
+
+\mode<presentation> {
+  \setbeamertemplate{background canvas}[vertical shading][bottom=red!10,top=blue!10]
+
+  \usetheme{Boadilla}
+  \usefonttheme[onlysmall]{serif}
+}
+
+
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\setbeamercovered{dynamic}
+
+\DeclareMathOperator\PV{PV}
+
+\def\R{\mathbb{R}}
+\def\Q{\mathbb{Q}}
+\def\N{\mathbb{N}}
+\def\E{\PV}
+\newcommand{\ps}[2]{ \langle #1 , #2 \rangle }
+\def\1{\mathbf{1}}
+\newcommand{\nor}[1]{\left\| #1 \right\|}
+\def\leq{\leqslant}
+\def\geq{\geqslant}
+\def\et{\quad \textrm{and} \quad}
+\def\ou{\quad \textrm{or} \quad}
+\def\boite{\hskip 0.5mm {\Box} \hskip 0.5mm}
+
+
+\DeclareMathOperator\PPE{PPE}
+\DeclareMathOperator\vNM{vNM}
+\DeclareMathOperator\argmax{argmax}
+\DeclareMathOperator\Prob{Prob}
+\DeclareMathOperator\supp{supp}
+\DeclareMathOperator\Eq{Eq}
+\DeclareMathOperator\inte{int}
+\DeclareMathOperator\co{co}
+\DeclareMathOperator\cl{cl}
+\DeclareMathOperator\Dirac{Dirac}
+\DeclareMathOperator\F{F}
+\DeclareMathOperator\As{As}
+\DeclareMathOperator\Ir{Ir}
+\DeclareMathOperator\MRS{MRS}
+\DeclareMathOperator\Range{Im}
+\DeclareMathOperator\DIV{DIV}
+\DeclareMathOperator\A{D}
+%------------------------------ theoren styles
+
+\theoremstyle{definition}
+\newtheorem*{assumption}{Assumption}
+\newtheorem*{conjecture}{Conjecture}
+
+
+\theoremstyle{example}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{remark}{Remark}
+
+
+%-----------------------------------------
+
+\title[Corporate Finance]{(Some theoretical aspects of) \\ Corporate Finance}
+\author[V. F. Martins-da-Rocha]{V. Filipe Martins-da-Rocha}
+\institute[FGV]{Escola de P\'os-gradua\c{c}\~ao em Economia \\~\\ Funda\c{c}\~ao Getulio Vargas}
+\date[3º trimestre, 2012]{Part 1.e. Stock Market Equilibrium with moral hazard: About competitive price perceptions}
+\subject{Economic Theory}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Working paper}
+
+\begin{thebibliography}{8}
+
+
+  \beamertemplatearticlebibitems
+
+    \bibitem{BisinGottardiRutta}
+    Bisin, A., Gottardi. P. and Rutta, G.
+    \newblock Equilibrium Corporate Finance.
+    \newblock {\em NYU Working Paper} 2009
+
+    \bibitem{BisinGottardiRutta}
+    Bisin, A., Gottardi. P. and Rutta, G.
+    \newblock Equilibrium Corporate Finance: Makowski meets Prescott and Townsend
+    \newblock {\em EUI Working Paper} 2011
+
+    \end{thebibliography}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Markets}
+
+\begin{itemize}
+\item One firm $J=\{j\}$ (or a continuum of identical firms)
+\item One riskless financial asset $A=\{a_0\}$
+    \begin{itemize}
+    \item The firm can issue debt (or short-sell the financial asset $a_0$) but cannot invest: $\beta \geq 0$
+    \item Investors cannot issue debt but can invest (or buy the firm's debt): $\theta^i \geq 0$
+    \end{itemize}
+\item Stock market
+    \begin{itemize}
+    \item Investors cannot short-sell the firm's shares: $\alpha^i \geq 0$
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Technology}
+
+\begin{itemize}
+\item The production technology of the firm is defined as follows:
+\[
+Y^j \equiv \{(y_0,(y_s)_{s\in S}) \in \R \times \R^S \ \colon \ y_0 \leq 0 \et y_s\leq f_s(-y_0,\alert{e}) \}
+\]
+where
+\[
+f_s :[0,\infty) \times \alert{E} \to [0,\infty)
+\]
+\item The investment $-y_0$ is denoted by $k$ representing units of commodity invested in capital at $t=0$
+\item The manager's effort $e\in E$ is private information
+\end{itemize}
+
+\end{frame}
+
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Firm's choices}
+
+\begin{itemize}
+\item The firm chooses investment $k$ and debt level $\beta \geq 0$
+\item We allow for bankruptcy: the dividend $\delta_s$ in state~$s$ is
+\[
+[f_s(k,e) - \beta]^+ = \max\{f_s(k,e) -\beta,0\}
+\]
+\item The debt issued by the firm is then risky and the payoff is
+\[
+\min\{1,f_s(k,e)/\beta\}
+\]
+\item The manager is hired among investors and is offered a compensation package for exerting effort
+\end{itemize}
+
+We could alternatively let the manager choose $k$ and $\beta$ but we will show that if $k$ and $\beta$ are chosen to maximize the value of the firm, then we will get strong unanimity
+
+\end{frame}
+
+%------------------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Compensation package}
+
+A manager's compensation package consists of
+\begin{itemize}
+\item a payment~$x_0\geq 0$ at $t=0$ in units of the consumption good
+\item a portfolio of
+    \begin{itemize}
+    \item $\alpha^m \geq 0$ shares of the firm
+    \item $\theta^m$ units of bonds
+    \end{itemize}
+\item The disutility of effort for agent~$j$ is represented by a function $v^j : E \to \R_+$
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Budget restrictions for the chosen manager}
+
+Assume that $i$ has been chosen as a manager
+\begin{itemize}
+\item we make the assumption that the consumption contract is exclusive
+\item the manager will choose effort $e$ to maximize his expected utility
+\end{itemize}
+
+\[
+u^i(c^i_0) + \beta^i \sum_{s\in S}\nu^i_s u^i(c^i_s) - v^i(e)
+\]
+where
+\[
+c^i_0 = \omega^i_0 + x_0
+\]
+and for each~$s$
+\[
+c^i_s = \omega^i_s + [f_s(k,e)-\beta]^+ \alpha^m + \min\{1,f_s(k,e)/\beta\} \theta^m
+\]
+We let $\widetilde{e}^i(k,\beta,\alpha^m,\theta^m,x_0)$ be the set of optimal effort levels given the firm's choice $(k,\beta)$ and the compensation scheme $(\alpha^m,\theta^m,x_0)$
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Budget restrictions for the other agents}
+
+Each investor~$i$ takes as given
+\begin{itemize}
+\item the firm's capital budgeting and financial strategy $(k,\beta)$
+\item the manager's effort choice $e\in E$
+\item the security price $q$ and the stock (equity) price $E$
+\item the cost $W$ at $t=0$ of hiring a manager
+\end{itemize}
+and chooses
+\begin{itemize}
+\item a consumption plan $c=(c_0,c_1) \in \R_+ \times \R_+^S$
+\item an investment $\theta^i\geq 0$ and a share $\alpha^i \geq 0$ satisfying
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Budget restrictions for the other agents}
+
+\begin{itemize}
+\item the budget restriction at $t=0$
+\[
+c^i_0 + q \theta^i + E \alpha^i \leq \omega^i_0 + [E+q\beta - k - W] \xi^i
+\]
+\item the budget restriction at $t=1$ for each state $s$
+\[
+c^i_s \leq \omega^i_s + [f_s(k,e)-\beta]^+ \alpha^i + \min\{1,f_s(k,e)/\beta\} \theta^i
+\]
+\end{itemize}
+\begin{block}{Opportunity cost}
+We denote by $B^i(q,E,k,\beta,e,W)$ the set of all actions $(c,\theta,\alpha)$ satisfying the budget restrictions and we let $U^i(q,E,k,\beta,e,W)$ be the associated utility, i.e.,
+\[
+U^i(q,E,k,\beta,e,W) \equiv \sup \{ U^i(c) \ \colon \ (c,\theta,\alpha) \in B^i(q,E,k,\beta,e,W)\}
+\]
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Competitive equilibrium given the firm's decisions}
+
+Fix
+\begin{itemize}
+\item a firm's decision $(k,\beta)$,
+\item a choice of manager~$j$,
+\item a compensation scheme $(\alpha^m,\theta^m,x_0)$
+\item an effort level $e$
+\end{itemize}
+then a family
+\[
+\{(k,\beta,j,\alpha^m,\theta^m,x_0,e),(q,E),(c^i,\theta^i,\alpha^i)_{i\neq j}\}
+\]
+is a competitive equilibrium if
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Competitive equilibrium given the firm's decisions}
+
+\begin{itemize}
+\item for every $(i\neq j)$ the action $(c^i,\theta^i,\alpha^i)$ is optimal where the hiring cost $W$ is given by
+\[
+(1-\xi^j) W = x_0 + E(\alpha^m-\xi^j) + q\theta^m - \xi^j[q \beta - k]
+\]
+\item the manager~$j$ chooses the optimal effort level $e$ given the compensation scheme
+\item financial markets clear, i.e.,
+\[
+\theta^m + \sum_{i\neq j} \theta^i = \beta \et \alpha^m + \sum_{i\neq j} \alpha^i = 1
+\]
+\item consumption markets clear, i.e.,
+\[
+k + \sum_{i\in I} c^i_0 = \omega_0 \et \sum_{i\in I} c^i_1 = \omega_1 + f(k,e)
+\]
+\end{itemize}
+
+\end{frame}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Notations}
+
+Fix a consumption plan  $c^i=(c^i_0,c^i_1)$ satisfying
+\[
+c^i_0 >0 \et c^i_s >0, \ \forall s\in S
+\]
+Given a random variable $w=(w_s)_{s\in S} \in \R^S$, we let
+\[
+\E^i[w] = \sum_{s\in S} \MRS^i_{s,0}(c^i) w_s
+\]
+where
+\[
+\MRS^i_{s,0}(c^i) \equiv \beta^i \nu^i_s \frac{\partial u^i(c^i_s)}{\partial u^i(c^i_0)}
+\]
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Competitive equilibrium: necessary conditions}
+
+\begin{proposition}
+Assume there exists a competitive equilibrium
+\[
+\{(k,\beta,j,\alpha^m,\theta^m,x_0,e),(q,E),(c^i,\theta^i,\alpha^i)_{i\neq j}\} \quad \textrm{with} \quad \beta >0
+\]
+Then
+\begin{eqnarray*}
+q & = & \max_{i\neq j} \sum_{s\in S} \MRS^i_{s,0}(c^i) \min\{1,f_s(k,e)/\beta\} \\
+& = & \max_{i\neq j} \E^i \left[ \min\{1,f_1(k,e)/\beta\} \right]
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+E & = & \max_{i\neq j} \sum_{s\in S} \MRS^i_{s,0}(c^i) [f_s(k)-\beta]^+ \\
+& = & \max_{i\neq j} \E^i  \left[  f_1(k)- \beta \1_S \right]^+
+\end{eqnarray*}
+\end{proposition}
+
+\end{frame}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Investors' price perception: definition}
+
+Fix a competitive stock market equilibrium
+\[
+\{(k,\beta,j,\alpha^m,\theta^m,x_0,e),(q,E),(c^i,\theta^i,\alpha^i)_{i\neq j}\}
+\]
+\begin{itemize}
+\item If the firm's choices were different, say
+\[
+(\tilde{k},\tilde{\beta},\tilde{j},\tilde{\alpha}^m,\tilde{\theta}^m,\tilde{x}_0)
+\]
+\item then its cash flow would be $[f_s(\tilde{k},\tilde{e}) - \tilde{\beta}]^+$ where
+ \[
+ \tilde{e} \in \tilde{e}^{\tilde{j}} (\tilde{k},\tilde{\beta},\tilde{\alpha}^m,\tilde{\theta}^m,\tilde{x}_0)
+ \]
+\item and the debt repayment should be $\min\{\tilde{\beta}, f_s(\tilde{k},\tilde{e})\}$
+\end{itemize}
+
+Consequently, the stock and bond prices should be different
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Investors' price perception: Makowski criteriom}
+
+We assume that each investor
+    \begin{itemize}
+    \item is aware that the stock and bond prices is a function of
+    \[
+    \tilde{\phi} \equiv (\tilde{k},\tilde{\beta},\tilde{j},\tilde{\alpha}^m,\tilde{\theta}^m,\tilde{x}_0)
+    \]
+    \item believes (conjectures) that
+        \[
+        \widetilde{E}(\tilde{\phi},\tilde{e}) = \max_{i \alert{\in ?}} \E^i \left[ [f_1(\tilde{k},\tilde{e})-\tilde{\beta} \1_S]^+ \right]
+        \]
+        and
+        \[
+        \widetilde{q}(\tilde{\phi},\tilde{e}) = \max_{i \alert{\in ?}} \E^i \left[ \min\{\1_S,f_1(\tilde{k},\tilde{e})/\tilde{\beta} \} \right]
+        \]
+    \item where $\tilde{e}$ is the optimal effort of manager $\tilde{j}$ given the new compensation scheme
+     \[
+ \tilde{e} \in \tilde{e}^{\tilde{j}} (\tilde{k},\tilde{\beta},\tilde{\alpha}^m,\tilde{\theta}^m,\tilde{x}_0)
+ \]
+    \end{itemize}
+
+\end{frame}
+
+
+%------------------------------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Maximizing firm's value}
+
+We let $V^j(\tilde{\phi})$ be the firm's value when hiring agent~$j$ as a manager
+\[
+V^j(\tilde{\phi}) \equiv \tilde{E}(\tilde{\phi},\tilde{e}) + \tilde{q}(\tilde{\phi},\tilde{e}) \tilde{\beta} - \tilde{k} - \tilde{W}(\tilde{\phi})
+\]
+where $\tilde{W}(\tilde{\phi})$ is the corresponding hiring cost
+\[
+(1-\xi^j) \tilde{W}(\tilde{\phi}) = \tilde{x}_0 + \tilde{E}(\tilde{\phi},\tilde{e}) [\tilde{\alpha}^m-\xi^j] + \tilde{q}(\tilde{\phi},\tilde{e}) \tilde{\theta}^m - \xi^j[\tilde{q}(\tilde{\phi},\tilde{e}) \tilde{\beta} - \tilde{k}]
+\]
+$\tilde{e}$ is the optimal effort of manager $j$ given the new compensation scheme
+     \[
+ \tilde{e} \in \tilde{e}^j (\tilde{k},\tilde{\beta},\tilde{\alpha}^m,\tilde{\theta}^m,\tilde{x}_0)
+ \]
+and the participation constraint is satisfied\footnote{Pose $V^j(\tilde{\phi})=-\infty$ if it is not satisfied}
+\[
+U^j(\tilde{c}^j) - v^j(\tilde{e}) \geq U^j(q,E,k,\beta,e,W)
+\]
+where $\tilde{c}^j$ is the utility of the manager associated to the compensation scheme
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Strong unanimity: result}
+
+\begin{theorem}[Strong unanimity]
+Fix a competitive stock market equilibrium
+\[
+\{(\phi,e),(q,E),(c^i,\theta^i,\alpha^i)_{i\neq j}\} \quad \textrm{where} \quad \phi = (k,\beta,j,\alpha^m,\theta^m,x_0)
+\]
+where the firm has chosen $\phi$ to maximize its value
+\[
+\phi \in \argmax_{\tilde{\phi}} V^j(\tilde{\phi})
+\]
+among all possible managers
+\[
+j\in \argmax_{\tilde{j} \in I} \sup_{\tilde{\phi}} V^{\tilde{j}} (\tilde{\phi})
+\]
+Then there is strong unanimity among investors concerning the firm's choice
+\end{theorem}
+
+\end{frame}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Constrained Pareto efficiency: admissible allocations}
+
+\begin{definition}
+An allocation $(c^i)_{i\in I}$ of consumption plans is said \alert{admissible} if
+\begin{itemize}
+\item it is \alert{feasible}: there exists an investment level $k\geq 0$ such that
+\[
+k + \sum_{i\in I} c^i_0 \leq \omega_0 \et \sum_{i\in I} c^i_1 \leq f(k) +  \sum_{i\in I} \omega^i_1
+\]
+\item it is \alert{attainable}: there exists $\beta\geq 0$ and $(\theta^i,\alpha^i)$ for each~$i$,
+    \[
+    c^i_s = \omega^i_s + [f_s(k,e) - \beta]^+ \alpha^i + \min\{1,f_s(k,e)/\beta\} \theta^i
+    \]
+\item it is \alert{incentive compatible}: there exist an agent~$j$ such that
+\[
+e \in \argmax_{\tilde{e} \in E} u^j(c^j_0) + \beta^j \sum_{s\in S} \nu^j_s u^j(c^j(\tilde{e})) - v^j(\tilde{e})
+\]
+where $c^j_s(\tilde{e}) = \omega^j_s + [f_s(k,\tilde{e}) - \beta]^+ \alpha^i + \min\{1,f_s(k,\tilde{e})/\beta\} \theta^i$
+\end{itemize}
+\end{definition}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{Constrained Pareto efficiency}
+
+\begin{remark}
+Observe that every competitive equilibrium allocation is admissible
+\end{remark}
+
+\begin{definition}
+An admissible allocation $(c^i)_{i\in I}$ is constrained Pareto efficient if we cannot find another admissible allocation $(\widetilde{c}^i)_{i\in I}$ which is a Pareto improvement, i.e.,
+\[
+\forall i\in I, \quad U^i(\widetilde{c}^i) \geq U^i(c^i)
+\]
+with at least one strict inequality
+\end{definition}
+
+\begin{theorem}
+Every competitive equilibrium allocation is constrained Pareto efficient
+\end{theorem}
+
+\end{frame}
+
+
+
+\end{document}
+
+
+%------------------------------------------------
+
+\begin{frame}\frametitle{}
+
+\begin{itemize}
+\item
+\item
+\end{itemize}
+
+\end{frame}
